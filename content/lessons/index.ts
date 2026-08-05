@@ -6,6 +6,13 @@ import { metinAramaVeAraliklar } from "./unite-1/1-4-metin-arama-ve-araliklar";
 import { siralamaVeSinirlama } from "./unite-1/1-5-siralama-ve-sinirlama";
 import { tekrarTurkiyeTuru } from "./unite-1/1-t-tekrar-turkiye-turu";
 import { ifadelerVeHesaplamalar } from "./unite-2/2-1-ifadeler-ve-hesaplamalar";
+import { nullIleCalismak } from "./unite-2/2-2-null-ile-calismak";
+import { caseWhen } from "./unite-2/2-3-case-when";
+import { toplulastirmaFonksiyonlari } from "./unite-2/2-4-toplulastirma-fonksiyonlari";
+import { groupBy } from "./unite-2/2-5-group-by";
+import { having } from "./unite-2/2-6-having";
+import { sorgununCalismaSirasi } from "./unite-2/2-7-sorgunun-calisma-sirasi";
+import { tekrarEticaretRaporu } from "./unite-2/2-t-tekrar-eticaret-raporu";
 
 export const TUM_DERSLER: Lesson[] = [
   veritabaniNedir,
@@ -15,6 +22,13 @@ export const TUM_DERSLER: Lesson[] = [
   siralamaVeSinirlama,
   tekrarTurkiyeTuru,
   ifadelerVeHesaplamalar,
+  nullIleCalismak,
+  caseWhen,
+  toplulastirmaFonksiyonlari,
+  groupBy,
+  having,
+  sorgununCalismaSirasi,
+  tekrarEticaretRaporu,
 ];
 
 export function getDersBySlug(slug: string): Lesson | undefined {
