@@ -42,7 +42,7 @@ Bu klasörde (`kaynaklar/`):
 
 ## Müfredat (İçerik Planı)
 
-Her ders: `anlatim` (markdown + çalıştırılabilir örnekler + not/uyarı kutuları), 3–5 alıştırma (kademeli ipuçlu), 3–5 quiz sorusu. Toplam hedef: **~110 alıştırma, ~120 quiz sorusu, ~80 pratik sorusu, 12–15 mülakat sorusu** (v1).
+Her ders: `anlatim` (markdown + çalıştırılabilir örnekler + not/uyarı kutuları), örnek verinin tamamını gösteren bir önizleme tablosu (bkz. `DataPreviewTable`), 4–8 alıştırma (konu yoğunluğuna göre — basit/kavramsal derslerde taban 4, yoğun derslerde JOIN/alt sorgu/pencere fonksiyonu gibi konularda 7–8; kademeli ipuçlu), 3–5 quiz sorusu. Toplam hedef: **~150–170 alıştırma, ~120 quiz sorusu, ~80 pratik sorusu, 12–15 mülakat sorusu** (v1).
 
 ### Ünite 1 — SQL'e Giriş ve Temel Sorgulama (DB: `filmler`, `sehirler`)
 | Ders | Konular |

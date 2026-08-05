@@ -48,6 +48,7 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       sql: "SELECT urun_adi, fiyat * 0.8 AS indirimli_fiyat FROM urunler;",
     },
   ],
+  onizlemeTablolari: ["urunler"],
   alistirmalar: [
     {
       id: "2-1-1",
@@ -61,6 +62,16 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
     },
     {
       id: "2-1-2",
+      seviye: "Kolay",
+      baslik: "Müşteri Etiketi",
+      soru:
+        "musteriler tablosundaki her müşteri için ad_soyad ve sehir bilgisini \"Ad Soyad (Şehir)\" formatında tek bir sütunda birleştiren bir sorgu yaz.",
+      ipucu: "Metin birleştirme için || operatörünü kullan: ad_soyad || ' (' || sehir || ')'",
+      cozumSql: "SELECT ad_soyad || ' (' || sehir || ')' AS etiket FROM musteriler;",
+      mod: "sonuc",
+    },
+    {
+      id: "2-1-3",
       seviye: "Orta",
       baslik: "Pahalıdan Ucuza Ürün Listesi",
       soru: "Tüm ürünlerin adını ve fiyatını, fiyatı en yüksekten en düşüğe doğru sıralayarak listele.",
@@ -70,7 +81,29 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       siralamaOnemli: true,
     },
     {
-      id: "2-1-3",
+      id: "2-1-4",
+      seviye: "Orta",
+      baslik: "Sipariş Detay Tutarı",
+      soru:
+        "siparis_detay tablosundaki her satır için detay_id ile birlikte toplam tutarı (adet * birim_fiyat) hesaplayan bir sorgu yaz.",
+      ipucu: "SELECT detay_id, adet * birim_fiyat FROM siparis_detay; sütuna istediğin adı AS ile verebilirsin.",
+      cozumSql: "SELECT detay_id, adet * birim_fiyat AS toplam_tutar FROM siparis_detay;",
+      mod: "sonuc",
+    },
+    {
+      id: "2-1-5",
+      seviye: "Zor",
+      baslik: "Yüksek Stok Değerli Ürünler",
+      soru:
+        "Stok değeri (fiyat * stok_miktari) 40.000 TL'nin üzerinde olan ürünlerin adını ve stok değerini, değere göre çoktan aza sıralayarak listele.",
+      ipucu: "WHERE'de ifadeyi (AS ile verdiğin takma adı değil) tekrar yazman gerekiyor: WHERE fiyat * stok_miktari > 40000",
+      cozumSql:
+        "SELECT urun_adi, fiyat * stok_miktari AS stok_degeri FROM urunler WHERE fiyat * stok_miktari > 40000 ORDER BY stok_degeri DESC;",
+      mod: "sonuc",
+      siralamaOnemli: true,
+    },
+    {
+      id: "2-1-6",
       seviye: "Zor",
       baslik: "Elektronik Ürünlere Zam",
       soru:

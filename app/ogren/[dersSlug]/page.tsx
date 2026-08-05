@@ -7,6 +7,7 @@ import { getSampleDatabase } from "@/content/databases";
 import { RunnableExample } from "@/components/sql/RunnableExample";
 import { ExerciseCard } from "@/components/sql/ExerciseCard";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
+import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
 
 export function generateStaticParams() {
   return TUM_DERSLER.map((ders) => ({ dersSlug: ders.slug }));
@@ -62,6 +63,17 @@ export default async function DersPage({
                 aciklama={ornek.aciklama}
               />
             ))}
+          </section>
+        )}
+
+        {ders.onizlemeTablolari && ders.onizlemeTablolari.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">Örnek Veri</h2>
+            <DataPreviewTable
+              databaseId={veritabani.id}
+              ddl={veritabani.ddl}
+              tablolar={ders.onizlemeTablolari}
+            />
           </section>
         )}
 

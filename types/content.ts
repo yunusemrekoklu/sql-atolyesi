@@ -33,6 +33,8 @@ export interface Lesson {
   veritabaniId: string;
   anlatim: string;
   ornekler: RunnableExampleContent[];
+  /** Alıştırmalardan önce örnek verinin tamamının gösterileceği tablo(lar) — bkz. DataPreviewTable. */
+  onizlemeTablolari?: string[];
   alistirmalar: Exercise[];
 }
 
