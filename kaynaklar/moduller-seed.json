@@ -1,0 +1,151 @@
+[
+  {
+    "modul_id": 1,
+    "modul_adi": "1. Modül: Temel Veri Sorgulama ve Filtreleme (SELECT & WHERE)",
+    "konu_anlatimi": "SQL (Structured Query Language), veritabanından veri çekmek ve yönetmek için kullanılır. En temel komut `SELECT` komutudur.\n\n• `SELECT`: Hangi sütunları getireceğinizi belirtir. Tüm sütunlar için `*` kullanılır.\n• `FROM`: Verinin hangi tablodan çekileceğini belirtir.\n• `WHERE`: Verileri belirli bir şart/koşula göre filtreler.\n• `LIKE`: Metinsel ifadelerde wildcard arama yapar (`%` işareti 'herhangi bir karakter dizisi' anlamına gelir).\n• `ORDER BY`: Sonuçları küçükten büyüğe (`ASC`) veya büyükten küçüğe (`DESC`) sıralar.\n• `LIMIT`: Dönen sonuç kümesinden kaç satır getirileceğini sınırlar.",
+    "ornek_kullanim": "-- Fiyatı 100 TL'den büyük olan ürünlerin adını ve fiyatını getir:\nSELECT urun_adi, fiyat FROM urunler WHERE fiyat > 100 ORDER BY fiyat DESC LIMIT 5;",
+    "schema_ddl": "CREATE TABLE urunler (urun_id INTEGER PRIMARY KEY, urun_adi TEXT NOT NULL, kategori TEXT NOT NULL, fiyat REAL NOT NULL, stok_miktari INTEGER NOT NULL);\nINSERT INTO urunler VALUES (1, 'Kablosuz Kulaklık', 'Elektronik', 1250.00, 45), (2, 'Akıllı Saat X', 'Elektronik', 3400.00, 12), (3, 'Kahve Makinesi', 'Ev Aletleri', 2850.00, 0), (4, 'Pamuklu Oversize Tişört', 'Giyim', 350.00, 150), (5, 'Ortopedik Çalışma Yastığı', 'Ev Aletleri', 620.00, 25), (6, 'Pro Gaming Klavye', 'Elektronik', 1850.00, 8);",
+    "exercises": [
+      {
+        "seviye": "Kolay",
+        "soru_no": "1.1",
+        "soru_basligi": "Tüm Ürün Kataloğu",
+        "soru_metni": "Mağazada satılan tüm ürünlerin sadece `urun_adi` ve `fiyat` bilgilerini getiren SQL sorgusunu yazın.",
+        "ipucu": "SELECT kelimesinden sonra getirmek istediğin sütun adlarını aralarına virgül koyarak yazmalısın.",
+        "cozum_sql": "SELECT urun_adi, fiyat FROM urunler;"
+      },
+      {
+        "seviye": "Orta",
+        "soru_no": "1.2",
+        "soru_basligi": "Stok ve Fiyat Mantıksal Filtreleme",
+        "soru_metni": "Stokta tükenmiş (stok_miktari = 0) olan VEYA fiyatı 1500 TL ve üzerinde olan 'Elektronik' kategorisindeki ürünlerin adını, kategorisini ve fiyatını listeleyin.",
+        "ipucu": "AND ve OR operatörlerini kullanırken parantez gruplamalarına dikkat etmelisin.",
+        "cozum_sql": "SELECT urun_adi, kategori, fiyat FROM urunler WHERE stok_miktari = 0 OR (fiyat >= 1500 AND kategori = 'Elektronik');"
+      },
+      {
+        "seviye": "Zor",
+        "soru_no": "1.3",
+        "soru_basligi": "Arama, Aralık ve Sıralama Kombinasyonu",
+        "soru_metni": "Ürün adı içinde 'Kulaklık' veya 'Klavye' kelimesi geçen, fiyatı 500 TL ile 2000 TL arasında olan ürünlerin adını ve fiyatını; fiyatlarına göre pahalıdan ucuza sıralayarak ilk 2 ürünü getirin.",
+        "ipucu": "LIKE '%kelime%', BETWEEN ... AND ..., ORDER BY ... DESC ve LIMIT ifadelerini bir arada kullanmalısın.",
+        "cozum_sql": "SELECT urun_adi, fiyat FROM urunler WHERE (urun_adi LIKE '%Kulaklık%' OR urun_adi LIKE '%Klavye%') AND fiyat BETWEEN 500 AND 2000 ORDER BY fiyat DESC LIMIT 2;"
+      }
+    ]
+  },
+  {
+    "modul_id": 2,
+    "modul_adi": "2. Modül: Gruplama ve Toplulaştırma Fonksiyonları (GROUP BY & HAVING)",
+    "konu_anlatimi": "Çok sayıda satırdan tek bir özet sonuç veya grup bazlı istatistik elde etmek için 'Aggregate Functions' (Toplulaştırma Fonksiyonları) kullanılır.\n\n• `COUNT()`: Satır sayısını hesaplar.\n• `SUM()`: Sayısal sütunun toplamını alır.\n• `AVG()`: Sayısal sütunun ortalamasını hesaplar.\n• `GROUP BY`: Verileri belirli sütunlardaki aynı değerlere göre gruplar.\n• `HAVING`: `WHERE` ifadesi gruplanmamış tekil satırları filtrelerken; `HAVING` ifadesi gruplanmış verileri filtrelemek için kullanılır.",
+    "ornek_kullanim": "-- Kategorilere göre ortalama fiyatı 500 TL üzeri olan grupları getir:\nSELECT kategori, AVG(fiyat) FROM urunler GROUP BY kategori HAVING AVG(fiyat) > 500;",
+    "schema_ddl": "CREATE TABLE kargolar (kargo_id INTEGER PRIMARY KEY, varis_sehri TEXT NOT NULL, agirlik_kg REAL NOT NULL, ucret_tl REAL NOT NULL, durum TEXT NOT NULL);\nINSERT INTO kargolar VALUES (101, 'Ankara', 2.5, 60.00, 'Teslim Edildi'), (102, 'İstanbul', 14.0, 180.00, 'Teslim Edildi'), (103, 'İzmir', 0.8, 40.00, 'Yolda'), (104, 'Ankara', 18.5, 210.00, 'Teslim Edildi'), (105, 'İstanbul', 5.0, 85.00, 'Teslim Edildi'), (106, 'İzmir', 9.2, 110.00, 'İptal'), (107, 'Ankara', 1.2, 45.00, 'Teslim Edildi');",
+    "exercises": [
+      {
+        "seviye": "Kolay",
+        "soru_no": "2.1",
+        "soru_basligi": "Teslim Edilen Kargo Geliri",
+        "soru_metni": "Durumu 'Teslim Edildi' olan kargoların toplam sayısını ve bu kargolardan elde edilen toplam ücreti (SUM) getirin.",
+        "ipucu": "COUNT(*) ile toplam adedi, SUM(ucret_tl) ile toplam tutarı WHERE şartıyla bağlamalısın.",
+        "cozum_sql": "SELECT COUNT(*) AS toplam_kargo, SUM(ucret_tl) AS toplam_gelir FROM kargolar WHERE durum = 'Teslim Edildi';"
+      },
+      {
+        "seviye": "Orta",
+        "soru_no": "2.2",
+        "soru_basligi": "Şehir Bazlı İstatistikler",
+        "soru_metni": "Başarıyla 'Teslim Edildi' durumundaki kargolar için şehir bazında ortalama kargo ağırlığını ve kargo sayısını listeleyin.",
+        "ipucu": "GROUP BY varis_sehri kullanarak gruplama yapmalı, AVG() ve COUNT() fonksiyonlarını birlikte çağırmalısın.",
+        "cozum_sql": "SELECT varis_sehri, AVG(agirlik_kg) AS ortalama_agirlik, COUNT(*) AS kargo_sayisi FROM kargolar WHERE durum = 'Teslim Edildi' GROUP BY varis_sehri;"
+      },
+      {
+        "seviye": "Zor",
+        "soru_no": "2.3",
+        "soru_basligi": "Gelir Eşiğini Geçen Şehirler",
+        "soru_metni": "Kargo sayısı 2 veya daha fazla olan ve toplam kargo ücreti geliri 100 TL'yi geçen varış şehirlerinin adını, toplam gelirini ve ortalama kargo ağırlığını listeleyin.",
+        "ipucu": "Gruplanmış veri üzerinde filtreleme yapmak için WHERE yerine HAVING kullanman gerekir.",
+        "cozum_sql": "SELECT varis_sehri, SUM(ucret_tl) AS toplam_gelir, AVG(agirlik_kg) AS ortalama_agirlik FROM kargolar GROUP BY varis_sehri HAVING COUNT(*) >= 2 AND SUM(ucret_tl) > 100;"
+      }
+    ]
+  },
+  {
+    "modul_id": 3,
+    "modul_adi": "3. Modül: İlişkisel Tablolar ve Tablo Birleştirme (JOIN Türleri)",
+    "konu_anlatimi": "İlişkisel veritabanlarında veriler parçalanarak ayrı tablolarda tutulur. Bu tabloları birbiriyle bağlamak için `JOIN` komutları kullanılır.\n\n• `INNER JOIN`: Her iki tabloda da yalnızca birbiriyle eşleşen satırları getirir.\n• `LEFT JOIN`: Sol tablodaki tüm satırları getirir. Sağ tabloda eşleşmeyen satırlar için `NULL` basar.\n• `RIGHT / FULL JOIN`: Sağ tablodaki tüm satırları korur veya iki tablodaki tüm satırları birleştirir (SQLite tarafında destek durumu için genellikle LEFT JOIN tercih edilir).",
+    "ornek_kullanim": "-- Müşteri adları ile yaptıkları siparişleri eşleştir:\nSELECT m.ad, s.siparis_id FROM musteriler m INNER JOIN siparisler s ON m.musteri_id = s.musteri_id;",
+    "schema_ddl": "CREATE TABLE ogrencilar (ogrenci_id INTEGER PRIMARY KEY, ad_soyad TEXT NOT NULL, bolum TEXT NOT NULL);\nCREATE TABLE ders_kayitlari (kayit_id INTEGER PRIMARY KEY, ogrenci_id INTEGER, ders_adi TEXT NOT NULL, vize_notu INTEGER, final_notu INTEGER, FOREIGN KEY(ogrenci_id) REFERENCES ogrencilar(ogrenci_id));\nINSERT INTO ogrencilar VALUES (1, 'Ahmet Yılmaz', 'Yazılım'), (2, 'Ayşe Kaya', 'Endüstri'), (3, 'Mehmet Demir', 'Yazılım'), (4, 'Fatma Çelik', 'Makine');\nINSERT INTO ders_kayitlari VALUES (501, 1, 'SQL Veritabanı', 80, 90), (502, 1, 'Algoritmalar', 70, 85), (503, 2, 'Üretim Planlama', 60, 75), (504, 3, 'SQL Veritabanı', 40, 50);",
+    "exercises": [
+      {
+        "seviye": "Kolay",
+        "soru_no": "3.1",
+        "soru_basligi": "Eşleşen Kayıtları Birleştirme",
+        "soru_metni": "Ders kaydı olan öğrencilerin adını, bölümünü ve aldıkları dersin adını listeleyin.",
+        "ipucu": "ogrenciler ve ders_kayitlari tablolarını ogrenci_id sütunu üzerinden INNER JOIN ile bağlamalısın.",
+        "cozum_sql": "SELECT o.ad_soyad, o.bolum, d.ders_adi FROM ogrencilar o INNER JOIN ders_kayitlari d ON o.ogrenci_id = d.ogrenci_id;"
+      },
+      {
+        "seviye": "Orta",
+        "soru_no": "3.2",
+        "soru_basligi": "Derse Katılmayanlar Dahil Başarı Notu",
+        "soru_metni": "Sistemdeki TÜM öğrencileri listeleyin. Derse kaydolmuş öğrencilerin ders adı ve başarı notu (vize %40 + final %60) hesaplansın; derse kaydolmayan öğrencilerin ders bilgisi NULL görünsün.",
+        "ipucu": "Sol tablodaki tüm öğrencileri korumak için LEFT JOIN kullanmalısın.",
+        "cozum_sql": "SELECT o.ad_soyad, d.ders_adi, (d.vize_notu * 0.4 + d.final_notu * 0.6) AS basari_notu FROM ogrencilar o LEFT JOIN ders_kayitlari d ON o.ogrenci_id = d.ogrenci_id;"
+      },
+      {
+        "seviye": "Zor",
+        "soru_no": "3.3",
+        "soru_basligi": "Kaydı Olmayan Kayıtları Tespit Etme (Anti-Join)",
+        "soru_metni": "Sistemde kayıtlı olan ancak henüz HİÇBİR derse kaydolmamış öğrencilerin adını ve bölümünü listeleyin.",
+        "ipucu": "LEFT JOIN yaptıktan sonra WHERE ders_kayitlari.kayit_id IS NULL şartını eklemelisin.",
+        "cozum_sql": "SELECT o.ad_soyad, o.bolum FROM ogrencilar o LEFT JOIN ders_kayitlari d ON o.ogrenci_id = d.ogrenci_id WHERE d.kayit_id IS NULL;"
+      }
+    ]
+  },
+  {
+    "modul_id": 4,
+    "modul_adi": "4. Modül: İleri Düzey Alt Sorgular (Subqueries & Correlated Subqueries)",
+    "konu_anlatimi": "Bir SQL sorgusunun parantez içinde başka bir SQL sorgusunu çağırmasına 'Subquery' (Alt Sorgu) denir.\n\n• **Tekli Alt Sorgu:** İçteki sorgu dış sorguya tek bir değer (örneğin ortalama bir sayı) döndürür.\n• **İlişkili (Correlated) Alt Sorgu:** İçteki sorgu, dıştaki sorgunun o anki satırındaki değerine bağımlı olarak çalışır ve her satır için tekrar hesaplanır.",
+    "ornek_kullanim": "-- Ortalama fiyattan pahalı ürünleri getir:\nSELECT urun_adi, fiyat FROM urunler WHERE fiyat > (SELECT AVG(fiyat) FROM urunler);",
+    "schema_ddl": "CREATE TABLE musteriler (musteri_id INTEGER PRIMARY KEY, ad_soyad TEXT NOT NULL, sehir TEXT NOT NULL);\nCREATE TABLE harcamalar (harcama_id INTEGER PRIMARY KEY, musteri_id INTEGER, kategori TEXT NOT NULL, tutar REAL NOT NULL, harcama_tarihi TEXT, FOREIGN KEY(musteri_id) REFERENCES musteriler(musteri_id));\nINSERT INTO musteriler VALUES (1, 'Caner Şahin', 'İstanbul'), (2, 'Elif Yıldız', 'Ankara'), (3, 'Selin Aydın', 'İzmir'), (4, 'Murat Bakır', 'İstanbul');\nINSERT INTO harcamalar VALUES (1, 1, 'Market', 450.00, '2025-02-01'), (2, 1, 'Teknoloji', 2500.00, '2025-02-03'), (3, 2, 'Giyim', 800.00, '2025-02-05'), (4, 2, 'Market', 350.00, '2025-02-06'), (5, 3, 'Restoran', 1200.00, '2025-02-10'), (6, 4, 'Market', 150.00, '2025-02-11');",
+    "exercises": [
+      {
+        "seviye": "Orta",
+        "soru_no": "4.1",
+        "soru_basligi": "Ortalamanın Üzerindeki Harcamalar",
+        "soru_metni": "Tek seferde yapılan harcamaların genel ortalama tutarının ÜZERİNDE olan harcamaların `harcama_id`, `tutar` ve `kategori` bilgilerini listeleyin.",
+        "ipucu": "WHERE tutar > (SELECT AVG(tutar) FROM harcamalar) kalıbını kullanabilirsin.",
+        "cozum_sql": "SELECT harcama_id, tutar, kategori FROM harcamalar WHERE tutar > (SELECT AVG(tutar) FROM harcamalar);"
+      },
+      {
+        "seviye": "Zor",
+        "soru_no": "4.2",
+        "soru_basligi": "Kategori Bazlı Şampiyon Harcama (Correlated)",
+        "soru_metni": "Kendi yapıldığı kategorideki EN YÜKSEK tutarlı harcama olan harcama kayıtlarının `harcama_id`, `kategori` ve `tutar` bilgilerini getirin.",
+        "ipucu": "Alt sorgunun içine WHERE h2.kategori = h1.kategori şartını ekleyerek dış sorguya bağlamalısın.",
+        "cozum_sql": "SELECT h1.harcama_id, h1.kategori, h1.tutar FROM harcamalar h1 WHERE h1.tutar = (SELECT MAX(h2.tutar) FROM harcamalar h2 WHERE h2.kategori = h1.kategori);"
+      }
+    ]
+  },
+  {
+    "modul_id": 5,
+    "modul_adi": "5. Modül: Analitik Sorgular ve Pencere Fonksiyonları (Window Functions)",
+    "konu_anlatimi": "Satırları daraltıp teke düşürmeden (GROUP BY gibi yapmadan), her satırın yanında grup içi sıralama, yürüyen toplam veya sıra numarası hesaplamak için `OVER()` ifadesi kullanılır.\n\n• `ROW_NUMBER()`: Her satıra benzersiz bir sıra numarası verir.\n• `DENSE_RANK()`: Eşit değerlere aynı sıra numarasını verir ve sıralamayı atlamadan devam ettirir.\n• `PARTITION BY`: Veriyi kümelere bölerek pencere fonksiyonunun hesaplamasını o küme içinde sıfırlayıp yeniden başlatır.",
+    "ornek_kullanim": "-- Ürünleri kendi kategorisi içinde pahalıdan ucuza sırala:\nSELECT urun_adi, kategori, fiyat, ROW_NUMBER() OVER (PARTITION BY kategori ORDER BY fiyat DESC) AS sira FROM urunler;",
+    "schema_ddl": "CREATE TABLE futbolcular (oyuncu_id INTEGER PRIMARY KEY, ad_soyad TEXT NOT NULL, takim TEXT NOT NULL, gol_sayisi INTEGER NOT NULL);\nINSERT INTO futbolcular VALUES (1, 'Cenk Tosun', 'Beşiktaş', 12), (2, 'Semih Kılıçsoy', 'Beşiktaş', 15), (3, 'Mauro Icardi', 'Galatasaray', 22), (4, 'Kerem Aktürkoğlu', 'Galatasaray', 12), (5, 'Edin Dzeko', 'Fenerbahçe', 20), (6, 'Sebastian Szymanski', 'Fenerbahçe', 12);",
+    "exercises": [
+      {
+        "seviye": "Orta",
+        "soru_no": "5.1",
+        "soru_basligi": "Genel Gol Krallığı Sıralaması",
+        "soru_metni": "Tüm futbolcuları gol sayılarına göre çoktan aza doğru sıralayın ve DENSE_RANK() kullanarak lig genelindeki gol krallığı sıra numarasını gösterin.",
+        "ipucu": "DENSE_RANK() OVER (ORDER BY gol_sayisi DESC) yapısını yazmalısın.",
+        "cozum_sql": "SELECT ad_soyad, takim, gol_sayisi, DENSE_RANK() OVER (ORDER BY gol_sayisi DESC) AS lig_siralamasi FROM futbolcular;"
+      },
+      {
+        "seviye": "Zor",
+        "soru_no": "5.2",
+        "soru_basligi": "Takım İçi Gol Sıralaması",
+        "soru_metni": "Her futbolcunun adını, takımını, gol sayısını ve KENDİ TAKIMI İÇİNDEKİ gol sıralama numarasını (ROW_NUMBER) getirin.",
+        "ipucu": "Sıralamayı takımlar bazında gruplayıp yeniden başlatmak için PARTITION BY takim eklemelisin.",
+        "cozum_sql": "SELECT ad_soyad, takim, gol_sayisi, ROW_NUMBER() OVER (PARTITION BY takim ORDER BY gol_sayisi DESC) AS takim_ici_sira FROM futbolcular;"
+      }
+    ]
+  }
+]

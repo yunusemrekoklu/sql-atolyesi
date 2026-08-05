@@ -1,0 +1,246 @@
+# SQL Atölyesi — Proje Planı ve Teslim Dosyası
+
+> Bu dosya, projenin şirket bilgisayarında planlanan ama kişisel bilgisayarda inşa edilecek olan tam teslim paketidir. Aşağıdaki "Yeni Bilgisayarda Başlarken" bölümündeki adımları izle.
+
+## Bağlam
+
+CV'de canlı proje olarak duracak, Türkiye'deki üniversite öğrencileri ve junior'lar için gerçek bir SQL öğrenme platformu inşa ediyoruz. Hedef: siteye giren biri (1) SQL'i sağlam öğrensin, (2) üniversite sınavlarına (vize/final) çalışıp yüksek alsın, (3) iş piyasasına çıktığında "SQL biliyorum" diyebilsin.
+
+**Kesinleşen kararlar:**
+- Site adı: **SQL Atölyesi**
+- Teknoloji: Next.js (App Router, static export) + Tailwind CSS + sql.js (SQLite WASM — tarayıcıda çalışır, sunucu/veritabanı maliyeti sıfır) + CodeMirror 6
+- İlerleme: üyeliksiz, tarayıcı localStorage'da (Faz 2+ olarak ileride üyelik eklenebilir ama v1'de yok)
+- Deploy: Vercel, ücretsiz katman
+- Dil: UI ve anlatım tamamen Türkçe ("sen" hitabı), SQL anahtar kelimeleri İngilizce (piyasa gerçeği), MySQL/SQL Server farkları ders içi not kutularıyla belirtilecek
+
+**Telif politikası (kritik):** Kaynak materyaller (SQLBolt, SQLZoo, DataLemur, W3Schools) birebir kopyalanmayacak. Yapı, konu sırası ve soru *tipleri* örnek alınıp tüm anlatım metinleri, alıştırmalar ve veri setleri **tamamen özgün Türkçe içerik** olarak yazılacak. Halka açık, CV'de gösterilecek bir proje için bu şart.
+
+### Kaynak dosyaları
+
+Bu klasörde (`kaynaklar/`):
+- `moduller-seed.json` — kullanıcının verdiği 5 modüllük Türkçe içerik taslağı (içerik şemasının çekirdeği, alıştırmalar bundan genişletilerek yazılacak)
+- `KAYNAK_OZET.md` — datas.docx (SQLBolt dersleri + DataLemur mülakat soruları) ve PDF'in (SQLZoo dersleri/quizleri + 60 fonksiyon referansı) detaylı analiz özeti
+
+**Yeni bilgisayara ayrıca kopyalanması gerekenler** (orijinal büyük dosyalar, bu proje klasörüne dahil edilmedi):
+- `datas.docx` (şirket bilgisayarında: Desktop'ta)
+- `ilovepdf_merged_merged.pdf` (şirket bilgisayarında: Downloads'ta, 673 sayfa/65.7 MB — isteğe bağlı, `KAYNAK_OZET.md` zaten tam içerik haritasını çıkardı; dosyanın kendisi sadece ek referans/çapraz kontrol için gerekir, olmadan da devam edilebilir)
+
+---
+
+## Site Yapısı (8 bölüm)
+
+1. **Ana Sayfa** — değer önerisi ("Kurulum yok. Tarayıcında gerçek SQL çalıştır. Türkçe."), yol haritası, istatistikler, CTA.
+2. **/ogren** — 5 ünite, 27 ders + 5 ünite tekrarı. Ders akışı: anlatım (çalıştırılabilir örnek bloklarıyla) → 3–5 interaktif alıştırma (editör + otomatik kontrol + kademeli ipucu + çözüm) → 3–5 soruluk mini quiz → tamamlama.
+3. **/pratik** — konu bazlı bağımsız soru setleri (Kolay/Orta/Zor).
+4. **/sinav** — ünite quizleri + süreli **Sınav Simülasyonu** (vize/final/karma modları, sonunda konu kırılımlı karne + "bu konuyu tekrar et" linkleri).
+5. **/mulakat** — gerçek mülakat sorusu tarzında, her biri kendi mini şemasıyla gelen sorular (senaryo + editör + çözüm + takip sorusu).
+6. **/fonksiyonlar** — ayrı sekme: aranabilir referans, kategori sekmeli, her fonksiyon çalıştırılabilir mini örnekli, sınavda/mülakatta en çok çıkanlar "öncelikli" rozetli.
+7. **/playground** — serbest sorgu alanı; örnek DB'ler arası geçiş, şema paneli, sıfırlama.
+8. **/hakkinda** — proje hikâyesi, kaynaklar/ilham listesi, iletişim/GitHub + "Verilerin" (ilerleme export/import/sıfırla).
+
+---
+
+## Müfredat (İçerik Planı)
+
+Her ders: `anlatim` (markdown + çalıştırılabilir örnekler + not/uyarı kutuları), 3–5 alıştırma (kademeli ipuçlu), 3–5 quiz sorusu. Toplam hedef: **~110 alıştırma, ~120 quiz sorusu, ~80 pratik sorusu, 12–15 mülakat sorusu** (v1).
+
+### Ünite 1 — SQL'e Giriş ve Temel Sorgulama (DB: `filmler`, `sehirler`)
+| Ders | Konular |
+|---|---|
+| 1.1 Veritabanı Nedir? | tablo/satır/sütun, RDBMS, SQL ne işe yarar, ilk `SELECT *` |
+| 1.2 SELECT ile Sütun Seçme | sütun listesi, `*`, `AS` takma ad, `DISTINCT` |
+| 1.3 WHERE ile Filtreleme | karşılaştırma operatörleri, `AND/OR/NOT`, parantezleme |
+| 1.4 Metin Arama ve Aralıklar | `LIKE` `%` `_`, `IN`, `BETWEEN`, `NOT` birleşimleri |
+| 1.5 Sıralama ve Sınırlama | `ORDER BY` (çoklu kolon, ASC/DESC), `LIMIT/OFFSET` |
+| 1.T Tekrar: Türkiye Turu | `sehirler` üzerinde 6–8 karma soru |
+
+### Ünite 2 — Hesaplama, Özetleme, Gruplama (DB: `eticaret`)
+| Ders | Konular |
+|---|---|
+| 2.1 İfadeler ve Hesaplamalar | aritmetik, metin birleştirme, ifadelere `AS` |
+| 2.2 NULL ile Çalışmak | `IS NULL`, NULL aritmetiği/tuzakları, `COALESCE/IFNULL` tanıtımı |
+| 2.3 CASE WHEN | koşullu değerler, CASE + toplulaştırma (sınav klasiği) |
+| 2.4 Toplulaştırma Fonksiyonları | `COUNT/SUM/AVG/MIN/MAX`, `COUNT(*)` vs `COUNT(kolon)` |
+| 2.5 GROUP BY | tek/çoklu kolon gruplama, gruplama hataları |
+| 2.6 HAVING | WHERE vs HAVING (mülakat klasiği) |
+| 2.7 Sorgunun Çalışma Sırası | FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY→LIMIT; neden WHERE'de alias olmaz |
+| 2.T Tekrar: E-Ticaret Raporu | karma set |
+
+### Ünite 3 — Çoklu Tablolar: JOIN'ler (DB: `superlig`, `okul`)
+| Ders | Konular |
+|---|---|
+| 3.1 İlişkisel Model | PK/FK, normalizasyon sezgisi, neden tablolar bölünür |
+| 3.2 INNER JOIN | ON eşleşmesi, tablo takma adları |
+| 3.3 LEFT JOIN | NULL üretimi, RIGHT/FULL açıklaması, anti-join (`IS NULL`) deseni |
+| 3.4 Self JOIN | hiyerarşi (çalışan–yönetici), aynı tabloyu iki kez kullanma |
+| 3.5 Çok Tablolu Sorgular | 3+ tablo zinciri, JOIN + GROUP BY birlikte |
+| 3.6 Küme İşlemleri | `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT` |
+| 3.T Tekrar: Süper Lig Analizi | gol/maç soruları |
+
+### Ünite 4 — Alt Sorgular ve İleri Sorgulama (DB: `eticaret`, `okul`)
+| Ders | Konular |
+|---|---|
+| 4.1 Alt Sorgu Temelleri | WHERE içinde tek değer döndüren alt sorgu |
+| 4.2 IN / EXISTS | listeyle karşılaştırma, `NOT IN` NULL tuzağı, `EXISTS` |
+| 4.3 FROM'da Alt Sorgu ve Correlated | türetilmiş tablo, ilişkili alt sorgu (kategori şampiyonu deseni) |
+| 4.4 Pencere Fonksiyonları I | `ROW_NUMBER/RANK/DENSE_RANK`, `OVER(PARTITION BY … ORDER BY …)` |
+| 4.5 Pencere Fonksiyonları II *(İleri rozetli)* | `LAG/LEAD`, yürüyen toplam/ortalama |
+| 4.T Tekrar | karma set |
+
+### Ünite 5 — Veri ve Tablo Yönetimi (DB: `kargo`)
+| Ders | Konular |
+|---|---|
+| 5.1 INSERT | tekli/çoklu satır, kolon listesi |
+| 5.2 UPDATE | SET + WHERE, WHERE'siz UPDATE felaketi uyarısı |
+| 5.3 DELETE | koşullu silme, TRUNCATE farkı (not) |
+| 5.4 CREATE TABLE ve Kısıtlar | veri tipleri, PK/FK/NOT NULL/UNIQUE/DEFAULT/CHECK, AUTO_INCREMENT |
+| 5.5 ALTER ve DROP | kolon ekleme/silme, tablo silme |
+| 5.6 VIEW ve INDEX | kavram + CREATE VIEW/INDEX, ne zaman kullanılır |
+| 5.7 SQL Injection'a Giriş | farkındalık dersi (okuma ağırlıklı): neden `' OR 1=1 --` tehlikeli, parametreli sorgu fikri |
+| 5.T Tekrar: Kargo Operasyonu | karma set |
+
+### Örnek veritabanları (6 adet, hepsi özgün Türkçe temalı)
+1. **filmler** — Türk sineması (Yeşilçam + güncel): ad, yönetmen, yıl, süre, tür, puan (~20 satır)
+2. **sehirler** — 81 il: bölge, nüfus, plaka, rakım, büyükşehir mi (gerçek veriler)
+3. **eticaret** — musteriler, urunler, siparisler, siparis_detay (`moduller-seed.json`'daki tablolardan genişletme)
+4. **superlig** — takimlar, oyuncular, maclar, goller
+5. **okul** — ogrenciler, dersler, kayitlar (vize/final notu senaryoları — `moduller-seed.json` modül 3'ten)
+6. **kargo** — subeler, kuryeler, gonderiler (kullanıcının lojistik projesine tematik selam)
+
+Kurallar: tablo başına 10–50 satır (göz ile doğrulanabilir), tarihler ISO `YYYY-MM-DD`, Türkçe büyük/küçük harf tuzağına (SQLite `UPPER`/`LIKE` ASCII sınırı — 'ı'→'I' dönüşmez) içerik yazarken dikkat.
+
+### /pratik setleri (~8 set × 8–12 soru)
+SELECT temelleri · Filtreleme · Toplulaştırma+GROUP BY · JOIN'ler · Alt sorgular · Pencere fonksiyonları · DML/DDL · Zorlu Karışık (her soru Kolay/Orta/Zor etiketli).
+
+### /sinav içeriği
+- **Ünite quizleri:** ünite başına 10–15 çoktan seçmeli; soru tipleri: "bu sorgunun çıktısı nedir", "doğru sorguyu seç", "hatayı bul", "eşleştir".
+- **Sınav Simülasyonu:** varsayılan 20 soru / 25 dk; modlar: Vize (Ünite 1–3), Final (tümü), Özel. Süre mutlak deadline ile tutulur, yenilemeye dayanıklı (sessionStorage). Karne: toplam skor + konu kırılımı barları + yanlış analizi + ders linkleri. Geçmiş sınavlar localStorage'da (son 20).
+
+### /mulakat soruları (v1: 12–15 soru, DataLemur tarzının Türkçe uyarlaması)
+Kurgusal Türk şirket senaryoları ("bir e-ticaret devi", "bir sosyal medya uygulaması", "bir kargo şirketi"…). Örnek plan:
+- **Kolay:** Hiç beğeni almamış sayfalar (anti-join) · Teslim edilmemiş gönderiler (IS NULL) · Mükerrer kayıt bulma (GROUP BY+HAVING)
+- **Orta:** Departman ortalaması üstü maaş (correlated) · Aylık aktif kullanıcı (tarih gruplama) · Kategori şampiyonu ürün (window/correlated) · Yüzde hesabı (CAST tuzağı)
+- **Zor:** 3 günlük yürüyen ortalama (window frame) · Ay bazında geri dönen kullanıcı (LAG/self join) · Üst yönetici raporu (self join + GROUP BY) · Ardışık gün harcama serisi
+
+Her soru: senaryo + kendi mini DDL'i + kademeli ipuçları + çözüm + açıklama + "takip sorusu" (mülakat klasiği "peki ya…?"). Beklenen çıktı, çözüm SQL'i çalıştırılarak runtime'da gösterilir (elle yazılmaz — tek kaynak ilkesi).
+
+### /fonksiyonlar sekmesi (~50 kayıt; PDF'teki SQLZoo referansı kapsam listesi — bkz. `kaynaklar/KAYNAK_OZET.md`)
+- **Metin:** LENGTH, SUBSTR, UPPER/LOWER, TRIM/LTRIM/RTRIM, REPLACE, INSTR, `||` (CONCAT)
+- **Sayısal:** ROUND, ABS, CEIL/FLOOR, MOD/%, POWER, RANDOM
+- **Tarih:** DATE, STRFTIME, CURRENT_DATE/TIMESTAMP, tarih aritmetiği; MySQL karşılıkları (YEAR, MONTH, DATEDIFF, DATE_FORMAT) not alanında
+- **NULL/Koşul:** COALESCE, IFNULL, NULLIF, CASE
+- **Toplulaştırma:** COUNT, SUM, AVG, MIN, MAX, GROUP_CONCAT
+
+Her kayıt: söz dizimi + açıklama + çalıştırılabilir mini örnek + `digerVeritabanlari` notu + `oncelikli` rozeti. Türkçe-normalize istemci tarafı arama.
+
+---
+
+## Teknik Mimari
+
+**Stack:** Next.js güncel stable (App Router, TS, `output:'export'`, `trailingSlash:true`), Tailwind v4, `next-themes` (dark/light), sql.js, CodeMirror 6 (granüler paketler, ~100 satırlık kendi wrapper'ımız), `react-markdown` (server-only render), vitest.
+
+**Klasör yapısı:**
+```
+app/            layout, page (ana sayfa), ogren/[dersSlug], pratik/[setSlug],
+                sinav/{[konuSlug],simulasyon}, mulakat/[soruSlug], fonksiyonlar,
+                playground, hakkinda, sitemap.ts, robots.ts
+components/     layout/ sql/ (SqlEditor, RunnableExample, ExerciseCard, ResultTable,
+                SchemaPanel, QueryError) quiz/ (QuizRunner, ExamSimulation, ReportCard)
+                lesson/ progress/ markdown/ ui/
+content/        databases/ lessons/unite-1..5/ practice/ exams/ interview/ functions/
+lib/            sql/ (engine, db, grader, errors-tr, schema) editor/ progress/ utils
+types/content.ts   scripts/ (copy-sqljs, validate-content)   tests/   public/vendor/sqljs-x.y.z/
+```
+
+**Kritik teknik kararlar:**
+
+1. **sql.js bundler'a sokulmaz** — `dist/sql-wasm.{js,wasm}` `public/vendor/sqljs-<sürüm>/` altına kopyalanır (predev/prebuild script), script-tag + `window.initSqlJs` ile yüklenir. Webpack/Turbopack wasm konfigürasyon derdi sıfır; wasm (~500 KB br) sayfa bundle'ı dışında, `vercel.json` ile immutable cache.
+2. **Promise-singleton engine** (`lib/sql/engine.ts`) — StrictMode çift-effect'e dayanıklı; tüm `window` erişimi effect/handler içinde (client component'ler de build'de prerender edilir!).
+3. **Snapshot DB fabrikası** (`lib/sql/db.ts`) — DDL bir kez kurulur, `db.export()` Uint8Array cache; her "Çalıştır"/grade taze kopya açar, `finally{close()}` (wasm heap sızıntısı önlemi). Playground istisna: oturum boyu yaşar + Sıfırla butonu.
+4. **Autograder** (`lib/sql/grader.ts`, saf fonksiyon — vitest'le test edilir):
+   - Mod `'sonuc'`: kolon sayısı → satır sayısı → tip-etiketli hücre normalizasyonu (null/string/int/float-toleranslı) → `siralamaOnemli` ise sıralı, değilse multiset karşılaştırma. Kolon adları varsayılan serbest (`kolonAdiOnemli` alias derslerinde açılır). "İçerik doğru ama sıra farklı" özel mesajı.
+   - Mod `'tabloDurumu'` (INSERT/UPDATE/CREATE dersleri): kullanıcı ve çözüm ayrı DB'lerde koşturulur, sonra `dogrulamaSorgulari` (ya da otomatik tam-durum: sqlite_master + tüm tablolar + pragma_table_info) iki DB'de karşılaştırılır.
+   - Hatalar `errors-tr.ts` regex tablosuyla Türkçeleştirilir, orijinal mesaj altta gösterilir.
+5. **İçerik TS dosyalarında** (`defineLesson` helper'larıyla; şema alan adları Türkçe: `soru`, `ipucu`, `cozumSql`) — tipler `types/content.ts`: `Lesson/Exercise/QuizQuestion/PracticeSet/InterviewQuestion/FunctionRef/SampleDatabase`. `moduller-seed.json` şemasının evrimleşmiş hali.
+6. **`scripts/validate-content.ts` = kalite sigortası:** tüm DDL'leri kurar, tüm örnek/çözüm/doğrulama SQL'lerini çalıştırır, slug/id/dogruIndex kontrolleri; `npm run check` (tsc + vitest + validate) CI'da build öncesi zorunlu. İçerik hatası prod'a inemez.
+7. **RSC sınırı = SEO:** ders anlatımı server component'te render → statik HTML'de tam metin (Google JS'siz görür); client'a yalnızca o sayfanın verisi prop geçer. `generateStaticParams` + `generateMetadata` + sitemap/robots + JSON-LD (`LearningResource`) + `next/font` `latin-ext` (Türkçe karakter şart).
+8. **İlerleme:** `sqlatolyesi.progress.v1` anahtarı, `ProgressProvider` (context + storage event ile sekme senkronu + `mounted` bayrağıyla hydration güvenliği + safeStorage fallback + migrasyon zinciri). `'cozuldu' | 'cozumGoruldu'` ayrımı — çözüme bakan "çözdü" sayılmaz, karne dürüst kalır. Export/import JSON.
+9. **Mobil:** editör font ≥16px (iOS zoom önlemi), alıştırmalar akordeonda tek-açık (sayfada tek canlı editör), "Çalıştır" butonu sticky, gerçek cihaz testi her fazda.
+10. **Bilinen sınırlar (v1 kabul):** `db.exec` main-thread (küratörlü içerik + minik DB'lerle risk düşük; Web Worker post-MVP), çözümler bundle'da görünür (öğrenme sitesi için sorun değil).
+
+---
+
+## Uygulama Fazları
+
+> Önkoşul: Node.js LTS kur/doğrula, `git init` + GitHub repo + Vercel bağlantısı.
+
+- **Faz 0 — İskele + yayın hattı:** create-next-app (TS/Tailwind/App Router), config (export/trailingSlash), tema + layout kabuğu + tüm rotaların boş sayfaları, copy-sqljs script, vercel.json, ilk deploy.
+  ✅ *Doğrulama: `npm run build` → `out/`; site Vercel'de canlı; tema geçişi FOUC'suz.*
+- **Faz 1 — Çekirdek dikey dilim (en riskli kısım önce):** engine + db + `eticaret` DB'si; SqlEditor + ResultTable + QueryError + SchemaPanel; grader + errors-tr (vitest); **tek gerçek ders uçtan uca** (anlatım + çalıştırılabilir örnekler + 3 alıştırma: biri sıralı, biri tabloDurumu).
+  ✅ *Doğrulama: vitest yeşil; manuel senaryolar (doğru/yanlış/sözdizimi hatası/sıra-farklı/boş sorgu); `npx serve out` ile statik çıktı testi; mobil viewport.*
+- **Faz 2 — İçerik altyapısı + Ünite 1–2:** tipler + defineLesson + ders şablon sayfası (akordeon alıştırmalar, mini quiz, tamamlama, önceki/sonraki), ProgressProvider, validate-content + CI; Ünite 1–2'nin tüm dersleri/alıştırmaları/quizleri + `filmler`, `sehirler`, `eticaret` DB'leri.
+  ✅ *Doğrulama: `npm run check` yeşil; ilerleme kalıcı; JS kapalıyken anlatım metni görünüyor.*
+- **Faz 3 — Ünite 3–5 + /pratik:** kalan 3 ünitenin içeriği + `superlig`, `okul`, `kargo` DB'leri; pratik setleri sayfaları.
+  ✅ *Doğrulama: validate-content tüm içerikte yeşil; her ünite tarayıcıda uçtan uca çözülerek test.*
+- **Faz 4 — /sinav + /mulakat:** QuizRunner sınav modu, ExamSimulation (deadline sayaç, sessionStorage dayanıklılık, soru paleti), ReportCard, ünite quiz havuzları; mülakat soru sayfaları (12–15 soru).
+  ✅ *Doğrulama: süre bitince otomatik teslim; yenilemede sınav devam; karne kırılımı elle sayımla tutuyor.*
+- **Faz 5 — /fonksiyonlar + /playground:** fonksiyon referans içeriği (~50 kayıt) + arama/filtre; playground (DB seçici, şema paneli, sıfırla).
+  ✅ *Doğrulama: arama Türkçe 'ı/i' duyarlı; playground'da DDL/DML kalıcılığı + sıfırlama.*
+- **Faz 6 — Ana sayfa + cila + yayın:** ana sayfa/hakkında, SEO tamamlama (metadata/sitemap/JSON-LD/OG görseli), a11y turu, bundle analizi, Lighthouse ≥95 hedefi, README (mimari + ekran görüntüleri + canlı link — CV varlığı), Search Console'a sitemap.
+  ✅ *Doğrulama: Lighthouse; gerçek kullanıcı testi.*
+
+## Genel Doğrulama
+
+Her fazda: `npm run check` (tsc + vitest + validate-content) → `npm run build` → tarayıcıda canlı test (editörde sorgu çalıştırma, quiz çözme, mobil viewport + dark mode) → Vercel preview. Grader ve errors-tr birim testli; içerik SQL'lerinin tamamı build öncesi otomatik çalıştırılıyor.
+
+## Kritik dosyalar (uygulama sırasında öncelik)
+
+- `lib/sql/engine.ts` — wasm singleton (tüm sql.js erişiminin tek kapısı)
+- `lib/sql/grader.ts` — autograder (projenin kalbi)
+- `components/sql/SqlEditor.tsx` — CodeMirror wrapper
+- `types/content.ts` — içerik tip sözleşmesi
+- `app/ogren/[dersSlug]/page.tsx` — server/client sınırı referans deseni
+- `scripts/validate-content.ts` — içerik kalite sigortası
+- `content/databases/*.ts` — 6 örnek veritabanı (tek gerçek kaynak: DDL)
+
+---
+
+## Yeni Bilgisayarda Başlarken
+
+1. **Bu klasörü taşı:** `SQL_Website` klasörünün tamamını (bu plan + `kaynaklar/`) kişisel bilgisayarına kopyala (USB, bulut, Git — hangisi kolaysa). İstersen `kaynaklar/` içine `datas.docx` ve PDF'i de ekle (zorunlu değil, `KAYNAK_OZET.md` yeterli özet çıkardı).
+2. **Node.js LTS kur:** https://nodejs.org adresinden (veya `winget install OpenJS.NodeJS.LTS`). Kurulumdan sonra yeni bir terminal aç, `node -v` ve `npm -v` ile doğrula.
+3. **Git kontrolü:** `git --version` — yoksa https://git-scm.com'dan kur.
+4. **Claude Code'u proje klasöründe aç** ve aşağıdaki başlangıç promptunu yapıştır.
+
+### Başlangıç Promptu (kopyala-yapıştır)
+
+```
+Bu klasörde PROJE_PLANI.md adında, önceden onaylanmış detaylı bir proje planı var —
+"SQL Atölyesi" adında Türkçe bir SQL öğrenme platformu inşa edeceğiz (Next.js +
+Tailwind + sql.js/SQLite WASM + CodeMirror 6, static export, Vercel'e deploy).
+kaynaklar/ klasöründe de içerik kaynak dosyaları var (moduller-seed.json ve
+KAYNAK_OZET.md).
+
+Önce PROJE_PLANI.md ve kaynaklar/KAYNAK_OZET.md dosyalarını oku. Plan zaten
+onaylandı, tekrar planlamaya gerek yok — doğrudan "Faz 0"dan başlayarak
+uygulamaya geç:
+
+1. Bu makinede Node.js, npm ve git kurulu mu kontrol et.
+2. create-next-app ile projeyi bu klasörde kur (TypeScript, Tailwind, App Router,
+   ESLint) — PROJE_PLANI.md'deki klasör yapısına ve next.config.ts ayarlarına
+   (output: 'export', trailingSlash: true) sadık kal.
+3. git init yap, ardından GitHub'da repo oluşturmam ve Vercel'e bağlamam için
+   bana adımları söyle (bu ikisi benim onayımı gerektiren hesap işlemleri).
+4. Faz 0'ı tamamla: tema + layout kabuğu + tüm rotaların boş sayfaları +
+   sql.js kopyalama scripti + vercel.json.
+5. Faz 0 bittiğinde bana durumu raporla, sonra Faz 1'e (çekirdek: sql.js motoru +
+   CodeMirror editör + otomatik değerlendirme + tek gerçek ders uçtan uca) geç.
+
+Her fazın sonunda PROJE_PLANI.md'deki "Doğrulama" adımlarını çalıştır ve bana
+kısaca sonucu bildir. Faz sırası ve mimari kararlar plan dosyasında net —
+sapman gereken bir durum olursa önce bana sor.
+```
+
+---
+
+*Bu dosya, şirket bilgisayarında yapılan kaynak analizi ve mimari planlama oturumunun tam çıktısıdır (2026-08-04). Kaynak dosyaların derinlemesine incelenmesi (datas.docx tam metin çıkarımı, PDF'in 304 sayfalık haritası, JSON şema analizi) ve teknik mimarinin bir Plan ajanı tarafından tasarlanması bu oturumda tamamlandı.*
