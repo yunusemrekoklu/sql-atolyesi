@@ -41,6 +41,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# yerel Claude Code araç yapılandırması
+.claude
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

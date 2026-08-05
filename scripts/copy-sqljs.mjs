@@ -1,7 +1,10 @@
 // sql.js dist dosyalarını (sql-wasm.js + sql-wasm.wasm) public/vendor/sqljs-<sürüm>/ altına kopyalar.
 // Bundler'a sokulmaz; app/layout.tsx bir <script> etiketiyle bu dosyayı yükler (bkz. PROJE_PLANI.md #1).
-const fs = require("fs");
-const path = require("path");
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const pkgPath = path.join(__dirname, "..", "node_modules", "sql.js", "package.json");
 const version = JSON.parse(fs.readFileSync(pkgPath, "utf8")).version;
@@ -27,7 +30,7 @@ const versionFilePath = path.join(__dirname, "..", "lib", "sql", "sqljs-version.
 fs.mkdirSync(path.dirname(versionFilePath), { recursive: true });
 fs.writeFileSync(
   versionFilePath,
-  `// Bu dosya scripts/copy-sqljs.js tarafından otomatik üretilir, elle düzenleme.\nexport const SQLJS_VERSION = "${version}";\n`,
+  `// Bu dosya scripts/copy-sqljs.mjs tarafından otomatik üretilir, elle düzenleme.\nexport const SQLJS_VERSION = "${version}";\n`,
 );
 
 console.log(`sql.js ${version} → public/vendor/sqljs-${version}/ kopyalandı.`);

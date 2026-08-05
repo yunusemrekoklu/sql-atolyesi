@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // sql.js'in vendored/minified dosyaları ve otomatik üretilen dosyalar:
+    "public/vendor/**",
+    "lib/sql/sqljs-version.ts",
   ]),
 ]);
 
