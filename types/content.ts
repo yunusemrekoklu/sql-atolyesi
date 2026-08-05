@@ -25,6 +25,15 @@ export interface RunnableExampleContent {
   aciklama?: string;
 }
 
+export interface QuizQuestion {
+  id: string;
+  soru: string;
+  secenekler: string[];
+  /** secenekler dizisindeki doğru cevabın index'i */
+  dogruIndex: number;
+  aciklama: string;
+}
+
 export interface Lesson {
   slug: string;
   uniteId: number;
@@ -36,6 +45,7 @@ export interface Lesson {
   /** Alıştırmalardan önce örnek verinin tamamının gösterileceği tablo(lar) — bkz. DataPreviewTable. */
   onizlemeTablolari?: string[];
   alistirmalar: Exercise[];
+  miniQuiz: QuizQuestion[];
 }
 
 export function defineLesson(lesson: Lesson): Lesson {

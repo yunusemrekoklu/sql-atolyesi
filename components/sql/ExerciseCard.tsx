@@ -6,6 +6,7 @@ import type { Exercise } from "@/types/content";
 import { openFreshDb } from "@/lib/sql/db";
 import { getFullState } from "@/lib/sql/schema";
 import { degerlendir, type GradeSonucu } from "@/lib/sql/grader";
+import { useProgress } from "@/components/progress/ProgressProvider";
 import { SqlEditor } from "./SqlEditor";
 import { ResultTable } from "./ResultTable";
 import { QueryError } from "./QueryError";
@@ -26,6 +27,12 @@ export function ExerciseCard({
   const [degerlendirme, setDegerlendirme] = useState<GradeSonucu | null>(null);
   const [ipucuGoster, setIpucuGoster] = useState(false);
   const [cozumGoster, setCozumGoster] = useState(false);
+  const { alistirmaDurumunuAyarla } = useProgress();
+
+  function cozumuGosterVeIsaretle() {
+    setCozumGoster((v) => !v);
+    alistirmaDurumunuAyarla(alistirma.id, "cozumGoruldu");
+  }
 
   async function kontrolEt() {
     if (sorgu.trim() === "") return;
@@ -55,15 +62,15 @@ export function ExerciseCard({
           }
         })();
 
-        setDegerlendirme(
-          degerlendir({
-            mod: "sonuc",
-            kullanici: kullaniciSonuc,
-            cozum: cozumSonuc,
-            siralamaOnemli: alistirma.siralamaOnemli,
-            kolonAdiOnemli: alistirma.kolonAdiOnemli,
-          }),
-        );
+        const sonucDegerlendirme = degerlendir({
+          mod: "sonuc",
+          kullanici: kullaniciSonuc,
+          cozum: cozumSonuc,
+          siralamaOnemli: alistirma.siralamaOnemli,
+          kolonAdiOnemli: alistirma.kolonAdiOnemli,
+        });
+        setDegerlendirme(sonucDegerlendirme);
+        if (sonucDegerlendirme.dogru) alistirmaDurumunuAyarla(alistirma.id, "cozuldu");
       } else {
         const kullaniciDurum = await (async () => {
           const db = await openFreshDb(databaseId, ddl);
@@ -85,7 +92,9 @@ export function ExerciseCard({
           }
         })();
 
-        setDegerlendirme(degerlendir({ mod: "tabloDurumu", kullanici: kullaniciDurum, cozum: cozumDurum }));
+        const tabloDegerlendirme = degerlendir({ mod: "tabloDurumu", kullanici: kullaniciDurum, cozum: cozumDurum });
+        setDegerlendirme(tabloDegerlendirme);
+        if (tabloDegerlendirme.dogru) alistirmaDurumunuAyarla(alistirma.id, "cozuldu");
       }
     } catch (err) {
       setHata(err instanceof Error ? err.message : String(err));
@@ -95,14 +104,7 @@ export function ExerciseCard({
   }
 
   return (
-    <div className="space-y-3 rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="font-semibold">{alistirma.baslik}</h3>
-        <span className="whitespace-nowrap rounded-full border border-zinc-200 px-2 py-0.5 text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-          {alistirma.seviye}
-        </span>
-      </div>
-
+    <div className="space-y-3">
       <p className="text-sm text-zinc-600 dark:text-zinc-300">{alistirma.soru}</p>
 
       <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={kontrolEt} />
@@ -125,7 +127,7 @@ export function ExerciseCard({
         </button>
         <button
           type="button"
-          onClick={() => setCozumGoster((v) => !v)}
+          onClick={cozumuGosterVeIsaretle}
           className="text-sm text-zinc-500 underline decoration-dotted underline-offset-2 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           {cozumGoster ? "Çözümü gizle" : "Çözümü göster"}

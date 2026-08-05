@@ -113,4 +113,46 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       mod: "tabloDurumu",
     },
   ],
+  miniQuiz: [
+    {
+      id: "2-1-q1",
+      soru: "SELECT fiyat * 2 FROM urunler; sorgusu urunler tablosundaki fiyat sütununu değiştirir mi?",
+      secenekler: [
+        "Evet, tablodaki tüm fiyatlar kalıcı olarak ikiye katlanır.",
+        "Hayır, sadece sorgunun döndürdüğü sonuç hesaplanır, tablo değişmez.",
+        "Sadece WHERE koşulu yoksa değiştirir.",
+        "Sadece AS ile takma ad verilmezse değiştirir.",
+      ],
+      dogruIndex: 1,
+      aciklama: "SELECT ifadeleri salt-okunurdur; veriyi kalıcı olarak değiştirmek için UPDATE gerekir.",
+    },
+    {
+      id: "2-1-q2",
+      soru: "SELECT urun_adi, fiyat * 0.8 FROM urunler; sorgusunda ikinci sütuna okunabilir bir isim vermek için ne kullanılır?",
+      secenekler: ["AS", "IS", "IN", "LIKE"],
+      dogruIndex: 0,
+      aciklama: "AS anahtar kelimesi, bir ifadeye veya sütuna takma ad (alias) vermek için kullanılır.",
+    },
+    {
+      id: "2-1-q3",
+      soru: "SQLite'ta iki metin sütununu birleştirmek (concat) için hangi operatör kullanılır?",
+      secenekler: ["+", "&", "||", "CONCAT()"],
+      dogruIndex: 2,
+      aciklama: "SQLite'ta metin birleştirme operatörü || işaretidir (ör. ad_soyad || ' - ' || sehir).",
+    },
+    {
+      id: "2-1-q4",
+      soru:
+        "urunler tablosunda fiyat * stok_miktari AS stok_degeri hesaplanan bir sorguda, WHERE stok_degeri > 1000 yazmak neden hataya yol açar?",
+      secenekler: [
+        "WHERE ifadesi sadece metin sütunlarında çalışır.",
+        "SQLite WHERE cümlesini desteklemez.",
+        "WHERE, SELECT listesindeki takma adları (alias) henüz tanımıyor; ifadeyi tekrar yazman gerekir.",
+        "AS sadece son sütunda kullanılabilir.",
+      ],
+      dogruIndex: 2,
+      aciklama:
+        "Sorgunun çalışma sırasında WHERE, SELECT'ten önce değerlendirilir; bu yüzden SELECT'te tanımlanan takma adlar WHERE'de henüz bilinmez (Ünite 2.7'de detaylı işlenecek).",
+    },
+  ],
 });

@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { TUM_DERSLER, getDersBySlug } from "@/content/lessons";
+import { TUM_DERSLER, getDersBySlug, getOncekiSonraki } from "@/content/lessons";
 import { getSampleDatabase } from "@/content/databases";
 import { RunnableExample } from "@/components/sql/RunnableExample";
-import { ExerciseCard } from "@/components/sql/ExerciseCard";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
+import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
+import { DersNavigasyonu } from "@/components/lesson/DersNavigasyonu";
+import { MiniQuiz } from "@/components/quiz/MiniQuiz";
 
 export function generateStaticParams() {
   return TUM_DERSLER.map((ders) => ({ dersSlug: ders.slug }));
@@ -36,6 +38,7 @@ export default async function DersPage({
   if (!ders) notFound();
 
   const veritabani = getSampleDatabase(ders.veritabaniId);
+  const { onceki, sonraki } = getOncekiSonraki(ders.slug);
 
   return (
     <div className="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 lg:grid-cols-[minmax(0,1fr)_260px]">
@@ -79,15 +82,19 @@ export default async function DersPage({
 
         <section className="space-y-4">
           <h2 className="text-lg font-semibold">Alıştırmalar</h2>
-          {ders.alistirmalar.map((alistirma) => (
-            <ExerciseCard
-              key={alistirma.id}
-              alistirma={alistirma}
-              databaseId={veritabani.id}
-              ddl={veritabani.ddl}
-            />
-          ))}
+          <AlistirmalarAkordeonu
+            alistirmalar={ders.alistirmalar}
+            databaseId={veritabani.id}
+            ddl={veritabani.ddl}
+          />
         </section>
+
+        <section className="space-y-4">
+          <h2 className="text-lg font-semibold">Mini Quiz</h2>
+          <MiniQuiz dersSlug={ders.slug} sorular={ders.miniQuiz} />
+        </section>
+
+        <DersNavigasyonu dersSlug={ders.slug} onceki={onceki} sonraki={sonraki} />
       </article>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">
