@@ -20,6 +20,12 @@ import { selfJoin } from "./unite-3/3-4-self-join";
 import { cokTablolu } from "./unite-3/3-5-cok-tablolu-sorgular";
 import { kumeIslemleri } from "./unite-3/3-6-kume-islemleri";
 import { tekrarSuperLigAnalizi } from "./unite-3/3-t-tekrar-super-lig-analizi";
+import { altSorguTemelleri } from "./unite-4/4-1-alt-sorgu-temelleri";
+import { inExists } from "./unite-4/4-2-in-exists";
+import { altSorguFromVeIliskili } from "./unite-4/4-3-alt-sorgu-from-ve-iliskili";
+import { pencereFonksiyonlari1 } from "./unite-4/4-4-pencere-fonksiyonlari-1";
+import { pencereFonksiyonlari2 } from "./unite-4/4-5-pencere-fonksiyonlari-2";
+import { tekrarAltSorguVePencere } from "./unite-4/4-t-tekrar-alt-sorgu-ve-pencere";
 
 export const TUM_DERSLER: Lesson[] = [
   veritabaniNedir,
@@ -43,6 +49,12 @@ export const TUM_DERSLER: Lesson[] = [
   cokTablolu,
   kumeIslemleri,
   tekrarSuperLigAnalizi,
+  altSorguTemelleri,
+  inExists,
+  altSorguFromVeIliskili,
+  pencereFonksiyonlari1,
+  pencereFonksiyonlari2,
+  tekrarAltSorguVePencere,
 ];
 
 export function getDersBySlug(slug: string): Lesson | undefined {
