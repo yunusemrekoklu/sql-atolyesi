@@ -51,3 +51,15 @@ export interface Lesson {
 export function defineLesson(lesson: Lesson): Lesson {
   return lesson;
 }
+
+export interface PracticeSet {
+  slug: string;
+  baslik: string;
+  aciklama: string;
+  veritabaniId: string;
+  sorular: Exercise[];
+}
+
+export function definePracticeSet(set: PracticeSet): PracticeSet {
+  return set;
+}

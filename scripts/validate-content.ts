@@ -4,6 +4,7 @@
 // Çalıştırma: npm run validate-content (npm run check'in bir parçası).
 import initSqlJs, { type Database } from "sql.js";
 import { TUM_DERSLER } from "../content/lessons";
+import { TUM_PRATIK_SETLERI } from "../content/practice";
 import { getSampleDatabase } from "../content/databases";
 
 let hataSayisi = 0;
@@ -108,11 +109,53 @@ async function main(): Promise<void> {
     }
   }
 
+  const gorulenPratikSluglari = new Set<string>();
+
+  for (const set of TUM_PRATIK_SETLERI) {
+    console.log(`Kontrol ediliyor (pratik): ${set.baslik} (${set.slug})`);
+
+    if (gorulenPratikSluglari.has(set.slug)) {
+      hata(`Tekrarlanan pratik seti slug'ı: "${set.slug}"`);
+    }
+    gorulenPratikSluglari.add(set.slug);
+
+    let veritabani;
+    try {
+      veritabani = getSampleDatabase(set.veritabaniId);
+    } catch (err) {
+      hata(`${set.slug}: veritabaniId "${set.veritabaniId}" bulunamadı — ${(err as Error).message}`);
+      continue;
+    }
+
+    if (set.sorular.length === 0) {
+      hata(`${set.slug}: sorular boş olamaz.`);
+    }
+
+    for (const soru of set.sorular) {
+      if (gorulenAlistirmaIdleri.has(soru.id)) {
+        hata(`Tekrarlanan alıştırma id'si (tüm site genelinde benzersiz olmalı): "${soru.id}"`);
+      }
+      gorulenAlistirmaIdleri.add(soru.id);
+
+      const db = tazeDb(veritabani.ddl);
+      try {
+        const sonuc = db.exec(soru.cozumSql);
+        if (soru.mod === "sonuc" && (sonuc.length === 0 || sonuc[0].values.length === 0)) {
+          hata(`${set.slug} / ${soru.id}: mod "sonuc" ama çözüm sorgusu hiç satır döndürmüyor.`);
+        }
+      } catch (err) {
+        hata(`${set.slug} / ${soru.id}: çözüm SQL hatası — ${(err as Error).message}\n   SQL: ${soru.cozumSql}`);
+      } finally {
+        db.close();
+      }
+    }
+  }
+
   if (hataSayisi > 0) {
     console.error(`\n${hataSayisi} içerik hatası bulundu.`);
     process.exit(1);
   }
-  console.log(`\nTüm içerik doğrulandı: ${TUM_DERSLER.length} ders, hata yok.`);
+  console.log(`\nTüm içerik doğrulandı: ${TUM_DERSLER.length} ders, ${TUM_PRATIK_SETLERI.length} pratik seti, hata yok.`);
 }
 
 main().catch((err) => {
