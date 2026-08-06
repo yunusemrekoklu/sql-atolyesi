@@ -26,6 +26,14 @@ import { altSorguFromVeIliskili } from "./unite-4/4-3-alt-sorgu-from-ve-iliskili
 import { pencereFonksiyonlari1 } from "./unite-4/4-4-pencere-fonksiyonlari-1";
 import { pencereFonksiyonlari2 } from "./unite-4/4-5-pencere-fonksiyonlari-2";
 import { tekrarAltSorguVePencere } from "./unite-4/4-t-tekrar-alt-sorgu-ve-pencere";
+import { insert } from "./unite-5/5-1-insert";
+import { update } from "./unite-5/5-2-update";
+import { deleteLesson } from "./unite-5/5-3-delete";
+import { createTableVeKisitlar } from "./unite-5/5-4-create-table-ve-kisitlar";
+import { alterVeDrop } from "./unite-5/5-5-alter-ve-drop";
+import { viewVeIndex } from "./unite-5/5-6-view-ve-index";
+import { sqlInjectionGiris } from "./unite-5/5-7-sql-injection-giris";
+import { tekrarKargoOperasyonu } from "./unite-5/5-t-tekrar-kargo-operasyonu";
 
 export const TUM_DERSLER: Lesson[] = [
   veritabaniNedir,
@@ -55,6 +63,14 @@ export const TUM_DERSLER: Lesson[] = [
   pencereFonksiyonlari1,
   pencereFonksiyonlari2,
   tekrarAltSorguVePencere,
+  insert,
+  update,
+  deleteLesson,
+  createTableVeKisitlar,
+  alterVeDrop,
+  viewVeIndex,
+  sqlInjectionGiris,
+  tekrarKargoOperasyonu,
 ];
 
 export function getDersBySlug(slug: string): Lesson | undefined {
