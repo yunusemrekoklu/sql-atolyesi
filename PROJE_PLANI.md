@@ -174,22 +174,30 @@ types/content.ts   scripts/ (copy-sqljs, validate-content)   tests/   public/ven
 
 ## Uygulama Fazları
 
-> Önkoşul: Node.js LTS kur/doğrula, `git init` + GitHub repo + Vercel bağlantısı.
+> Önkoşul: Node.js LTS kur/doğrula, `git init` + GitHub repo + Vercel bağlantısı. **Bu adım tamamlandı** — bkz. "Mevcut Durum" bölümü.
 
-- **Faz 0 — İskele + yayın hattı:** create-next-app (TS/Tailwind/App Router), config (export/trailingSlash), tema + layout kabuğu + tüm rotaların boş sayfaları, copy-sqljs script, vercel.json, ilk deploy.
-  ✅ *Doğrulama: `npm run build` → `out/`; site Vercel'de canlı; tema geçişi FOUC'suz.*
-- **Faz 1 — Çekirdek dikey dilim (en riskli kısım önce):** engine + db + `eticaret` DB'si; SqlEditor + ResultTable + QueryError + SchemaPanel; grader + errors-tr (vitest); **tek gerçek ders uçtan uca** (anlatım + çalıştırılabilir örnekler + 3 alıştırma: biri sıralı, biri tabloDurumu).
-  ✅ *Doğrulama: vitest yeşil; manuel senaryolar (doğru/yanlış/sözdizimi hatası/sıra-farklı/boş sorgu); `npx serve out` ile statik çıktı testi; mobil viewport.*
-- **Faz 2 — İçerik altyapısı + Ünite 1–2:** tipler + defineLesson + ders şablon sayfası (akordeon alıştırmalar, mini quiz, tamamlama, önceki/sonraki), ProgressProvider, validate-content + CI; Ünite 1–2'nin tüm dersleri/alıştırmaları/quizleri + `filmler`, `sehirler`, `eticaret` DB'leri.
-  ✅ *Doğrulama: `npm run check` yeşil; ilerleme kalıcı; JS kapalıyken anlatım metni görünüyor.*
-- **Faz 3 — Ünite 3–5 + /pratik:** kalan 3 ünitenin içeriği + `superlig`, `okul`, `kargo` DB'leri; pratik setleri sayfaları.
-  ✅ *Doğrulama: validate-content tüm içerikte yeşil; her ünite tarayıcıda uçtan uca çözülerek test.*
-- **Faz 4 — /sinav + /mulakat:** QuizRunner sınav modu, ExamSimulation (deadline sayaç, sessionStorage dayanıklılık, soru paleti), ReportCard, ünite quiz havuzları; mülakat soru sayfaları (12–15 soru).
-  ✅ *Doğrulama: süre bitince otomatik teslim; yenilemede sınav devam; karne kırılımı elle sayımla tutuyor.*
-- **Faz 5 — /fonksiyonlar + /playground:** fonksiyon referans içeriği (~50 kayıt) + arama/filtre; playground (DB seçici, şema paneli, sıfırla).
-  ✅ *Doğrulama: arama Türkçe 'ı/i' duyarlı; playground'da DDL/DML kalıcılığı + sıfırlama.*
-- **Faz 6 — Ana sayfa + cila + yayın:** ana sayfa/hakkında, SEO tamamlama (metadata/sitemap/JSON-LD/OG görseli), a11y turu, bundle analizi, Lighthouse ≥95 hedefi, README (mimari + ekran görüntüleri + canlı link — CV varlığı), Search Console'a sitemap.
-  ✅ *Doğrulama: Lighthouse; gerçek kullanıcı testi.*
+- ✅ **TAMAMLANDI — Faz 0 — İskele + yayın hattı:** create-next-app (TS/Tailwind/App Router), config (export/trailingSlash), tema + layout kabuğu + tüm rotaların boş sayfaları, copy-sqljs script, vercel.json, ilk deploy.
+  *Doğrulama geçti: `npm run build` → `out/`; site Vercel'de canlı; tema geçişi FOUC'suz.*
+- ✅ **TAMAMLANDI — Faz 1 — Çekirdek dikey dilim:** engine + db + `eticaret` DB'si; SqlEditor + ResultTable + QueryError + SchemaPanel; grader + errors-tr (vitest); tek gerçek ders uçtan uca.
+  *Doğrulama geçti: vitest yeşil; manuel senaryolar; statik çıktı testi; mobil viewport.*
+- ✅ **TAMAMLANDI — Faz 2 — İçerik altyapısı + Ünite 1–2:** tipler + defineLesson + ders şablon sayfası (akordeon alıştırmalar, mini quiz, tamamlama, önceki/sonraki), ProgressProvider, validate-content + `npm run check`; Ünite 1–2'nin tüm dersleri/alıştırmaları/quizleri + `filmler`, `sehirler`, `eticaret` DB'leri. Ek olarak: alıştırma sayısı politikası 4–8'e çıkarıldı, `DataPreviewTable` (zebra tablo tasarımı) eklendi, **tüm SQL tablo/sütun adları İngilizceye çevrildi** (veri değerleri Türkçe kaldı — bkz. "Örnek veritabanları" bölümündeki dil kuralı).
+  *Doğrulama geçti: `npm run check` yeşil (14/14 ders); ilerleme kalıcı; tarayıcıda uçtan uca test edildi.*
+- ⬜ **SIRADA — Faz 3 — Ünite 3–5 + /pratik:** kalan 3 ünitenin içeriği (JOIN'ler, alt sorgular, pencere fonksiyonları, veri yönetimi) + `superlig`, `okul`, `kargo` DB'leri (İngilizce tablo/sütun adlarıyla, bkz. dil kuralı); pratik setleri sayfaları.
+  *Doğrulama: validate-content tüm içerikte yeşil; her ünite tarayıcıda uçtan uca çözülerek test.*
+- ⬜ **Faz 4 — /sinav + /mulakat:** QuizRunner sınav modu, ExamSimulation (deadline sayaç, sessionStorage dayanıklılık, soru paleti), ReportCard, ünite quiz havuzları; mülakat soru sayfaları (12–15 soru).
+  *Doğrulama: süre bitince otomatik teslim; yenilemede sınav devam; karne kırılımı elle sayımla tutuyor.*
+- ⬜ **Faz 5 — /fonksiyonlar + /playground:** fonksiyon referans içeriği (~50 kayıt) + arama/filtre; playground (DB seçici, şema paneli, sıfırla).
+  *Doğrulama: arama Türkçe 'ı/i' duyarlı; playground'da DDL/DML kalıcılığı + sıfırlama.*
+- ⬜ **Faz 6 — Ana sayfa + cila + yayın:** ana sayfa/hakkında, SEO tamamlama (metadata/sitemap/JSON-LD/OG görseli), a11y turu, bundle analizi, Lighthouse ≥95 hedefi, README (mimari + ekran görüntüleri + canlı link — CV varlığı), Search Console'a sitemap.
+  *Doğrulama: Lighthouse; gerçek kullanıcı testi.*
+
+## Mevcut Durum (2026-08-06 itibarıyla)
+
+- **Canlı site:** https://sql-atolyesi-ebon.vercel.app
+- **GitHub:** https://github.com/yunusemrekoklu/sql-atolyesi (public, `master` branch, Vercel'e bağlı — her push otomatik deploy tetikler)
+- **Yerel proje kökü:** `C:\Users\yunus\OneDrive\Masaüstü\SQL_Website`
+- **İçerik durumu:** Ünite 1 (6 ders) + Ünite 2 (8 ders) = 14 ders tam, alıştırma+mini quiz+önizleme tablosuyla. Ünite 3, 4, 5 henüz yok.
+- **Kritik alışkanlık:** İçerik eklerken/değiştirirken her zaman `npm run validate-content` (veya `npm run check`) çalıştır — tüm ders SQL'lerini gerçek sql.js ile çalıştırıp hataları build'den önce yakalar.
 
 ## Genel Doğrulama
 
