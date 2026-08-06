@@ -13,6 +13,13 @@ import { groupBy } from "./unite-2/2-5-group-by";
 import { having } from "./unite-2/2-6-having";
 import { sorgununCalismaSirasi } from "./unite-2/2-7-sorgunun-calisma-sirasi";
 import { tekrarEticaretRaporu } from "./unite-2/2-t-tekrar-eticaret-raporu";
+import { iliskiselModel } from "./unite-3/3-1-iliskisel-model";
+import { innerJoin } from "./unite-3/3-2-inner-join";
+import { leftJoin } from "./unite-3/3-3-left-join";
+import { selfJoin } from "./unite-3/3-4-self-join";
+import { cokTablolu } from "./unite-3/3-5-cok-tablolu-sorgular";
+import { kumeIslemleri } from "./unite-3/3-6-kume-islemleri";
+import { tekrarSuperLigAnalizi } from "./unite-3/3-t-tekrar-super-lig-analizi";
 
 export const TUM_DERSLER: Lesson[] = [
   veritabaniNedir,
@@ -29,6 +36,13 @@ export const TUM_DERSLER: Lesson[] = [
   having,
   sorgununCalismaSirasi,
   tekrarEticaretRaporu,
+  iliskiselModel,
+  innerJoin,
+  leftJoin,
+  selfJoin,
+  cokTablolu,
+  kumeIslemleri,
+  tekrarSuperLigAnalizi,
 ];
 
 export function getDersBySlug(slug: string): Lesson | undefined {

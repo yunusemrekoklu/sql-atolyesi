@@ -2,8 +2,11 @@ import type { SampleDatabase } from "@/types/content";
 import { eticaretDb } from "./eticaret";
 import { filmlerDb } from "./filmler";
 import { sehirlerDb } from "./sehirler";
+import { superligDb } from "./superlig";
+import { okulDb } from "./okul";
+import { kargoDb } from "./kargo";
 
-const TUM_VERITABANLARI: SampleDatabase[] = [eticaretDb, filmlerDb, sehirlerDb];
+const TUM_VERITABANLARI: SampleDatabase[] = [eticaretDb, filmlerDb, sehirlerDb, superligDb, okulDb, kargoDb];
 
 export function getSampleDatabase(id: string): SampleDatabase {
   const db = TUM_VERITABANLARI.find((v) => v.id === id);
