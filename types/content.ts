@@ -63,3 +63,39 @@ export interface PracticeSet {
 export function definePracticeSet(set: PracticeSet): PracticeSet {
   return set;
 }
+
+/** Ünite sınav havuzundan bir soru — QuizQuestion'a benzer ama karne/kırılım için ek alanlar taşır. */
+export interface ExamQuestion {
+  id: string;
+  uniteId: number;
+  konu: string;
+  /** Yanlış cevapta "bu konuyu tekrar et" linkinin gideceği ders. */
+  dersSlug: string;
+  soru: string;
+  secenekler: string[];
+  dogruIndex: number;
+  aciklama: string;
+}
+
+export interface InterviewQuestion {
+  slug: string;
+  seviye: "Kolay" | "Orta" | "Zor";
+  sirket: string;
+  baslik: string;
+  senaryo: string;
+  ddl: string;
+  onizlemeTablolari?: string[];
+  /** Kademeli ipuçları — sırayla açılır. */
+  ipuclari: string[];
+  cozumSql: string;
+  aciklama: string;
+  mod: GraderModu;
+  siralamaOnemli?: boolean;
+  kolonAdiOnemli?: boolean;
+  takipSorusu: string;
+  takipCevabi: string;
+}
+
+export function defineInterviewQuestion(soru: InterviewQuestion): InterviewQuestion {
+  return soru;
+}
