@@ -5,39 +5,39 @@ export const eticaretDb: SampleDatabase = {
   ad: "E-Ticaret",
   aciklama: "Küçük bir e-ticaret sitesinin müşteri, ürün ve sipariş verileri.",
   ddl: `
-CREATE TABLE musteriler (
-  musteri_id INTEGER PRIMARY KEY,
-  ad_soyad TEXT NOT NULL,
-  sehir TEXT NOT NULL,
-  kayit_tarihi TEXT NOT NULL,
-  telefon TEXT
+CREATE TABLE customers (
+  customer_id INTEGER PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  city TEXT NOT NULL,
+  registration_date TEXT NOT NULL,
+  phone TEXT
 );
 
-CREATE TABLE urunler (
-  urun_id INTEGER PRIMARY KEY,
-  urun_adi TEXT NOT NULL,
-  kategori TEXT NOT NULL,
-  fiyat REAL NOT NULL,
-  stok_miktari INTEGER NOT NULL
+CREATE TABLE products (
+  product_id INTEGER PRIMARY KEY,
+  product_name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  price REAL NOT NULL,
+  stock_quantity INTEGER NOT NULL
 );
 
-CREATE TABLE siparisler (
-  siparis_id INTEGER PRIMARY KEY,
-  musteri_id INTEGER NOT NULL REFERENCES musteriler(musteri_id),
-  siparis_tarihi TEXT NOT NULL,
-  durum TEXT NOT NULL,
-  iptal_nedeni TEXT
+CREATE TABLE orders (
+  order_id INTEGER PRIMARY KEY,
+  customer_id INTEGER NOT NULL REFERENCES customers(customer_id),
+  order_date TEXT NOT NULL,
+  status TEXT NOT NULL,
+  cancellation_reason TEXT
 );
 
-CREATE TABLE siparis_detay (
-  detay_id INTEGER PRIMARY KEY,
-  siparis_id INTEGER NOT NULL REFERENCES siparisler(siparis_id),
-  urun_id INTEGER NOT NULL REFERENCES urunler(urun_id),
-  adet INTEGER NOT NULL,
-  birim_fiyat REAL NOT NULL
+CREATE TABLE order_items (
+  item_id INTEGER PRIMARY KEY,
+  order_id INTEGER NOT NULL REFERENCES orders(order_id),
+  product_id INTEGER NOT NULL REFERENCES products(product_id),
+  quantity INTEGER NOT NULL,
+  unit_price REAL NOT NULL
 );
 
-INSERT INTO musteriler (musteri_id, ad_soyad, sehir, kayit_tarihi, telefon) VALUES
+INSERT INTO customers (customer_id, full_name, city, registration_date, phone) VALUES
   (1, 'Caner Şahin', 'İstanbul', '2024-01-15', '0532 111 22 33'),
   (2, 'Elif Yıldız', 'Ankara', '2024-02-03', NULL),
   (3, 'Selin Aydın', 'İzmir', '2024-02-20', '0533 222 33 44'),
@@ -51,7 +51,7 @@ INSERT INTO musteriler (musteri_id, ad_soyad, sehir, kayit_tarihi, telefon) VALU
   (11, 'Kerem Uçar', 'İstanbul', '2024-07-01', '0537 666 77 88'),
   (12, 'Nazlı Öztürk', 'Antalya', '2024-07-19', NULL);
 
-INSERT INTO urunler (urun_id, urun_adi, kategori, fiyat, stok_miktari) VALUES
+INSERT INTO products (product_id, product_name, category, price, stock_quantity) VALUES
   (1, 'Kablosuz Kulaklık', 'Elektronik', 1250.00, 45),
   (2, 'Akıllı Saat X', 'Elektronik', 3400.00, 12),
   (3, 'Kahve Makinesi', 'Ev Aletleri', 2850.00, 0),
@@ -63,7 +63,7 @@ INSERT INTO urunler (urun_id, urun_adi, kategori, fiyat, stok_miktari) VALUES
   (9, 'Bluetooth Hoparlör', 'Elektronik', 950.00, 33),
   (10, 'Yün Kazak', 'Giyim', 540.00, 40);
 
-INSERT INTO siparisler (siparis_id, musteri_id, siparis_tarihi, durum, iptal_nedeni) VALUES
+INSERT INTO orders (order_id, customer_id, order_date, status, cancellation_reason) VALUES
   (1, 1, '2025-01-05', 'Teslim Edildi', NULL),
   (2, 2, '2025-01-08', 'Teslim Edildi', NULL),
   (3, 1, '2025-01-20', 'Kargoda', NULL),
@@ -80,7 +80,7 @@ INSERT INTO siparisler (siparis_id, musteri_id, siparis_tarihi, durum, iptal_ned
   (14, 10, '2025-04-10', 'Hazırlanıyor', NULL),
   (15, 5, '2025-04-15', 'Teslim Edildi', NULL);
 
-INSERT INTO siparis_detay (detay_id, siparis_id, urun_id, adet, birim_fiyat) VALUES
+INSERT INTO order_items (item_id, order_id, product_id, quantity, unit_price) VALUES
   (1, 1, 1, 1, 1250.00),
   (2, 1, 4, 2, 350.00),
   (3, 2, 2, 1, 3400.00),

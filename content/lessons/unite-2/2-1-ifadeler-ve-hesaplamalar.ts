@@ -22,42 +22,42 @@ export const ifadelerVeHesaplamalar = defineLesson({
 | \`/\` | bölme |
 | \`\\|\\|\` | metin birleştirme (concat) |
 
-Örneğin \`urunler\` tablosundaki her ürünün stok değerini (fiyat × adet) hesaplamak için:
+Örneğin \`products\` tablosundaki her ürünün stok değerini (fiyat × adet) hesaplamak için:
 
 \`\`\`sql
-SELECT urun_adi, fiyat * stok_miktari FROM urunler;
+SELECT product_name, price * stock_quantity FROM products;
 \`\`\`
 
 ## AS ile takma ad verme
 
-Yukarıdaki sorguyu çalıştırırsan sonuç tablosundaki ikinci sütunun adının garip (\`fiyat * stok_miktari\`) göründüğünü fark edersin. \`AS\` anahtar kelimesiyle hesaplanan sütuna okunabilir bir isim (takma ad / *alias*) verebilirsin:
+Yukarıdaki sorguyu çalıştırırsan sonuç tablosundaki ikinci sütunun adının garip (\`price * stock_quantity\`) göründüğünü fark edersin. \`AS\` anahtar kelimesiyle hesaplanan sütuna okunabilir bir isim (takma ad / *alias*) verebilirsin:
 
 \`\`\`sql
-SELECT urun_adi, fiyat * stok_miktari AS stok_degeri FROM urunler;
+SELECT product_name, price * stock_quantity AS stock_value FROM products;
 \`\`\`
 
-Bu, sadece sayısal sütunlarla sınırlı değil — metin sütunlarını \`||\` ile birleştirip tek bir sütun olarak da getirebilirsin (ör. ad ve soyadı birleştirmek).
+Bu, sadece sayısal sütunlarla sınırlı değil — metin sütunlarını \`||\` ile birleştirip tek bir sütun olarak da getirebilirsin (ör. ad ve şehri birleştirmek).
 
 **Önemli nokta:** İfadeler veritabanındaki veriyi **değiştirmez** — sadece sorgunun döndürdüğü sonucu hesaplar. Aşağıdaki alıştırmalardan birinde, hesapladığın değeri gerçekten tabloya *yazmak* için \`UPDATE\` kullanacaksın; \`UPDATE\` ayrı bir konu ama ifadelerle iç içe çalışır.
 
-Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelinden tablolara göz atabilirsin.
+Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelinden tablolara göz atabilirsin (tablo/sütun adları İngilizce, veri Türkçe).
 `,
   ornekler: [
     {
       aciklama: "Her ürünün adını ve %20 indirimli fiyatını hesapla:",
-      sql: "SELECT urun_adi, fiyat * 0.8 AS indirimli_fiyat FROM urunler;",
+      sql: "SELECT product_name, price * 0.8 AS discounted_price FROM products;",
     },
   ],
-  onizlemeTablolari: ["urunler"],
+  onizlemeTablolari: ["products"],
   alistirmalar: [
     {
       id: "2-1-1",
       seviye: "Kolay",
       baslik: "İndirimli Fiyat",
       soru:
-        "urunler tablosundaki her ürün için ürün adını ve %20 indirimli fiyatını (fiyat * 0.8) getiren bir sorgu yaz.",
-      ipucu: "SELECT ürün_adı, fiyat * 0.8 FROM urunler; şeklinde bir ifade yeterli, sütuna istediğin adı AS ile verebilirsin.",
-      cozumSql: "SELECT urun_adi, fiyat * 0.8 AS indirimli_fiyat FROM urunler;",
+        "products tablosundaki her ürün için product_name ve %20 indirimli fiyatını (price * 0.8) getiren bir sorgu yaz.",
+      ipucu: "SELECT product_name, price * 0.8 FROM products; şeklinde bir ifade yeterli, sütuna istediğin adı AS ile verebilirsin.",
+      cozumSql: "SELECT product_name, price * 0.8 AS discounted_price FROM products;",
       mod: "sonuc",
     },
     {
@@ -65,18 +65,18 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       seviye: "Kolay",
       baslik: "Müşteri Etiketi",
       soru:
-        "musteriler tablosundaki her müşteri için ad_soyad ve sehir bilgisini \"Ad Soyad (Şehir)\" formatında tek bir sütunda birleştiren bir sorgu yaz.",
-      ipucu: "Metin birleştirme için || operatörünü kullan: ad_soyad || ' (' || sehir || ')'",
-      cozumSql: "SELECT ad_soyad || ' (' || sehir || ')' AS etiket FROM musteriler;",
+        "customers tablosundaki her müşteri için full_name ve city bilgisini \"Ad Soyad (Şehir)\" formatında tek bir sütunda birleştiren bir sorgu yaz.",
+      ipucu: "Metin birleştirme için || operatörünü kullan: full_name || ' (' || city || ')'",
+      cozumSql: "SELECT full_name || ' (' || city || ')' AS label FROM customers;",
       mod: "sonuc",
     },
     {
       id: "2-1-3",
       seviye: "Orta",
       baslik: "Pahalıdan Ucuza Ürün Listesi",
-      soru: "Tüm ürünlerin adını ve fiyatını, fiyatı en yüksekten en düşüğe doğru sıralayarak listele.",
-      ipucu: "ORDER BY fiyat DESC ile sıralama yapabilirsin. Bu alıştırmada satır sırası da kontrol ediliyor.",
-      cozumSql: "SELECT urun_adi, fiyat FROM urunler ORDER BY fiyat DESC;",
+      soru: "Tüm ürünlerin product_name ve price'ını, fiyatı en yüksekten en düşüğe doğru sıralayarak listele.",
+      ipucu: "ORDER BY price DESC ile sıralama yapabilirsin. Bu alıştırmada satır sırası da kontrol ediliyor.",
+      cozumSql: "SELECT product_name, price FROM products ORDER BY price DESC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -85,9 +85,9 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       seviye: "Orta",
       baslik: "Sipariş Detay Tutarı",
       soru:
-        "siparis_detay tablosundaki her satır için detay_id ile birlikte toplam tutarı (adet * birim_fiyat) hesaplayan bir sorgu yaz.",
-      ipucu: "SELECT detay_id, adet * birim_fiyat FROM siparis_detay; sütuna istediğin adı AS ile verebilirsin.",
-      cozumSql: "SELECT detay_id, adet * birim_fiyat AS toplam_tutar FROM siparis_detay;",
+        "order_items tablosundaki her satır için item_id ile birlikte toplam tutarı (quantity * unit_price) hesaplayan bir sorgu yaz.",
+      ipucu: "SELECT item_id, quantity * unit_price FROM order_items; sütuna istediğin adı AS ile verebilirsin.",
+      cozumSql: "SELECT item_id, quantity * unit_price AS line_total FROM order_items;",
       mod: "sonuc",
     },
     {
@@ -95,10 +95,10 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       seviye: "Zor",
       baslik: "Yüksek Stok Değerli Ürünler",
       soru:
-        "Stok değeri (fiyat * stok_miktari) 40.000 TL'nin üzerinde olan ürünlerin adını ve stok değerini, değere göre çoktan aza sıralayarak listele.",
-      ipucu: "WHERE'de ifadeyi (AS ile verdiğin takma adı değil) tekrar yazman gerekiyor: WHERE fiyat * stok_miktari > 40000",
+        "Stok değeri (price * stock_quantity) 40.000 TL'nin üzerinde olan ürünlerin product_name ve stok değerini, değere göre çoktan aza sıralayarak listele.",
+      ipucu: "WHERE'de ifadeyi (AS ile verdiğin takma adı değil) tekrar yazman gerekiyor: WHERE price * stock_quantity > 40000",
       cozumSql:
-        "SELECT urun_adi, fiyat * stok_miktari AS stok_degeri FROM urunler WHERE fiyat * stok_miktari > 40000 ORDER BY stok_degeri DESC;",
+        "SELECT product_name, price * stock_quantity AS stock_value FROM products WHERE price * stock_quantity > 40000 ORDER BY stock_value DESC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -108,15 +108,15 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       baslik: "Elektronik Ürünlere Zam",
       soru:
         "'Elektronik' kategorisindeki tüm ürünlerin fiyatını %10 artır (yeni fiyat = eski fiyat * 1.1 olacak şekilde tabloyu güncelle). Diğer kategorilerdeki ürünler değişmemeli.",
-      ipucu: "UPDATE urunler SET fiyat = ... WHERE kategori = 'Elektronik'; kalıbını kullanabilirsin.",
-      cozumSql: "UPDATE urunler SET fiyat = fiyat * 1.1 WHERE kategori = 'Elektronik';",
+      ipucu: "UPDATE products SET price = ... WHERE category = 'Elektronik'; kalıbını kullanabilirsin.",
+      cozumSql: "UPDATE products SET price = price * 1.1 WHERE category = 'Elektronik';",
       mod: "tabloDurumu",
     },
   ],
   miniQuiz: [
     {
       id: "2-1-q1",
-      soru: "SELECT fiyat * 2 FROM urunler; sorgusu urunler tablosundaki fiyat sütununu değiştirir mi?",
+      soru: "SELECT price * 2 FROM products; sorgusu products tablosundaki price sütununu değiştirir mi?",
       secenekler: [
         "Evet, tablodaki tüm fiyatlar kalıcı olarak ikiye katlanır.",
         "Hayır, sadece sorgunun döndürdüğü sonuç hesaplanır, tablo değişmez.",
@@ -128,7 +128,7 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
     },
     {
       id: "2-1-q2",
-      soru: "SELECT urun_adi, fiyat * 0.8 FROM urunler; sorgusunda ikinci sütuna okunabilir bir isim vermek için ne kullanılır?",
+      soru: "SELECT product_name, price * 0.8 FROM products; sorgusunda ikinci sütuna okunabilir bir isim vermek için ne kullanılır?",
       secenekler: ["AS", "IS", "IN", "LIKE"],
       dogruIndex: 0,
       aciklama: "AS anahtar kelimesi, bir ifadeye veya sütuna takma ad (alias) vermek için kullanılır.",
@@ -138,12 +138,12 @@ Bu derste \`eticaret\` veritabanını kullanacaksın — sağdaki şema panelind
       soru: "SQLite'ta iki metin sütununu birleştirmek (concat) için hangi operatör kullanılır?",
       secenekler: ["+", "&", "||", "CONCAT()"],
       dogruIndex: 2,
-      aciklama: "SQLite'ta metin birleştirme operatörü || işaretidir (ör. ad_soyad || ' - ' || sehir).",
+      aciklama: "SQLite'ta metin birleştirme operatörü || işaretidir (ör. full_name || ' - ' || city).",
     },
     {
       id: "2-1-q4",
       soru:
-        "urunler tablosunda fiyat * stok_miktari AS stok_degeri hesaplanan bir sorguda, WHERE stok_degeri > 1000 yazmak neden hataya yol açar?",
+        "products tablosunda price * stock_quantity AS stock_value hesaplanan bir sorguda, WHERE stock_value > 1000 yazmak neden hataya yol açar?",
       secenekler: [
         "WHERE ifadesi sadece metin sütunlarında çalışır.",
         "SQLite WHERE cümlesini desteklemez.",

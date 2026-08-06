@@ -15,7 +15,7 @@ export const siralamaVeSinirlama = defineLesson({
 \`ORDER BY\`, sonuçları bir veya daha fazla sütuna göre sıralar. Varsayılan yön **artan** (\`ASC\`) sıradır; azalan sıra için \`DESC\` yazılır:
 
 \`\`\`sql
-SELECT ad, puan FROM filmler ORDER BY puan DESC;
+SELECT title, rating FROM movies ORDER BY rating DESC;
 \`\`\`
 
 Bu sorgu filmleri **puanı en yüksekten en düşüğe** doğru sıralar.
@@ -25,7 +25,7 @@ Bu sorgu filmleri **puanı en yüksekten en düşüğe** doğru sıralar.
 Birden fazla sütuna göre sıralamak istersen, virgülle ayırarak yazabilirsin. İlk yazılan sütun **öncelikli**dir; ilk sütunda eşit değerler varsa ikinci sütuna göre sıralanır:
 
 \`\`\`sql
-SELECT ad, tur, puan FROM filmler ORDER BY tur ASC, puan DESC;
+SELECT title, genre, rating FROM movies ORDER BY genre ASC, rating DESC;
 \`\`\`
 
 Bu, önce türe göre alfabetik sıralar; her tür içinde de puana göre yüksekten düşüğe sıralar.
@@ -35,7 +35,7 @@ Bu, önce türe göre alfabetik sıralar; her tür içinde de puana göre yükse
 \`LIMIT\`, sonuçtan dönecek satır sayısını sınırlar. \`OFFSET\` ile birlikte kullanıldığında, baştan kaç satırın **atlanacağını** belirtir — bu, "sayfalama" (pagination) için kullanılır:
 
 \`\`\`sql
-SELECT ad, puan FROM filmler ORDER BY puan DESC LIMIT 3;
+SELECT title, rating FROM movies ORDER BY rating DESC LIMIT 3;
 \`\`\`
 
 Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satırı atlar, sonraki 5 satırı getirir (ör. "2. sayfa").
@@ -43,17 +43,17 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
 **Önemli:** \`LIMIT\`, \`ORDER BY\` olmadan kullanılırsa hangi satırların döneceği garanti edilmez — bu yüzden \`LIMIT\` genellikle \`ORDER BY\` ile birlikte anlamlıdır.
 `,
   ornekler: [
-    { aciklama: "En yüksek puanlı 3 filmi listele:", sql: "SELECT ad, puan FROM filmler ORDER BY puan DESC LIMIT 3;" },
+    { aciklama: "En yüksek puanlı 3 filmi listele:", sql: "SELECT title, rating FROM movies ORDER BY rating DESC LIMIT 3;" },
   ],
-  onizlemeTablolari: ["filmler"],
+  onizlemeTablolari: ["movies"],
   alistirmalar: [
     {
       id: "1-5-1",
       seviye: "Kolay",
       baslik: "Yıla Göre Sırala",
-      soru: "Tüm filmlerin adını ve yılını, yıla göre eskiden yeniye (artan) sıralı getiren bir sorgu yaz.",
-      ipucu: "ORDER BY yil ASC (ASC varsayılan olduğu için yazmasan da olur).",
-      cozumSql: "SELECT ad, yil FROM filmler ORDER BY yil ASC;",
+      soru: "Tüm filmlerin title ve release_year'ını, yıla göre eskiden yeniye (artan) sıralı getiren bir sorgu yaz.",
+      ipucu: "ORDER BY release_year ASC (ASC varsayılan olduğu için yazmasan da olur).",
+      cozumSql: "SELECT title, release_year FROM movies ORDER BY release_year ASC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -61,9 +61,9 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
       id: "1-5-2",
       seviye: "Kolay",
       baslik: "En Yeni 5 Film",
-      soru: "En yeni 5 filmin adını ve yılını, yeniden eskiye sıralı getiren bir sorgu yaz.",
-      ipucu: "ORDER BY yil DESC LIMIT 5 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, yil FROM filmler ORDER BY yil DESC LIMIT 5;",
+      soru: "En yeni 5 filmin title ve release_year'ını, yeniden eskiye sıralı getiren bir sorgu yaz.",
+      ipucu: "ORDER BY release_year DESC LIMIT 5 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, release_year FROM movies ORDER BY release_year DESC LIMIT 5;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -71,9 +71,9 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
       id: "1-5-3",
       seviye: "Orta",
       baslik: "En Düşük Puanlı 3 Film",
-      soru: "Puanı en düşük 3 filmin adını ve puanını, düşükten yükseğe sıralı getiren bir sorgu yaz.",
-      ipucu: "ORDER BY puan ASC LIMIT 3 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, puan FROM filmler ORDER BY puan ASC LIMIT 3;",
+      soru: "rating'i en düşük 3 filmin title ve rating'ini, düşükten yükseğe sıralı getiren bir sorgu yaz.",
+      ipucu: "ORDER BY rating ASC LIMIT 3 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, rating FROM movies ORDER BY rating ASC LIMIT 3;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -81,9 +81,9 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
       id: "1-5-4",
       seviye: "Orta",
       baslik: "Çoklu Sütun Sıralama",
-      soru: "Her filmin adını, türünü ve puanını; önce türe göre alfabetik (A-Z), her tür içinde de puana göre yüksekten düşüğe sıralı getiren bir sorgu yaz.",
-      ipucu: "ORDER BY tur ASC, puan DESC — virgülle ayırdığın ilk sütun önceliklidir.",
-      cozumSql: "SELECT ad, tur, puan FROM filmler ORDER BY tur ASC, puan DESC;",
+      soru: "Her filmin title, genre ve rating'ini; önce genre'a göre alfabetik (A-Z), her tür içinde de rating'e göre yüksekten düşüğe sıralı getiren bir sorgu yaz.",
+      ipucu: "ORDER BY genre ASC, rating DESC — virgülle ayırdığın ilk sütun önceliklidir.",
+      cozumSql: "SELECT title, genre, rating FROM movies ORDER BY genre ASC, rating DESC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -91,9 +91,9 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
       id: "1-5-5",
       seviye: "Orta",
       baslik: "İkinci Sayfa (OFFSET)",
-      soru: "Filmleri yıla göre artan sıralayıp, ilk 5 filmi atlayarak sonraki 5 filmin adını ve yılını getiren bir sorgu yaz.",
-      ipucu: "ORDER BY yil ASC LIMIT 5 OFFSET 5 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, yil FROM filmler ORDER BY yil ASC LIMIT 5 OFFSET 5;",
+      soru: "Filmleri release_year'a göre artan sıralayıp, ilk 5 filmi atlayarak sonraki 5 filmin title ve release_year'ını getiren bir sorgu yaz.",
+      ipucu: "ORDER BY release_year ASC LIMIT 5 OFFSET 5 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, release_year FROM movies ORDER BY release_year ASC LIMIT 5 OFFSET 5;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -101,9 +101,9 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
       id: "1-5-6",
       seviye: "Zor",
       baslik: "En Uzun 3 Dram Filmi",
-      soru: "Türü 'Dram' olan filmler arasından, süresi (sure_dk) en uzun 3 tanesinin adını ve süresini, uzundan kısaya sıralı getiren bir sorgu yaz.",
+      soru: "genre'ı 'Dram' olan filmler arasından, duration_min'i en uzun 3 tanesinin title ve duration_min'ini, uzundan kısaya sıralı getiren bir sorgu yaz.",
       ipucu: "Önce WHERE ile filtrele, sonra ORDER BY ... DESC LIMIT 3 ekle. Sıra: WHERE → ORDER BY → LIMIT.",
-      cozumSql: "SELECT ad, sure_dk FROM filmler WHERE tur = 'Dram' ORDER BY sure_dk DESC LIMIT 3;",
+      cozumSql: "SELECT title, duration_min FROM movies WHERE genre = 'Dram' ORDER BY duration_min DESC LIMIT 3;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -111,7 +111,7 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
   miniQuiz: [
     {
       id: "1-5-q1",
-      soru: "ORDER BY puan DESC; ifadesi filmleri neye göre sıralar?",
+      soru: "ORDER BY rating DESC; ifadesi filmleri neye göre sıralar?",
       secenekler: [
         "Puanı küçükten büyüğe",
         "Puanı büyükten küçüğe",
@@ -135,10 +135,10 @@ Bu, en yüksek puanlı **3** filmi getirir. \`LIMIT 5 OFFSET 5\` ise ilk 5 satı
     },
     {
       id: "1-5-q3",
-      soru: "ORDER BY tur, puan DESC; ifadesinde sonuçlar önce hangi sütuna göre sıralanır?",
+      soru: "ORDER BY genre, rating DESC; ifadesinde sonuçlar önce hangi sütuna göre sıralanır?",
       secenekler: [
-        "puan sütununa göre",
-        "tur sütununa göre (ilk yazılan sütun önceliklidir)",
+        "rating sütununa göre",
+        "genre sütununa göre (ilk yazılan sütun önceliklidir)",
         "İkisine de eşit ağırlıkta bakılır",
         "Sütun sırası önemli değildir",
       ],

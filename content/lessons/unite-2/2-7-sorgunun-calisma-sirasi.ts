@@ -33,29 +33,29 @@ Ama SQLite bunu bu sırayla **çalıştırmaz**. Gerçek (mantıksal) çalışma
 \`SELECT\`, bu sırada **5. adımda** çalışır — yani \`WHERE\` (2. adım) ve \`HAVING\` (4. adım) çalıştığında, \`SELECT\`'te tanımladığın takma adlar **henüz mevcut değildir**. Bu yüzden:
 
 \`\`\`sql
--- HATALI: stok_degeri, WHERE çalıştığında henüz tanımlı değil
-SELECT urun_adi, fiyat * stok_miktari AS stok_degeri
-FROM urunler
-WHERE stok_degeri > 20000;
+-- HATALI: stock_value, WHERE çalıştığında henüz tanımlı değil
+SELECT product_name, price * stock_quantity AS stock_value
+FROM products
+WHERE stock_value > 20000;
 \`\`\`
 
-\`WHERE\`'de takma ad yerine ifadeyi **tekrar yazman** gerekir: \`WHERE fiyat * stok_miktari > 20000\`. Aynı kural \`HAVING\` için de geçerlidir. Ama \`ORDER BY\` (6. adım), \`SELECT\`'ten (5. adım) **sonra** çalıştığı için takma adları kullanabilirsin — önceki derslerde \`ORDER BY stok_degeri\` gibi kullanımları bu yüzden sorunsuz gördün.
+\`WHERE\`'de takma ad yerine ifadeyi **tekrar yazman** gerekir: \`WHERE price * stock_quantity > 20000\`. Aynı kural \`HAVING\` için de geçerlidir. Ama \`ORDER BY\` (6. adım), \`SELECT\`'ten (5. adım) **sonra** çalıştığı için takma adları kullanabilirsin — önceki derslerde \`ORDER BY stock_value\` gibi kullanımları bu yüzden sorunsuz gördün.
 `,
   ornekler: [
     {
       aciklama: "Stokta olan ürünleri stok değerine göre sırala (ORDER BY'da alias kullanılabilir):",
-      sql: "SELECT urun_adi, fiyat * stok_miktari AS stok_degeri FROM urunler WHERE stok_miktari > 0 ORDER BY stok_degeri DESC;",
+      sql: "SELECT product_name, price * stock_quantity AS stock_value FROM products WHERE stock_quantity > 0 ORDER BY stock_value DESC;",
     },
   ],
-  onizlemeTablolari: ["urunler"],
+  onizlemeTablolari: ["products"],
   alistirmalar: [
     {
       id: "2-7-1",
       seviye: "Kolay",
       baslik: "ORDER BY'da Takma Ad",
-      soru: "Her ürünün adını ve %10 indirimli fiyatını (indirimli_fiyat) hesapla; sonucu indirimli_fiyat'a göre artan sırala.",
-      ipucu: "ORDER BY, SELECT'ten sonra çalıştığı için takma adı (indirimli_fiyat) kullanabilirsin.",
-      cozumSql: "SELECT urun_adi, fiyat * 0.9 AS indirimli_fiyat FROM urunler ORDER BY indirimli_fiyat ASC;",
+      soru: "Her ürünün product_name'ini ve %10 indirimli fiyatını (discounted_price) hesapla; sonucu discounted_price'a göre artan sırala.",
+      ipucu: "ORDER BY, SELECT'ten sonra çalıştığı için takma adı (discounted_price) kullanabilirsin.",
+      cozumSql: "SELECT product_name, price * 0.9 AS discounted_price FROM products ORDER BY discounted_price ASC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -63,18 +63,18 @@ WHERE stok_degeri > 20000;
       id: "2-7-2",
       seviye: "Orta",
       baslik: "WHERE'de Takma Ad Kullanılamaz",
-      soru: "Stok değeri (fiyat * stok_miktari) 20.000 TL'nin üzerinde olan ürünlerin adını ve stok değerini getir — WHERE'de ifadeyi TEKRAR yazman gerekiyor, takma ad kullanamazsın.",
-      ipucu: "WHERE fiyat * stok_miktari > 20000 — takma adı (stok_degeri) burada kullanamazsın çünkü WHERE, SELECT'ten önce çalışır.",
-      cozumSql: "SELECT urun_adi, fiyat * stok_miktari AS stok_degeri FROM urunler WHERE fiyat * stok_miktari > 20000;",
+      soru: "Stok değeri (price * stock_quantity) 20.000 TL'nin üzerinde olan ürünlerin product_name'ini ve stok değerini getir — WHERE'de ifadeyi TEKRAR yazman gerekiyor, takma ad kullanamazsın.",
+      ipucu: "WHERE price * stock_quantity > 20000 — takma adı (stock_value) burada kullanamazsın çünkü WHERE, SELECT'ten önce çalışır.",
+      cozumSql: "SELECT product_name, price * stock_quantity AS stock_value FROM products WHERE price * stock_quantity > 20000;",
       mod: "sonuc",
     },
     {
       id: "2-7-3",
       seviye: "Orta",
       baslik: "HAVING'de de Takma Ad Kullanılamaz",
-      soru: "Kategori başına ortalama fiyatı (ortalama_fiyat) hesapla; ortalaması 1000 TL'nin üzerinde olan kategorileri getir — HAVING'de de ifadeyi tekrar yaz.",
-      ipucu: "HAVING AVG(fiyat) > 1000 — takma adı (ortalama_fiyat) burada da kullanamazsın.",
-      cozumSql: "SELECT kategori, AVG(fiyat) AS ortalama_fiyat FROM urunler GROUP BY kategori HAVING AVG(fiyat) > 1000;",
+      soru: "Kategori başına ortalama fiyatı (avg_price) hesapla; ortalaması 1000 TL'nin üzerinde olan kategorileri getir — HAVING'de de ifadeyi tekrar yaz.",
+      ipucu: "HAVING AVG(price) > 1000 — takma adı (avg_price) burada da kullanamazsın.",
+      cozumSql: "SELECT category, AVG(price) AS avg_price FROM products GROUP BY category HAVING AVG(price) > 1000;",
       mod: "sonuc",
     },
     {
@@ -82,10 +82,10 @@ WHERE stok_degeri > 20000;
       seviye: "Orta",
       baslik: "Doğru Sırayla Kombinasyon",
       soru:
-        "'Giyim' HARİÇ kategorilerden en az 3 ürünü olanları, ürün sayısına göre azalan sırada getir (kategori, urun_sayisi) — WHERE, GROUP BY, HAVING ve ORDER BY'ı doğru sırayla birleştir.",
-      ipucu: "WHERE kategori != 'Giyim' GROUP BY kategori HAVING COUNT(*) >= 3 ORDER BY urun_sayisi DESC kalıbını kullanabilirsin.",
+        "'Giyim' HARİÇ kategorilerden en az 3 ürünü olanları, ürün sayısına göre azalan sırada getir (category, product_count) — WHERE, GROUP BY, HAVING ve ORDER BY'ı doğru sırayla birleştir.",
+      ipucu: "WHERE category != 'Giyim' GROUP BY category HAVING COUNT(*) >= 3 ORDER BY product_count DESC kalıbını kullanabilirsin.",
       cozumSql:
-        "SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler WHERE kategori != 'Giyim' GROUP BY kategori HAVING COUNT(*) >= 3 ORDER BY urun_sayisi DESC;",
+        "SELECT category, COUNT(*) AS product_count FROM products WHERE category != 'Giyim' GROUP BY category HAVING COUNT(*) >= 3 ORDER BY product_count DESC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -94,10 +94,10 @@ WHERE stok_degeri > 20000;
       seviye: "Zor",
       baslik: "Neredeyse Tam Boru Hattı",
       soru:
-        "Stokta ürünü olan (stok_miktari > 0) kategorileri, o kategorideki ürünlerin toplam stok değerine (SUM(fiyat * stok_miktari)) göre azalan sırada listele; sadece ilk 2 kategoriyi getir (kategori, toplam_stok_degeri).",
-      ipucu: "WHERE stok_miktari > 0 GROUP BY kategori ORDER BY toplam_stok_degeri DESC LIMIT 2 kalıbını kullanabilirsin.",
+        "Stokta ürünü olan (stock_quantity > 0) kategorileri, o kategorideki ürünlerin toplam stok değerine (SUM(price * stock_quantity)) göre azalan sırada listele; sadece ilk 2 kategoriyi getir (category, total_stock_value).",
+      ipucu: "WHERE stock_quantity > 0 GROUP BY category ORDER BY total_stock_value DESC LIMIT 2 kalıbını kullanabilirsin.",
       cozumSql:
-        "SELECT kategori, SUM(fiyat * stok_miktari) AS toplam_stok_degeri FROM urunler WHERE stok_miktari > 0 GROUP BY kategori ORDER BY toplam_stok_degeri DESC LIMIT 2;",
+        "SELECT category, SUM(price * stock_quantity) AS total_stock_value FROM products WHERE stock_quantity > 0 GROUP BY category ORDER BY total_stock_value DESC LIMIT 2;",
       mod: "sonuc",
       siralamaOnemli: true,
     },

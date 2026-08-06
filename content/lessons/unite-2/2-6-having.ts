@@ -16,9 +16,9 @@ export const having = defineLesson({
 - **\`HAVING\`**: gruplama yapıldıktan **sonra**, oluşan grupları filtreler. İçinde toplulaştırma fonksiyonu kullanmak **asıl amacıdır**.
 
 \`\`\`sql
-SELECT kategori, COUNT(*) AS urun_sayisi
-FROM urunler
-GROUP BY kategori
+SELECT category, COUNT(*) AS product_count
+FROM products
+GROUP BY category
 HAVING COUNT(*) >= 4;
 \`\`\`
 
@@ -29,27 +29,27 @@ Bu sorgu, önce ürünleri kategoriye göre gruplar, sonra sadece **4 veya daha 
 İkisini aynı sorguda kullanabilirsin — \`WHERE\` gruplamadan önceki satırları, \`HAVING\` gruplamadan sonraki grupları filtreler:
 
 \`\`\`sql
-SELECT kategori, AVG(fiyat) AS ortalama
-FROM urunler
-WHERE kategori != 'Giyim'
-GROUP BY kategori
-HAVING AVG(fiyat) > 1700;
+SELECT category, AVG(price) AS avg_price
+FROM products
+WHERE category != 'Giyim'
+GROUP BY category
+HAVING AVG(price) > 1700;
 \`\`\`
 
 Sıralama önemli: SQL'de \`WHERE\` her zaman \`GROUP BY\`'dan önce, \`HAVING\` ise \`GROUP BY\`'dan sonra yazılır. Bir sonraki derste bu sırayı tüm sorgu için netleştireceğiz.
 `,
   ornekler: [
-    { aciklama: "En az 3 ürünü olan kategorileri listele:", sql: "SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler GROUP BY kategori HAVING COUNT(*) >= 3;" },
+    { aciklama: "En az 3 ürünü olan kategorileri listele:", sql: "SELECT category, COUNT(*) AS product_count FROM products GROUP BY category HAVING COUNT(*) >= 3;" },
   ],
-  onizlemeTablolari: ["urunler"],
+  onizlemeTablolari: ["products"],
   alistirmalar: [
     {
       id: "2-6-1",
       seviye: "Kolay",
       baslik: "Kalabalık Kategoriler",
-      soru: "En az 4 ürünü olan kategorileri, ürün sayısıyla birlikte (kategori, urun_sayisi) getiren bir sorgu yaz.",
-      ipucu: "GROUP BY kategori HAVING COUNT(*) >= 4 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler GROUP BY kategori HAVING COUNT(*) >= 4;",
+      soru: "En az 4 ürünü olan kategorileri, ürün sayısıyla birlikte (category, product_count) getiren bir sorgu yaz.",
+      ipucu: "GROUP BY category HAVING COUNT(*) >= 4 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT category, COUNT(*) AS product_count FROM products GROUP BY category HAVING COUNT(*) >= 4;",
       mod: "sonuc",
     },
     {
@@ -57,45 +57,45 @@ Sıralama önemli: SQL'de \`WHERE\` her zaman \`GROUP BY\`'dan önce, \`HAVING\`
       seviye: "Kolay",
       baslik: "Ortalaması Yüksek Kategoriler",
       soru: "Ortalama ürün fiyatı 1000 TL'nin üzerinde olan kategorileri, ortalama fiyatla birlikte getiren bir sorgu yaz.",
-      ipucu: "GROUP BY kategori HAVING AVG(fiyat) > 1000 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT kategori, AVG(fiyat) AS ortalama FROM urunler GROUP BY kategori HAVING AVG(fiyat) > 1000;",
+      ipucu: "GROUP BY category HAVING AVG(price) > 1000 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT category, AVG(price) AS avg_price FROM products GROUP BY category HAVING AVG(price) > 1000;",
       mod: "sonuc",
     },
     {
       id: "2-6-3",
       seviye: "Orta",
       baslik: "Çok Sipariş Veren Müşteriler",
-      soru: "En az 2 siparişi olan müşterilerin id'sini ve sipariş sayısını getiren bir sorgu yaz.",
-      ipucu: "GROUP BY musteri_id HAVING COUNT(*) >= 2 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT musteri_id, COUNT(*) AS siparis_sayisi FROM siparisler GROUP BY musteri_id HAVING COUNT(*) >= 2;",
+      soru: "En az 2 siparişi olan müşterilerin customer_id'sini ve sipariş sayısını getiren bir sorgu yaz.",
+      ipucu: "GROUP BY customer_id HAVING COUNT(*) >= 2 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id HAVING COUNT(*) >= 2;",
       mod: "sonuc",
     },
     {
       id: "2-6-4",
       seviye: "Orta",
       baslik: "WHERE ve HAVING Birlikte",
-      soru: "'Giyim' HARİÇ kategorilerden, ortalama fiyatı 1700 TL'nin üzerinde olanları (kategori, ortalama) getiren bir sorgu yaz — hem WHERE hem HAVING kullan.",
-      ipucu: "Önce WHERE kategori != 'Giyim' ile satırları filtrele, sonra GROUP BY kategori HAVING AVG(fiyat) > 1700 ekle.",
-      cozumSql: "SELECT kategori, AVG(fiyat) AS ortalama FROM urunler WHERE kategori != 'Giyim' GROUP BY kategori HAVING AVG(fiyat) > 1700;",
+      soru: "'Giyim' HARİÇ kategorilerden, ortalama fiyatı 1700 TL'nin üzerinde olanları (category, avg_price) getiren bir sorgu yaz — hem WHERE hem HAVING kullan.",
+      ipucu: "Önce WHERE category != 'Giyim' ile satırları filtrele, sonra GROUP BY category HAVING AVG(price) > 1700 ekle.",
+      cozumSql: "SELECT category, AVG(price) AS avg_price FROM products WHERE category != 'Giyim' GROUP BY category HAVING AVG(price) > 1700;",
       mod: "sonuc",
     },
     {
       id: "2-6-5",
       seviye: "Zor",
       baslik: "Çok Satan Ürünler",
-      soru: "siparis_detay tablosunda toplam satılan adedi 3 veya daha fazla olan ürünlerin urun_id'sini ve toplam adedini getiren bir sorgu yaz.",
-      ipucu: "GROUP BY urun_id HAVING SUM(adet) >= 3 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT urun_id, SUM(adet) AS toplam_adet FROM siparis_detay GROUP BY urun_id HAVING SUM(adet) >= 3;",
+      soru: "order_items tablosunda toplam satılan adedi 3 veya daha fazla olan ürünlerin product_id'sini ve toplam adedini getiren bir sorgu yaz.",
+      ipucu: "GROUP BY product_id HAVING SUM(quantity) >= 3 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT product_id, SUM(quantity) AS total_quantity FROM order_items GROUP BY product_id HAVING SUM(quantity) >= 3;",
       mod: "sonuc",
     },
     {
       id: "2-6-6",
       seviye: "Zor",
       baslik: "Sadık Müşteriler (Teslim Edilen)",
-      soru: "Durumu 'Teslim Edildi' olan siparişler arasından, en az 2 siparişi teslim edilmiş müşterilerin id'sini ve teslim sayısını getiren bir sorgu yaz.",
-      ipucu: "Önce WHERE durum = 'Teslim Edildi' ile filtrele, sonra GROUP BY musteri_id HAVING COUNT(*) >= 2 ekle.",
+      soru: "Durumu 'Teslim Edildi' olan siparişler arasından, en az 2 siparişi teslim edilmiş müşterilerin customer_id'sini ve teslim sayısını getiren bir sorgu yaz.",
+      ipucu: "Önce WHERE status = 'Teslim Edildi' ile filtrele, sonra GROUP BY customer_id HAVING COUNT(*) >= 2 ekle.",
       cozumSql:
-        "SELECT musteri_id, COUNT(*) AS teslim_sayisi FROM siparisler WHERE durum = 'Teslim Edildi' GROUP BY musteri_id HAVING COUNT(*) >= 2;",
+        "SELECT customer_id, COUNT(*) AS delivered_count FROM orders WHERE status = 'Teslim Edildi' GROUP BY customer_id HAVING COUNT(*) >= 2;",
       mod: "sonuc",
     },
   ],

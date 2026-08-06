@@ -18,7 +18,7 @@ export const metinAramaVeAraliklar = defineLesson({
 - \`_\` — tam olarak bir karakteri temsil eder
 
 \`\`\`sql
-SELECT ad FROM filmler WHERE ad LIKE 'K%';
+SELECT title FROM movies WHERE title LIKE 'K%';
 \`\`\`
 
 Bu sorgu, adı **K** harfiyle **başlayan** tüm filmleri getirir. \`%kelime%\` ise kelimenin metnin **herhangi bir yerinde** geçtiği satırları bulur.
@@ -28,69 +28,69 @@ Bu sorgu, adı **K** harfiyle **başlayan** tüm filmleri getirir. \`%kelime%\` 
 Bir sütunun birden fazla olası değerden birine eşit olup olmadığını kontrol etmek için art arda \`OR\` yazmak yerine \`IN\` kullanabilirsin:
 
 \`\`\`sql
-SELECT ad FROM filmler WHERE tur IN ('Dram', 'Komedi');
+SELECT title FROM movies WHERE genre IN ('Dram', 'Komedi');
 \`\`\`
 
-Bu, \`WHERE tur = 'Dram' OR tur = 'Komedi'\` ile aynı sonucu verir ama daha okunaklıdır. Tersi için \`NOT IN\` kullanılır.
+Bu, \`WHERE genre = 'Dram' OR genre = 'Komedi'\` ile aynı sonucu verir ama daha okunaklıdır. Tersi için \`NOT IN\` kullanılır.
 
 ## BETWEEN ile aralık kontrolü
 
 İki değer arasında (her iki uç **dahil**) olup olmadığını kontrol etmek için \`BETWEEN ... AND ...\` kullanılır:
 
 \`\`\`sql
-SELECT ad, yil FROM filmler WHERE yil BETWEEN 1970 AND 1979;
+SELECT title, release_year FROM movies WHERE release_year BETWEEN 1970 AND 1979;
 \`\`\`
 
 Bu operatörleri \`AND\`, \`OR\`, \`NOT\` ile birleştirerek oldukça güçlü filtreler yazabilirsin.
 `,
   ornekler: [
-    { aciklama: "Adı 'K' harfiyle başlayan filmleri listele:", sql: "SELECT ad FROM filmler WHERE ad LIKE 'K%';" },
+    { aciklama: "Adı 'K' harfiyle başlayan filmleri listele:", sql: "SELECT title FROM movies WHERE title LIKE 'K%';" },
   ],
-  onizlemeTablolari: ["filmler"],
+  onizlemeTablolari: ["movies"],
   alistirmalar: [
     {
       id: "1-4-1",
       seviye: "Kolay",
       baslik: "K ile Başlayan Filmler",
-      soru: "Adı 'K' harfiyle başlayan filmlerin adını getiren bir sorgu yaz.",
+      soru: "title'ı 'K' harfiyle başlayan filmlerin title'ını getiren bir sorgu yaz.",
       ipucu: "LIKE 'K%' — % karakteri, sıfır veya daha fazla karakter yerine geçer.",
-      cozumSql: "SELECT ad FROM filmler WHERE ad LIKE 'K%';",
+      cozumSql: "SELECT title FROM movies WHERE title LIKE 'K%';",
       mod: "sonuc",
     },
     {
       id: "1-4-2",
       seviye: "Kolay",
       baslik: "Adında \"Vadi\" Geçenler",
-      soru: "Adında \"Vadi\" kelimesi geçen filmlerin adını getiren bir sorgu yaz.",
+      soru: "title'ında \"Vadi\" kelimesi geçen filmlerin title'ını getiren bir sorgu yaz.",
       ipucu: "Kelimenin metnin herhangi bir yerinde geçmesi için desenin başına ve sonuna % koy: '%Vadi%'",
-      cozumSql: "SELECT ad FROM filmler WHERE ad LIKE '%Vadi%';",
+      cozumSql: "SELECT title FROM movies WHERE title LIKE '%Vadi%';",
       mod: "sonuc",
     },
     {
       id: "1-4-3",
       seviye: "Orta",
       baslik: "Belirli Türler (IN)",
-      soru: "Türü 'Dram' veya 'Komedi' olan filmlerin adını ve türünü getiren bir sorgu yaz — IN kullan.",
-      ipucu: "WHERE tur IN ('Dram', 'Komedi') kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, tur FROM filmler WHERE tur IN ('Dram', 'Komedi');",
+      soru: "genre'ı 'Dram' veya 'Komedi' olan filmlerin title ve genre'ını getiren bir sorgu yaz — IN kullan.",
+      ipucu: "WHERE genre IN ('Dram', 'Komedi') kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, genre FROM movies WHERE genre IN ('Dram', 'Komedi');",
       mod: "sonuc",
     },
     {
       id: "1-4-4",
       seviye: "Orta",
       baslik: "1970'ler Filmleri",
-      soru: "1970 ile 1979 (her ikisi dahil) arasında çekilen filmlerin adını ve yılını getiren bir sorgu yaz — BETWEEN kullan.",
-      ipucu: "WHERE yil BETWEEN 1970 AND 1979 kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, yil FROM filmler WHERE yil BETWEEN 1970 AND 1979;",
+      soru: "1970 ile 1979 (her ikisi dahil) arasında çekilen filmlerin title ve release_year'ını getiren bir sorgu yaz — BETWEEN kullan.",
+      ipucu: "WHERE release_year BETWEEN 1970 AND 1979 kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, release_year FROM movies WHERE release_year BETWEEN 1970 AND 1979;",
       mod: "sonuc",
     },
     {
       id: "1-4-5",
       seviye: "Orta",
       baslik: "Komedi ve Aksiyon Dışındakiler",
-      soru: "Türü 'Komedi' VE 'Aksiyon' OLMAYAN filmlerin adını ve türünü getiren bir sorgu yaz — NOT IN kullan.",
-      ipucu: "WHERE tur NOT IN ('Komedi', 'Aksiyon') kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, tur FROM filmler WHERE tur NOT IN ('Komedi', 'Aksiyon');",
+      soru: "genre'ı 'Komedi' VE 'Aksiyon' OLMAYAN filmlerin title ve genre'ını getiren bir sorgu yaz — NOT IN kullan.",
+      ipucu: "WHERE genre NOT IN ('Komedi', 'Aksiyon') kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, genre FROM movies WHERE genre NOT IN ('Komedi', 'Aksiyon');",
       mod: "sonuc",
     },
     {
@@ -98,10 +98,10 @@ Bu operatörleri \`AND\`, \`OR\`, \`NOT\` ile birleştirerek oldukça güçlü f
       seviye: "Zor",
       baslik: "Karma Filtre",
       soru:
-        "2000 ile 2015 arasında (BETWEEN) çekilen, türü 'Dram' veya 'Savaş' olan (IN), adı 'K' harfiyle BAŞLAMAYAN filmlerin adını, yılını ve türünü getiren bir sorgu yaz.",
-      ipucu: "Üç koşulu AND ile birleştir: yil BETWEEN 2000 AND 2015 AND tur IN ('Dram', 'Savaş') AND ad NOT LIKE 'K%'",
+        "2000 ile 2015 arasında (BETWEEN) çekilen, genre'ı 'Dram' veya 'Savaş' olan (IN), title'ı 'K' harfiyle BAŞLAMAYAN filmlerin title, release_year ve genre'ını getiren bir sorgu yaz.",
+      ipucu: "Üç koşulu AND ile birleştir: release_year BETWEEN 2000 AND 2015 AND genre IN ('Dram', 'Savaş') AND title NOT LIKE 'K%'",
       cozumSql:
-        "SELECT ad, yil, tur FROM filmler WHERE yil BETWEEN 2000 AND 2015 AND tur IN ('Dram', 'Savaş') AND ad NOT LIKE 'K%';",
+        "SELECT title, release_year, genre FROM movies WHERE release_year BETWEEN 2000 AND 2015 AND genre IN ('Dram', 'Savaş') AND title NOT LIKE 'K%';",
       mod: "sonuc",
     },
   ],
@@ -132,7 +132,7 @@ Bu operatörleri \`AND\`, \`OR\`, \`NOT\` ile birleştirerek oldukça güçlü f
     },
     {
       id: "1-4-q3",
-      soru: "WHERE yil BETWEEN 2000 AND 2010; ifadesi 2000 ve 2010 yıllarını da kapsar mı?",
+      soru: "WHERE release_year BETWEEN 2000 AND 2010; ifadesi 2000 ve 2010 yıllarını da kapsar mı?",
       secenekler: [
         "Evet, her iki uç değer de dahildir",
         "Hayır, sadece aradaki yılları kapsar, uçlar hariçtir",
@@ -144,12 +144,12 @@ Bu operatörleri \`AND\`, \`OR\`, \`NOT\` ile birleştirerek oldukça güçlü f
     },
     {
       id: "1-4-q4",
-      soru: "WHERE tur IN ('Dram', 'Komedi') ifadesi hangi OR ifadesine eşdeğerdir?",
+      soru: "WHERE genre IN ('Dram', 'Komedi') ifadesi hangi OR ifadesine eşdeğerdir?",
       secenekler: [
-        "tur = 'Dram' AND tur = 'Komedi'",
-        "tur = 'Dram' OR tur = 'Komedi'",
-        "tur != 'Dram' OR tur != 'Komedi'",
-        "tur LIKE 'Dram' AND tur LIKE 'Komedi'",
+        "genre = 'Dram' AND genre = 'Komedi'",
+        "genre = 'Dram' OR genre = 'Komedi'",
+        "genre != 'Dram' OR genre != 'Komedi'",
+        "genre LIKE 'Dram' AND genre LIKE 'Komedi'",
       ],
       dogruIndex: 1,
       aciklama: "IN, listedeki değerlerden herhangi birine eşit olma durumunu kontrol eder — bir dizi OR karşılaştırmasının kısayoludur.",

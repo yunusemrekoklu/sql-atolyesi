@@ -20,51 +20,51 @@ export const toplulastirmaFonksiyonlari = defineLesson({
 | \`MIN(sutun)\` / \`MAX(sutun)\` | en küçük / en büyük değeri bulur |
 
 \`\`\`sql
-SELECT COUNT(*) AS toplam_urun, AVG(fiyat) AS ortalama_fiyat FROM urunler;
+SELECT COUNT(*) AS total_products, AVG(price) AS avg_price FROM products;
 \`\`\`
 
 Bu sorgu tek bir satır döndürür — çünkü toplulaştırma fonksiyonları tüm tabloyu (veya \`WHERE\` ile filtrelenmiş satırları) **tek bir sonuca** indirger.
 
 ## COUNT(*) vs COUNT(sütun) — önemli fark!
 
-\`COUNT(*)\`, tüm satırları sayar (NULL değerler dahil). \`COUNT(sutun)\` ise sadece o **sütunu NULL olmayan** satırları sayar. Önceki dersteki \`telefon\` sütununu hatırlıyor musun?
+\`COUNT(*)\`, tüm satırları sayar (NULL değerler dahil). \`COUNT(sutun)\` ise sadece o **sütunu NULL olmayan** satırları sayar. Önceki dersteki \`phone\` sütununu hatırlıyor musun?
 
 \`\`\`sql
-SELECT COUNT(*) AS toplam_musteri, COUNT(telefon) AS telefonu_olan FROM musteriler;
+SELECT COUNT(*) AS total_customers, COUNT(phone) AS with_phone FROM customers;
 \`\`\`
 
 Bu sorgu iki farklı sayı döndürür: toplam müşteri sayısı ile telefon numarası **kayıtlı olan** müşteri sayısı. \`MIN\` ve \`MAX\`, metin sütunlarında da çalışır — alfabetik olarak en küçük/en büyük değeri bulur.
 `,
   ornekler: [
-    { aciklama: "Toplam ürün sayısı ve ortalama fiyatı hesapla:", sql: "SELECT COUNT(*) AS toplam_urun, AVG(fiyat) AS ortalama_fiyat FROM urunler;" },
+    { aciklama: "Toplam ürün sayısı ve ortalama fiyatı hesapla:", sql: "SELECT COUNT(*) AS total_products, AVG(price) AS avg_price FROM products;" },
   ],
-  onizlemeTablolari: ["urunler"],
+  onizlemeTablolari: ["products"],
   alistirmalar: [
     {
       id: "2-4-1",
       seviye: "Kolay",
       baslik: "Toplam Ürün Sayısı",
-      soru: "urunler tablosundaki toplam satır (ürün) sayısını getiren bir sorgu yaz.",
-      ipucu: "SELECT COUNT(*) FROM urunler; kalıbını kullanabilirsin.",
-      cozumSql: "SELECT COUNT(*) AS urun_sayisi FROM urunler;",
+      soru: "products tablosundaki toplam satır (ürün) sayısını getiren bir sorgu yaz.",
+      ipucu: "SELECT COUNT(*) FROM products; kalıbını kullanabilirsin.",
+      cozumSql: "SELECT COUNT(*) AS product_count FROM products;",
       mod: "sonuc",
     },
     {
       id: "2-4-2",
       seviye: "Kolay",
       baslik: "En Pahalı ve En Ucuz Ürün Fiyatı",
-      soru: "urunler tablosundaki en yüksek ve en düşük fiyatı (en_pahali, en_ucuz) tek sorguda getir.",
-      ipucu: "MAX(fiyat) AS en_pahali, MIN(fiyat) AS en_ucuz kalıbını kullanabilirsin.",
-      cozumSql: "SELECT MAX(fiyat) AS en_pahali, MIN(fiyat) AS en_ucuz FROM urunler;",
+      soru: "products tablosundaki en yüksek ve en düşük fiyatı (max_price, min_price) tek sorguda getir.",
+      ipucu: "MAX(price) AS max_price, MIN(price) AS min_price kalıbını kullanabilirsin.",
+      cozumSql: "SELECT MAX(price) AS max_price, MIN(price) AS min_price FROM products;",
       mod: "sonuc",
     },
     {
       id: "2-4-3",
       seviye: "Orta",
       baslik: "Toplam Stok Değeri",
-      soru: "Tüm ürünlerin toplam stok değerini (her ürün için fiyat * stok_miktari, hepsinin toplamı) hesaplayan bir sorgu yaz.",
-      ipucu: "SUM(fiyat * stok_miktari) — SUM içinde bir ifade de kullanabilirsin.",
-      cozumSql: "SELECT SUM(fiyat * stok_miktari) AS toplam_stok_degeri FROM urunler;",
+      soru: "Tüm ürünlerin toplam stok değerini (her ürün için price * stock_quantity, hepsinin toplamı) hesaplayan bir sorgu yaz.",
+      ipucu: "SUM(price * stock_quantity) — SUM içinde bir ifade de kullanabilirsin.",
+      cozumSql: "SELECT SUM(price * stock_quantity) AS total_stock_value FROM products;",
       mod: "sonuc",
     },
     {
@@ -72,26 +72,26 @@ Bu sorgu iki farklı sayı döndürür: toplam müşteri sayısı ile telefon nu
       seviye: "Orta",
       baslik: "Telefon Kaydı Karşılaştırması",
       soru: "Toplam müşteri sayısını ve telefon numarası KAYITLI OLAN müşteri sayısını tek sorguda getir (COUNT(*) ile COUNT(sütun) arasındaki farkı gözlemle).",
-      ipucu: "COUNT(*) AS toplam_musteri, COUNT(telefon) AS telefonu_olan kalıbını kullanabilirsin.",
-      cozumSql: "SELECT COUNT(*) AS toplam_musteri, COUNT(telefon) AS telefonu_olan FROM musteriler;",
+      ipucu: "COUNT(*) AS total_customers, COUNT(phone) AS with_phone kalıbını kullanabilirsin.",
+      cozumSql: "SELECT COUNT(*) AS total_customers, COUNT(phone) AS with_phone FROM customers;",
       mod: "sonuc",
     },
     {
       id: "2-4-5",
       seviye: "Orta",
       baslik: "Ortalama Sipariş Kalemi Tutarı",
-      soru: "siparis_detay tablosundaki her satırın tutarını (adet * birim_fiyat) hesaba katarak, ortalama sipariş kalemi tutarını getiren bir sorgu yaz.",
-      ipucu: "AVG(adet * birim_fiyat) kalıbını kullanabilirsin.",
-      cozumSql: "SELECT AVG(adet * birim_fiyat) AS ortalama_tutar FROM siparis_detay;",
+      soru: "order_items tablosundaki her satırın tutarını (quantity * unit_price) hesaba katarak, ortalama sipariş kalemi tutarını getiren bir sorgu yaz.",
+      ipucu: "AVG(quantity * unit_price) kalıbını kullanabilirsin.",
+      cozumSql: "SELECT AVG(quantity * unit_price) AS avg_line_total FROM order_items;",
       mod: "sonuc",
     },
     {
       id: "2-4-6",
       seviye: "Zor",
       baslik: "Elektronik Kategorisi Özeti",
-      soru: "'Elektronik' kategorisindeki ürün sayısını ve bu ürünlerin toplam stok miktarını (stok_miktari toplamı) tek sorguda getir.",
-      ipucu: "Önce WHERE kategori = 'Elektronik' ile filtrele, sonra COUNT(*) ve SUM(stok_miktari) hesapla.",
-      cozumSql: "SELECT COUNT(*) AS urun_sayisi, SUM(stok_miktari) AS toplam_stok FROM urunler WHERE kategori = 'Elektronik';",
+      soru: "'Elektronik' kategorisindeki ürün sayısını ve bu ürünlerin toplam stok miktarını (stock_quantity toplamı) tek sorguda getir.",
+      ipucu: "Önce WHERE category = 'Elektronik' ile filtrele, sonra COUNT(*) ve SUM(stock_quantity) hesapla.",
+      cozumSql: "SELECT COUNT(*) AS product_count, SUM(stock_quantity) AS total_stock FROM products WHERE category = 'Elektronik';",
       mod: "sonuc",
     },
   ],
@@ -110,12 +110,12 @@ Bu sorgu iki farklı sayı döndürür: toplam müşteri sayısı ile telefon nu
     },
     {
       id: "2-4-q2",
-      soru: "COUNT(telefon) ile COUNT(*) arasındaki fark nedir?",
+      soru: "COUNT(phone) ile COUNT(*) arasındaki fark nedir?",
       secenekler: [
         "Aralarında hiç fark yoktur",
-        "COUNT(telefon) sadece telefon sütunu NULL OLMAYAN satırları sayar",
-        "COUNT(telefon) her zaman COUNT(*)'tan büyüktür",
-        "COUNT(telefon) sadece sayısal sütunlarda çalışır",
+        "COUNT(phone) sadece phone sütunu NULL OLMAYAN satırları sayar",
+        "COUNT(phone) her zaman COUNT(*)'tan büyüktür",
+        "COUNT(phone) sadece sayısal sütunlarda çalışır",
       ],
       dogruIndex: 1,
       aciklama: "COUNT(sutun), o sütundaki NULL değerleri saymaz; COUNT(*) ise NULL'a bakmaksızın tüm satırları sayar.",
@@ -134,11 +134,11 @@ Bu sorgu iki farklı sayı döndürür: toplam müşteri sayısı ile telefon nu
     },
     {
       id: "2-4-q4",
-      soru: "SUM(fiyat) sonucuna bakarak kaç satır olduğunu doğrudan öğrenebilir misin?",
+      soru: "SUM(price) sonucuna bakarak kaç satır olduğunu doğrudan öğrenebilir misin?",
       secenekler: [
         "Evet, SUM otomatik olarak satır sayısını da gösterir",
         "Hayır, SUM sadece toplamı verir; satır sayısı için COUNT gerekir",
-        "Evet ama sadece fiyat sütunu NOT NULL ise",
+        "Evet ama sadece price sütunu NOT NULL ise",
         "Hayır, SUM hiçbir zaman sayısal sonuç vermez",
       ],
       dogruIndex: 1,

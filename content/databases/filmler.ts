@@ -5,17 +5,17 @@ export const filmlerDb: SampleDatabase = {
   ad: "Filmler",
   aciklama: "Yeşilçam klasiklerinden güncel yapımlara, Türk sinemasından 20 film.",
   ddl: `
-CREATE TABLE filmler (
-  film_id INTEGER PRIMARY KEY,
-  ad TEXT NOT NULL,
-  yonetmen TEXT NOT NULL,
-  yil INTEGER NOT NULL,
-  sure_dk INTEGER NOT NULL,
-  tur TEXT NOT NULL,
-  puan REAL NOT NULL
+CREATE TABLE movies (
+  movie_id INTEGER PRIMARY KEY,
+  title TEXT NOT NULL,
+  director TEXT NOT NULL,
+  release_year INTEGER NOT NULL,
+  duration_min INTEGER NOT NULL,
+  genre TEXT NOT NULL,
+  rating REAL NOT NULL
 );
 
-INSERT INTO filmler (film_id, ad, yonetmen, yil, sure_dk, tur, puan) VALUES
+INSERT INTO movies (movie_id, title, director, release_year, duration_min, genre, rating) VALUES
   (1, 'Susuz Yaz', 'Metin Erksan', 1963, 90, 'Dram', 7.8),
   (2, 'Vesikalı Yarim', 'Ömer Lütfi Akad', 1968, 100, 'Dram', 7.5),
   (3, 'Selvi Boylum Al Yazmalım', 'Atıf Yılmaz', 1977, 105, 'Dram', 7.6),

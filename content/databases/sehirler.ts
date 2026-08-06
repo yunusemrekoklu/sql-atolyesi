@@ -6,16 +6,16 @@ export const sehirlerDb: SampleDatabase = {
   aciklama:
     "Türkiye'nin 81 ili — bölge, yaklaşık nüfus, plaka kodu, rakım ve büyükşehir durumu (nüfus rakamları yuvarlanmış yaklaşık değerlerdir).",
   ddl: `
-CREATE TABLE sehirler (
-  plaka INTEGER PRIMARY KEY,
-  il TEXT NOT NULL,
-  bolge TEXT NOT NULL,
-  nufus INTEGER NOT NULL,
-  rakim INTEGER NOT NULL,
-  buyuksehir_mi INTEGER NOT NULL
+CREATE TABLE cities (
+  plate_code INTEGER PRIMARY KEY,
+  province TEXT NOT NULL,
+  region TEXT NOT NULL,
+  population INTEGER NOT NULL,
+  elevation INTEGER NOT NULL,
+  is_metropolitan INTEGER NOT NULL
 );
 
-INSERT INTO sehirler (plaka, il, bolge, nufus, rakim, buyuksehir_mi) VALUES
+INSERT INTO cities (plate_code, province, region, population, elevation, is_metropolitan) VALUES
   (1, 'Adana', 'Akdeniz', 2270000, 23, 1),
   (2, 'Adıyaman', 'Güneydoğu Anadolu', 635000, 672, 0),
   (3, 'Afyonkarahisar', 'Ege', 730000, 1034, 0),

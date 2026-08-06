@@ -15,65 +15,65 @@ export const groupBy = defineLesson({
 \`GROUP BY\`, satırları belirttiğin sütun(lar)daki **aynı değerlere** göre gruplara ayırır; toplulaştırma fonksiyonları da artık tüm tablo yerine **her grup için ayrı ayrı** hesaplanır:
 
 \`\`\`sql
-SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler GROUP BY kategori;
+SELECT category, COUNT(*) AS product_count FROM products GROUP BY category;
 \`\`\`
 
-Bu sorgu, her farklı \`kategori\` değeri için bir satır döndürür — o kategorideki ürün sayısıyla birlikte.
+Bu sorgu, her farklı \`category\` değeri için bir satır döndürür — o kategorideki ürün sayısıyla birlikte.
 
 ## Sık yapılan bir hata
 
 \`SELECT\` listesindeki bir sütun ne \`GROUP BY\`'da ne de bir toplulaştırma fonksiyonu içinde olursa hataya yol açar:
 
 \`\`\`sql
--- HATALI: urun_adi GROUP BY'da yok ve toplulaştırılmamış
-SELECT kategori, urun_adi, COUNT(*) FROM urunler GROUP BY kategori;
+-- HATALI: product_name GROUP BY'da yok ve toplulaştırılmamış
+SELECT category, product_name, COUNT(*) FROM products GROUP BY category;
 \`\`\`
 
-Bir kategoride birden fazla ürün varsa, SQLite hangi \`urun_adi\`'nı göstereceğini bilemez. **Kural:** \`SELECT\`'teki her sütun ya \`GROUP BY\`'da olmalı ya da bir toplulaştırma fonksiyonu içinde kullanılmalı.
+Bir kategoride birden fazla ürün varsa, SQLite hangi \`product_name\`'i göstereceğini bilemez. **Kural:** \`SELECT\`'teki her sütun ya \`GROUP BY\`'da olmalı ya da bir toplulaştırma fonksiyonu içinde kullanılmalı.
 
 ## Çoklu sütunla gruplama
 
 \`GROUP BY\`'a birden fazla sütun verirsen, o sütunların **birlikte** oluşturduğu her benzersiz kombinasyon ayrı bir grup sayılır — tıpkı \`DISTINCT\`'in birden fazla sütunla çalışması gibi.
 `,
   ornekler: [
-    { aciklama: "Her kategorideki ürün sayısını hesapla:", sql: "SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler GROUP BY kategori;" },
+    { aciklama: "Her kategorideki ürün sayısını hesapla:", sql: "SELECT category, COUNT(*) AS product_count FROM products GROUP BY category;" },
   ],
-  onizlemeTablolari: ["urunler"],
+  onizlemeTablolari: ["products"],
   alistirmalar: [
     {
       id: "2-5-1",
       seviye: "Kolay",
       baslik: "Kategori Başına Ürün Sayısı",
-      soru: "Her kategorideki ürün sayısını (kategori, urun_sayisi) getiren bir sorgu yaz.",
-      ipucu: "SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler GROUP BY kategori;",
-      cozumSql: "SELECT kategori, COUNT(*) AS urun_sayisi FROM urunler GROUP BY kategori;",
+      soru: "Her kategorideki ürün sayısını (category, product_count) getiren bir sorgu yaz.",
+      ipucu: "SELECT category, COUNT(*) AS product_count FROM products GROUP BY category;",
+      cozumSql: "SELECT category, COUNT(*) AS product_count FROM products GROUP BY category;",
       mod: "sonuc",
     },
     {
       id: "2-5-2",
       seviye: "Kolay",
       baslik: "Şehir Başına Müşteri Sayısı",
-      soru: "Her şehirdeki müşteri sayısını (sehir, musteri_sayisi) getiren bir sorgu yaz.",
-      ipucu: "GROUP BY sehir kullanarak müşterileri şehre göre grupla.",
-      cozumSql: "SELECT sehir, COUNT(*) AS musteri_sayisi FROM musteriler GROUP BY sehir;",
+      soru: "Her şehirdeki müşteri sayısını (city, customer_count) getiren bir sorgu yaz.",
+      ipucu: "GROUP BY city kullanarak müşterileri şehre göre grupla.",
+      cozumSql: "SELECT city, COUNT(*) AS customer_count FROM customers GROUP BY city;",
       mod: "sonuc",
     },
     {
       id: "2-5-3",
       seviye: "Orta",
       baslik: "Kategori Başına Ortalama Fiyat",
-      soru: "Her kategorinin ortalama ürün fiyatını (kategori, ortalama_fiyat) getiren bir sorgu yaz.",
-      ipucu: "AVG(fiyat)'ı GROUP BY kategori ile birleştir.",
-      cozumSql: "SELECT kategori, AVG(fiyat) AS ortalama_fiyat FROM urunler GROUP BY kategori;",
+      soru: "Her kategorinin ortalama ürün fiyatını (category, avg_price) getiren bir sorgu yaz.",
+      ipucu: "AVG(price)'ı GROUP BY category ile birleştir.",
+      cozumSql: "SELECT category, AVG(price) AS avg_price FROM products GROUP BY category;",
       mod: "sonuc",
     },
     {
       id: "2-5-4",
       seviye: "Orta",
       baslik: "Duruma Göre Sipariş Sayısı",
-      soru: "Her sipariş durumundaki (durum) sipariş sayısını, sayıya göre çoktan aza sıralı getiren bir sorgu yaz.",
-      ipucu: "GROUP BY durum yaptıktan sonra ORDER BY ile COUNT sonucunu sırala.",
-      cozumSql: "SELECT durum, COUNT(*) AS siparis_sayisi FROM siparisler GROUP BY durum ORDER BY siparis_sayisi DESC;",
+      soru: "Her sipariş durumundaki (status) sipariş sayısını, sayıya göre çoktan aza sıralı getiren bir sorgu yaz.",
+      ipucu: "GROUP BY status yaptıktan sonra ORDER BY ile COUNT sonucunu sırala.",
+      cozumSql: "SELECT status, COUNT(*) AS order_count FROM orders GROUP BY status ORDER BY order_count DESC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -81,18 +81,18 @@ Bir kategoride birden fazla ürün varsa, SQLite hangi \`urun_adi\`'nı göstere
       id: "2-5-5",
       seviye: "Orta",
       baslik: "Ürün Başına Toplam Satış Adedi",
-      soru: "siparis_detay tablosunda her urun_id için toplam satılan adedi (urun_id, toplam_satis) getiren bir sorgu yaz.",
-      ipucu: "SELECT urun_id, SUM(adet) AS toplam_satis FROM siparis_detay GROUP BY urun_id;",
-      cozumSql: "SELECT urun_id, SUM(adet) AS toplam_satis FROM siparis_detay GROUP BY urun_id;",
+      soru: "order_items tablosunda her product_id için toplam satılan adedi (product_id, total_quantity) getiren bir sorgu yaz.",
+      ipucu: "SELECT product_id, SUM(quantity) AS total_quantity FROM order_items GROUP BY product_id;",
+      cozumSql: "SELECT product_id, SUM(quantity) AS total_quantity FROM order_items GROUP BY product_id;",
       mod: "sonuc",
     },
     {
       id: "2-5-6",
       seviye: "Zor",
       baslik: "En Çok Sipariş Veren Müşteriler",
-      soru: "Her müşterinin (musteri_id) kaç siparişi olduğunu, sipariş sayısına göre çoktan aza sıralı getiren bir sorgu yaz.",
-      ipucu: "GROUP BY musteri_id ... ORDER BY COUNT(*) DESC kalıbını kullanabilirsin.",
-      cozumSql: "SELECT musteri_id, COUNT(*) AS siparis_sayisi FROM siparisler GROUP BY musteri_id ORDER BY siparis_sayisi DESC;",
+      soru: "Her müşterinin (customer_id) kaç siparişi olduğunu, sipariş sayısına göre çoktan aza sıralı getiren bir sorgu yaz.",
+      ipucu: "GROUP BY customer_id ... ORDER BY COUNT(*) DESC kalıbını kullanabilirsin.",
+      cozumSql: "SELECT customer_id, COUNT(*) AS order_count FROM orders GROUP BY customer_id ORDER BY order_count DESC;",
       mod: "sonuc",
       siralamaOnemli: true,
     },
@@ -112,11 +112,11 @@ Bir kategoride birden fazla ürün varsa, SQLite hangi \`urun_adi\`'nı göstere
     },
     {
       id: "2-5-q2",
-      soru: "SELECT kategori, urun_adi, COUNT(*) FROM urunler GROUP BY kategori; sorgusu neden hataya yol açar?",
+      soru: "SELECT category, product_name, COUNT(*) FROM products GROUP BY category; sorgusu neden hataya yol açar?",
       secenekler: [
         "COUNT(*) GROUP BY ile kullanılamaz",
-        "urun_adi ne GROUP BY'da ne de bir toplulaştırma fonksiyonu içinde — SQLite hangi değeri göstereceğini bilemez",
-        "kategori sütunu metin olduğu için gruplanamaz",
+        "product_name ne GROUP BY'da ne de bir toplulaştırma fonksiyonu içinde — SQLite hangi değeri göstereceğini bilemez",
+        "category sütunu metin olduğu için gruplanamaz",
         "Bu sorgu hataya yol açmaz",
       ],
       dogruIndex: 1,

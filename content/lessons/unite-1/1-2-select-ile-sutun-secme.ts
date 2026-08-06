@@ -15,7 +15,7 @@ export const selectIleSutunSecme = defineLesson({
 İstediğin sütunları virgülle ayırarak, istediğin sırada yazabilirsin:
 
 \`\`\`sql
-SELECT yonetmen, ad, yil FROM filmler;
+SELECT director, title, release_year FROM movies;
 \`\`\`
 
 Sütunların sonuçta görüneceği sıra, senin \`SELECT\` listesinde yazdığın sıradır — tablodaki gerçek sütun sırasıyla aynı olmak zorunda değil.
@@ -25,7 +25,7 @@ Sütunların sonuçta görüneceği sıra, senin \`SELECT\` listesinde yazdığ�
 Sonuç tablosundaki bir sütunun adını değiştirmek için \`AS\` kullanılır:
 
 \`\`\`sql
-SELECT ad AS film_adi FROM filmler;
+SELECT title AS movie_title FROM movies;
 \`\`\`
 
 Bu, veritabanındaki gerçek sütun adını **değiştirmez** — sadece o sorgunun sonucunda görünen ismi değiştirir.
@@ -35,32 +35,32 @@ Bu, veritabanındaki gerçek sütun adını **değiştirmez** — sadece o sorgu
 Bir sütunda aynı değer birden fazla satırda tekrar edebilir (ör. birçok film aynı türde olabilir). \`DISTINCT\` anahtar kelimesi, sonuçtaki **tekrar eden satırları** kaldırır:
 
 \`\`\`sql
-SELECT DISTINCT tur FROM filmler;
+SELECT DISTINCT genre FROM movies;
 \`\`\`
 
-Bu sorgu, \`filmler\` tablosundaki her türü **sadece bir kez** listeler. \`DISTINCT\` birden fazla sütunla da kullanılabilir — bu durumda o sütunların **birlikte** oluşturduğu tekrar eden kombinasyonlar kaldırılır.
+Bu sorgu, \`movies\` tablosundaki her türü **sadece bir kez** listeler. \`DISTINCT\` birden fazla sütunla da kullanılabilir — bu durumda o sütunların **birlikte** oluşturduğu tekrar eden kombinasyonlar kaldırılır.
 `,
   ornekler: [
-    { aciklama: "Veritabanındaki tüm farklı (tekrarsız) film türlerini listele:", sql: "SELECT DISTINCT tur FROM filmler;" },
+    { aciklama: "Veritabanındaki tüm farklı (tekrarsız) film türlerini listele:", sql: "SELECT DISTINCT genre FROM movies;" },
   ],
-  onizlemeTablolari: ["filmler"],
+  onizlemeTablolari: ["movies"],
   alistirmalar: [
     {
       id: "1-2-1",
       seviye: "Kolay",
       baslik: "Ad ve Tür",
-      soru: "Her filmin adını ve türünü (ad, tur) birlikte getiren bir sorgu yaz.",
-      ipucu: "SELECT ad, tur FROM filmler; kalıbını kullanabilirsin.",
-      cozumSql: "SELECT ad, tur FROM filmler;",
+      soru: "Her filmin title ve genre'ını birlikte getiren bir sorgu yaz.",
+      ipucu: "SELECT title, genre FROM movies; kalıbını kullanabilirsin.",
+      cozumSql: "SELECT title, genre FROM movies;",
       mod: "sonuc",
     },
     {
       id: "1-2-2",
       seviye: "Kolay",
       baslik: "Takma Adlarla Getir",
-      soru: "ad sütununu film_adi, yil sütununu cikis_yili takma adlarıyla getiren bir sorgu yaz.",
+      soru: "title sütununu movie_title, release_year sütununu movie_year takma adlarıyla getiren bir sorgu yaz.",
       ipucu: "Her sütundan sonra AS ile istediğin takma adı verebilirsin: sutun AS takma_ad",
-      cozumSql: "SELECT ad AS film_adi, yil AS cikis_yili FROM filmler;",
+      cozumSql: "SELECT title AS movie_title, release_year AS movie_year FROM movies;",
       mod: "sonuc",
       kolonAdiOnemli: true,
     },
@@ -68,18 +68,18 @@ Bu sorgu, \`filmler\` tablosundaki her türü **sadece bir kez** listeler. \`DIS
       id: "1-2-3",
       seviye: "Orta",
       baslik: "Farklı Türler",
-      soru: "filmler tablosundaki tekrarsız (farklı) tür listesini getiren bir sorgu yaz.",
+      soru: "movies tablosundaki tekrarsız (farklı) genre listesini getiren bir sorgu yaz.",
       ipucu: "DISTINCT anahtar kelimesini SELECT'ten hemen sonra kullan: SELECT DISTINCT sutun FROM tablo;",
-      cozumSql: "SELECT DISTINCT tur FROM filmler;",
+      cozumSql: "SELECT DISTINCT genre FROM movies;",
       mod: "sonuc",
     },
     {
       id: "1-2-4",
       seviye: "Orta",
       baslik: "Farklı Yönetmenler",
-      soru: "filmler tablosundaki tekrarsız yönetmen listesini getiren bir sorgu yaz.",
-      ipucu: "SELECT DISTINCT yonetmen FROM filmler;",
-      cozumSql: "SELECT DISTINCT yonetmen FROM filmler;",
+      soru: "movies tablosundaki tekrarsız director listesini getiren bir sorgu yaz.",
+      ipucu: "SELECT DISTINCT director FROM movies;",
+      cozumSql: "SELECT DISTINCT director FROM movies;",
       mod: "sonuc",
     },
     {
@@ -87,9 +87,9 @@ Bu sorgu, \`filmler\` tablosundaki her türü **sadece bir kez** listeler. \`DIS
       seviye: "Zor",
       baslik: "Yönetmen–Tür Kombinasyonları",
       soru:
-        "Her yönetmenin çektiği her farklı (yonetmen, tur) kombinasyonunu tekrarsız olarak getiren bir sorgu yaz (aynı yönetmen birden fazla türde film çekmiş olabilir).",
+        "Her yönetmenin çektiği her farklı (director, genre) kombinasyonunu tekrarsız olarak getiren bir sorgu yaz (aynı yönetmen birden fazla türde film çekmiş olabilir).",
       ipucu: "DISTINCT birden fazla sütunla kullanıldığında, o sütunların BİRLİKTE oluşturduğu tekrarları kaldırır: SELECT DISTINCT sutun1, sutun2 FROM tablo;",
-      cozumSql: "SELECT DISTINCT yonetmen, tur FROM filmler;",
+      cozumSql: "SELECT DISTINCT director, genre FROM movies;",
       mod: "sonuc",
     },
   ],
@@ -108,10 +108,10 @@ Bu sorgu, \`filmler\` tablosundaki her türü **sadece bir kez** listeler. \`DIS
     },
     {
       id: "1-2-q2",
-      soru: "SELECT ad AS film_adi FROM filmler; sorgusunda \"film_adi\" nedir?",
+      soru: "SELECT title AS movie_title FROM movies; sorgusunda \"movie_title\" nedir?",
       secenekler: [
         "Tablonun yeni adı",
-        "ad sütununa bu sorgu için verilen takma ad",
+        "title sütununa bu sorgu için verilen takma ad",
         "Veritabanının adı",
         "Bir hata mesajı",
       ],
@@ -120,10 +120,10 @@ Bu sorgu, \`filmler\` tablosundaki her türü **sadece bir kez** listeler. \`DIS
     },
     {
       id: "1-2-q3",
-      soru: "SELECT DISTINCT tur FROM filmler; sorgusu filmler tablosundaki kaç farklı tür değeri döndürür?",
+      soru: "SELECT DISTINCT genre FROM movies; sorgusu movies tablosundaki kaç farklı tür değeri döndürür?",
       secenekler: ["4", "5", "6", "20"],
       dogruIndex: 1,
-      aciklama: "filmler tablosunda Dram, Komedi, Bilim Kurgu, Aksiyon ve Savaş olmak üzere 5 farklı tür bulunur.",
+      aciklama: "movies tablosunda Dram, Komedi, Bilim Kurgu, Aksiyon ve Savaş olmak üzere 5 farklı tür bulunur.",
     },
     {
       id: "1-2-q4",

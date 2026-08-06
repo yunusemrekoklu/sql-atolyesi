@@ -12,11 +12,13 @@ SQL Atölyesi'ne hoş geldin! İlk dersimizde en temel soruyla başlıyoruz: **v
 
 ## Tablo, satır, sütun
 
-Bir veritabanı, birbiriyle ilişkili verileri düzenli bir şekilde saklayan bir sistemdir. Bu dersteki \`filmler\` tablosunu bir Excel sayfası gibi düşünebilirsin:
+Bir veritabanı, birbiriyle ilişkili verileri düzenli bir şekilde saklayan bir sistemdir. Bu dersteki \`movies\` tablosunu bir Excel sayfası gibi düşünebilirsin:
 
-- **Tablo**: verinin saklandığı yer (ör. \`filmler\`)
+- **Tablo**: verinin saklandığı yer (ör. \`movies\`)
 - **Satır (kayıt)**: tek bir varlığı temsil eder — tablomuzda bir satır, tek bir filmi ifade eder
-- **Sütun (alan)**: her satırın ortak özelliklerini tanımlar — ör. \`ad\`, \`yonetmen\`, \`yil\`
+- **Sütun (alan)**: her satırın ortak özelliklerini tanımlar — ör. \`title\`, \`director\`, \`release_year\`
+
+**Not:** Gerçek şirketlerdeki veritabanlarında tablo ve sütun adları neredeyse hep İngilizcedir — bu sitede de bu gerçeğe sadık kalıyoruz. Anlatım ve sorular Türkçe, ama SQL yazarken kullandığın tablo/sütun adları İngilizce olacak.
 
 ## RDBMS nedir?
 
@@ -31,50 +33,50 @@ Verileri bu şekilde tablolar halinde saklayan ve yöneten sistemlere **RDBMS** 
 Bir tablodaki **tüm** sütunları ve **tüm** satırları getirmek için \`*\` (yıldız) karakterini kullanırız:
 
 \`\`\`sql
-SELECT * FROM filmler;
+SELECT * FROM movies;
 \`\`\`
 
-Bu sorgu "filmler tablosundaki her şeyi getir" demektir. Aşağıdaki örnek veri tablosunda \`filmler\`'in tüm satır ve sütunlarını görebilirsin — alıştırmalara geçmeden önce göz gezdir.
+Bu sorgu "movies tablosundaki her şeyi getir" demektir. Aşağıdaki örnek veri tablosunda \`movies\`'in tüm satır ve sütunlarını görebilirsin — alıştırmalara geçmeden önce göz gezdir.
 `,
   ornekler: [
-    { aciklama: "filmler tablosundaki tüm satır ve sütunları getir:", sql: "SELECT * FROM filmler;" },
+    { aciklama: "movies tablosundaki tüm satır ve sütunları getir:", sql: "SELECT * FROM movies;" },
   ],
-  onizlemeTablolari: ["filmler"],
+  onizlemeTablolari: ["movies"],
   alistirmalar: [
     {
       id: "1-1-1",
       seviye: "Kolay",
       baslik: "Tüm Filmleri Gör",
-      soru: "filmler tablosundaki tüm satırları ve sütunları getiren bir sorgu yaz.",
+      soru: "movies tablosundaki tüm satırları ve sütunları getiren bir sorgu yaz.",
       ipucu: "Tüm sütunları getirmek için * (yıldız) kullanılır: SELECT * FROM tablo_adi;",
-      cozumSql: "SELECT * FROM filmler;",
+      cozumSql: "SELECT * FROM movies;",
       mod: "sonuc",
     },
     {
       id: "1-1-2",
       seviye: "Kolay",
       baslik: "Sadece Film Adları",
-      soru: "filmler tablosundaki sadece ad sütununu getiren bir sorgu yaz.",
+      soru: "movies tablosundaki sadece title sütununu getiren bir sorgu yaz.",
       ipucu: "SELECT'ten sonra istediğin sütunun adını * yerine yazabilirsin.",
-      cozumSql: "SELECT ad FROM filmler;",
+      cozumSql: "SELECT title FROM movies;",
       mod: "sonuc",
     },
     {
       id: "1-1-3",
       seviye: "Kolay",
       baslik: "Sadece Yönetmenler",
-      soru: "filmler tablosundaki sadece yonetmen sütununu getiren bir sorgu yaz.",
-      ipucu: "SELECT yonetmen FROM filmler; kalıbını kullanabilirsin.",
-      cozumSql: "SELECT yonetmen FROM filmler;",
+      soru: "movies tablosundaki sadece director sütununu getiren bir sorgu yaz.",
+      ipucu: "SELECT director FROM movies; kalıbını kullanabilirsin.",
+      cozumSql: "SELECT director FROM movies;",
       mod: "sonuc",
     },
     {
       id: "1-1-4",
       seviye: "Orta",
       baslik: "Ad ve Yıl Birlikte",
-      soru: "Her filmin adını ve çıkış yılını (ad, yil) birlikte getiren bir sorgu yaz.",
+      soru: "Her filmin title'ını ve release_year'ını birlikte getiren bir sorgu yaz.",
       ipucu: "Birden fazla sütun istiyorsan SELECT'ten sonra aralarına virgül koyarak yaz: SELECT sutun1, sutun2 FROM tablo;",
-      cozumSql: "SELECT ad, yil FROM filmler;",
+      cozumSql: "SELECT title, release_year FROM movies;",
       mod: "sonuc",
     },
   ],
@@ -89,7 +91,7 @@ Bu sorgu "filmler tablosundaki her şeyi getir" demektir. Aşağıdaki örnek ve
         "Veritabanının tamamını",
       ],
       dogruIndex: 1,
-      aciklama: "Satır (kayıt), o tablodaki tek bir varlığı temsil eder — filmler tablosunda her satır bir filmi ifade eder.",
+      aciklama: "Satır (kayıt), o tablodaki tek bir varlığı temsil eder — movies tablosunda her satır bir filmi ifade eder.",
     },
     {
       id: "1-1-q2",
@@ -112,15 +114,10 @@ Bu sorgu "filmler tablosundaki her şeyi getir" demektir. Aşağıdaki örnek ve
     },
     {
       id: "1-1-q4",
-      soru: "SELECT * FROM filmler; sorgusu ne yapar?",
-      secenekler: [
-        "filmler tablosunu siler",
-        "filmler tablosundaki tüm satır ve sütunları getirir",
-        "filmler tablosuna yeni bir satır ekler",
-        "Sadece filmler tablosunun adını gösterir",
-      ],
+      soru: "Gerçek şirket veritabanlarında tablo ve sütun adları genellikle hangi dilde yazılır?",
+      secenekler: ["Her zaman şirketin ana dilinde", "Genellikle İngilizce", "Rastgele seçilir", "SQL bunu zorunlu kılmaz, hiç isim kullanılmaz"],
       dogruIndex: 1,
-      aciklama: "SELECT * FROM tablo_adi; o tablodaki tüm veriyi (tüm satır ve sütunlar) getiren en temel sorgudur.",
+      aciklama: "Türkiye'deki şirketler dahil, veritabanı şemaları (tablo/sütun adları) neredeyse her zaman İngilizce yazılır; bu yüzden bu sitede de İngilizce tablo/sütun adları kullanıyoruz.",
     },
   ],
 });

@@ -99,15 +99,17 @@ Her ders: `anlatim` (markdown + çalıştırılabilir örnekler + not/uyarı kut
 | 5.7 SQL Injection'a Giriş | farkındalık dersi (okuma ağırlıklı): neden `' OR 1=1 --` tehlikeli, parametreli sorgu fikri |
 | 5.T Tekrar: Kargo Operasyonu | karma set |
 
-### Örnek veritabanları (6 adet, hepsi özgün Türkçe temalı)
-1. **filmler** — Türk sineması (Yeşilçam + güncel): ad, yönetmen, yıl, süre, tür, puan (~20 satır)
-2. **sehirler** — 81 il: bölge, nüfus, plaka, rakım, büyükşehir mi (gerçek veriler)
-3. **eticaret** — musteriler, urunler, siparisler, siparis_detay (`moduller-seed.json`'daki tablolardan genişletme)
-4. **superlig** — takimlar, oyuncular, maclar, goller
-5. **okul** — ogrenciler, dersler, kayitlar (vize/final notu senaryoları — `moduller-seed.json` modül 3'ten)
-6. **kargo** — subeler, kuryeler, gonderiler (kullanıcının lojistik projesine tematik selam)
+### Örnek veritabanları (6 adet, hepsi özgün Türkçe temalı — DB adı proje içi anahtar, iç tablo/sütun adları İngilizce)
+1. **filmler** (DB anahtarı; tablo: `movies`) — Türk sineması (Yeşilçam + güncel): `title`, `director`, `release_year`, `duration_min`, `genre`, `rating` (~20 satır)
+2. **sehirler** (DB anahtarı; tablo: `cities`) — 81 il: `region`, `population`, `plate_code`, `elevation`, `is_metropolitan` (gerçek veriler)
+3. **eticaret** (DB anahtarı; tablolar: `customers`, `products`, `orders`, `order_items`) — `moduller-seed.json`'daki tablolardan genişletme
+4. **superlig** — takımlar, oyuncular, maçlar, goller (İngilizce tablo/sütun adları belirlenecek, ör. `teams`, `players`, `matches`, `goals`)
+5. **okul** — öğrenciler, dersler, kayıtlar (vize/final notu senaryoları — `moduller-seed.json` modül 3'ten; İngilizce tablo/sütun adları, ör. `students`, `courses`, `enrollments`)
+6. **kargo** — şubeler, kuryeler, gönderiler (kullanıcının lojistik projesine tematik selam; İngilizce tablo/sütun adları, ör. `branches`, `couriers`, `shipments`)
 
-Kurallar: tablo başına 10–50 satır (göz ile doğrulanabilir), tarihler ISO `YYYY-MM-DD`, Türkçe büyük/küçük harf tuzağına (SQLite `UPPER`/`LIKE` ASCII sınırı — 'ı'→'I' dönüşmez) içerik yazarken dikkat.
+**Dil kuralı (kritik, Faz 2'de netleşti):** SQL tablo/sütun adları **İngilizce** yazılır (ör. `products`, `price`, `stock_quantity`) — gerçek şirket veritabanlarının büyük çoğunluğu İngilizce şema kullanır, SQL anahtar kelimeleri zaten İngilizcedir. Veri **değerleri** (kategori adları, durum metinleri, şehir/film adları vb.) ve anlatım/soru/ipucu/quiz metninin tamamı Türkçe kalır — `soru`, `ipucu`, `cozumSql` gibi içerik şeması alan adları (TypeScript tarafı) da Türkçe kalır, bu kural sadece SQL DDL kimliklerini kapsar. Faz 3'ün `superlig`/`okul`/`kargo` veritabanları da baştan bu standartla yazılacak.
+
+Diğer kurallar: tablo başına 10–50 satır (göz ile doğrulanabilir), tarihler ISO `YYYY-MM-DD`, Türkçe büyük/küçük harf tuzağına (SQLite `UPPER`/`LIKE` ASCII sınırı — 'ı'→'I' dönüşmez) veri değerleri yazarken dikkat.
 
 ### /pratik setleri (~8 set × 8–12 soru)
 SELECT temelleri · Filtreleme · Toplulaştırma+GROUP BY · JOIN'ler · Alt sorgular · Pencere fonksiyonları · DML/DDL · Zorlu Karışık (her soru Kolay/Orta/Zor etiketli).
