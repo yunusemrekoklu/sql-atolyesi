@@ -182,9 +182,9 @@ types/content.ts   scripts/ (copy-sqljs, validate-content)   tests/   public/ven
   *Doğrulama geçti: vitest yeşil; manuel senaryolar; statik çıktı testi; mobil viewport.*
 - ✅ **TAMAMLANDI — Faz 2 — İçerik altyapısı + Ünite 1–2:** tipler + defineLesson + ders şablon sayfası (akordeon alıştırmalar, mini quiz, tamamlama, önceki/sonraki), ProgressProvider, validate-content + `npm run check`; Ünite 1–2'nin tüm dersleri/alıştırmaları/quizleri + `filmler`, `sehirler`, `eticaret` DB'leri. Ek olarak: alıştırma sayısı politikası 4–8'e çıkarıldı, `DataPreviewTable` (zebra tablo tasarımı) eklendi, **tüm SQL tablo/sütun adları İngilizceye çevrildi** (veri değerleri Türkçe kaldı — bkz. "Örnek veritabanları" bölümündeki dil kuralı).
   *Doğrulama geçti: `npm run check` yeşil (14/14 ders); ilerleme kalıcı; tarayıcıda uçtan uca test edildi.*
-- ⬜ **SIRADA — Faz 3 — Ünite 3–5 + /pratik:** kalan 3 ünitenin içeriği (JOIN'ler, alt sorgular, pencere fonksiyonları, veri yönetimi) + `superlig`, `okul`, `kargo` DB'leri (İngilizce tablo/sütun adlarıyla, bkz. dil kuralı); pratik setleri sayfaları.
-  *Doğrulama: validate-content tüm içerikte yeşil; her ünite tarayıcıda uçtan uca çözülerek test.*
-- ⬜ **Faz 4 — /sinav + /mulakat:** QuizRunner sınav modu, ExamSimulation (deadline sayaç, sessionStorage dayanıklılık, soru paleti), ReportCard, ünite quiz havuzları; mülakat soru sayfaları (12–15 soru).
+- ✅ **TAMAMLANDI — Faz 3 — Ünite 3–5 + /pratik:** `superlig` (takım/oyuncu/maç/gol), `okul` (öğretmen/öğrenci/ders/kayıt — self-join için bölüm başkanlığı hiyerarşisi dahil) ve `kargo` (şube/kurye/gönderi) DB'leri eklendi. Ünite 3 (7 ders: İlişkisel Model, INNER/LEFT/Self JOIN, Çok Tablolu Sorgular, Küme İşlemleri, tekrar), Ünite 4 (6 ders: Alt Sorgu Temelleri, IN/EXISTS, FROM'da Alt Sorgu ve Correlated, Pencere Fonksiyonları I-II, tekrar) ve Ünite 5 (8 ders: INSERT, UPDATE, DELETE, CREATE TABLE ve Kısıtlar, ALTER/DROP, VIEW/INDEX, SQL Injection'a Giriş, tekrar) tamamlandı — toplam 35 ders. `/pratik` sayfası hayata geçirildi: `types/content.ts`'e `PracticeSet` tipi eklendi, `app/pratik/[setSlug]/page.tsx` (ExerciseCard/AlistirmalarAkordeonu yeniden kullanılarak) oluşturuldu, 8 konu bazlı set (SELECT temelleri, Filtreleme, Toplulaştırma+GROUP BY, JOIN'ler, Alt Sorgular, Pencere Fonksiyonları, DML/DDL, Zorlu Karışık) toplam 80 soruyla eklendi. `scripts/validate-content.ts` artık pratik setlerini de doğruluyor (alıştırma id benzersizliği ders+pratik genelinde kontrol ediliyor). Unite 5'in DML/DDL alıştırmaları `tabloDurumu` autograder modunu, VIEW/INDEX alıştırmaları oluştur+doğrula deseniyle `sonuc` modunu kullanıyor.
+  *Doğrulama geçti: `npm run check` yeşil (35 ders + 8 pratik seti); `npm run build` ile 57 statik sayfa üretildi; tarayıcıda uçtan uca test edildi (JOIN alıştırması, çoklu ifadeli CREATE INDEX+PRAGMA alıştırması, mobil+dark mode, ilerleme kalıcılığı).*
+- ⬜ **SIRADA — Faz 4 — /sinav + /mulakat:** QuizRunner sınav modu, ExamSimulation (deadline sayaç, sessionStorage dayanıklılık, soru paleti), ReportCard, ünite quiz havuzları; mülakat soru sayfaları (12–15 soru).
   *Doğrulama: süre bitince otomatik teslim; yenilemede sınav devam; karne kırılımı elle sayımla tutuyor.*
 - ⬜ **Faz 5 — /fonksiyonlar + /playground:** fonksiyon referans içeriği (~50 kayıt) + arama/filtre; playground (DB seçici, şema paneli, sıfırla).
   *Doğrulama: arama Türkçe 'ı/i' duyarlı; playground'da DDL/DML kalıcılığı + sıfırlama.*
@@ -196,8 +196,8 @@ types/content.ts   scripts/ (copy-sqljs, validate-content)   tests/   public/ven
 - **Canlı site:** https://sql-atolyesi-ebon.vercel.app
 - **GitHub:** https://github.com/yunusemrekoklu/sql-atolyesi (public, `master` branch, Vercel'e bağlı — her push otomatik deploy tetikler)
 - **Yerel proje kökü:** `C:\Users\yunus\OneDrive\Masaüstü\SQL_Website`
-- **İçerik durumu:** Ünite 1 (6 ders) + Ünite 2 (8 ders) = 14 ders tam, alıştırma+mini quiz+önizleme tablosuyla. Ünite 3, 4, 5 henüz yok.
-- **Kritik alışkanlık:** İçerik eklerken/değiştirirken her zaman `npm run validate-content` (veya `npm run check`) çalıştır — tüm ders SQL'lerini gerçek sql.js ile çalıştırıp hataları build'den önce yakalar.
+- **İçerik durumu:** Ünite 1-5 tamamlandı — 35 ders (Ünite 1: 6, Ünite 2: 8, Ünite 3: 7, Ünite 4: 6, Ünite 5: 8), hepsi alıştırma+mini quiz+önizleme tablosuyla. `/pratik` sayfası 8 set × 10 soru (80 soru) ile tamamlandı. 6 örnek veritabanı hazır: `eticaret`, `filmler`, `sehirler`, `superlig`, `okul`, `kargo`. Sırada Faz 4 (`/sinav` + `/mulakat`) var.
+- **Kritik alışkanlık:** İçerik eklerken/değiştirirken her zaman `npm run validate-content` (veya `npm run check`) çalıştır — tüm ders/pratik SQL'lerini gerçek sql.js ile çalıştırıp hataları build'den önce yakalar.
 
 ## Genel Doğrulama
 
