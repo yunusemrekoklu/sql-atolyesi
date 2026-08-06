@@ -8,7 +8,7 @@ export default function OgrenPage() {
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
       <h1 className="text-2xl font-bold tracking-tight">Öğren</h1>
       <p className="mt-2 text-zinc-600 dark:text-zinc-300">
-        5 ünite, 27 ders — SELECT&apos;ten pencere fonksiyonlarına kadar SQL&apos;i sıfırdan öğren.
+        5 ünite, 35 ders — SELECT&apos;ten pencere fonksiyonlarına ve veri yönetimine kadar SQL&apos;i sıfırdan öğren.
       </p>
 
       <ul className="mt-8 space-y-3">
@@ -26,10 +26,6 @@ export default function OgrenPage() {
           </li>
         ))}
       </ul>
-
-      <p className="mt-8 text-sm text-zinc-400 dark:text-zinc-500">
-        Kalan dersler yapım aşamasında.
-      </p>
     </div>
   );
 }
