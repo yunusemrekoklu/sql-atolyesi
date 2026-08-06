@@ -7,6 +7,7 @@ import { TUM_DERSLER, getDersBySlug } from "../content/lessons";
 import { TUM_PRATIK_SETLERI } from "../content/practice";
 import { TUM_SINAV_SORULARI } from "../content/exams";
 import { TUM_MULAKAT_SORULARI } from "../content/interview";
+import { TUM_FONKSIYONLAR } from "../content/functions";
 import { getSampleDatabase } from "../content/databases";
 
 let hataSayisi = 0;
@@ -222,12 +223,42 @@ async function main(): Promise<void> {
     }
   }
 
+  const gorulenFonksiyonSluglari = new Set<string>();
+
+  console.log(`Kontrol ediliyor (fonksiyonlar): ${TUM_FONKSIYONLAR.length} kayıt`);
+  for (const fn of TUM_FONKSIYONLAR) {
+    if (gorulenFonksiyonSluglari.has(fn.slug)) {
+      hata(`Tekrarlanan fonksiyon slug'ı: "${fn.slug}"`);
+    }
+    gorulenFonksiyonSluglari.add(fn.slug);
+
+    let veritabani;
+    try {
+      veritabani = getSampleDatabase(fn.veritabaniId);
+    } catch (err) {
+      hata(`fonksiyon / ${fn.slug}: veritabaniId "${fn.veritabaniId}" bulunamadı — ${(err as Error).message}`);
+      continue;
+    }
+
+    const db = tazeDb(veritabani.ddl);
+    try {
+      const sonuc = db.exec(fn.ornekSql);
+      if (sonuc.length === 0 || sonuc[0].values.length === 0) {
+        hata(`fonksiyon / ${fn.slug}: örnek sorgu hiç satır döndürmüyor.`);
+      }
+    } catch (err) {
+      hata(`fonksiyon / ${fn.slug}: örnek SQL hatası — ${(err as Error).message}\n   SQL: ${fn.ornekSql}`);
+    } finally {
+      db.close();
+    }
+  }
+
   if (hataSayisi > 0) {
     console.error(`\n${hataSayisi} içerik hatası bulundu.`);
     process.exit(1);
   }
   console.log(
-    `\nTüm içerik doğrulandı: ${TUM_DERSLER.length} ders, ${TUM_PRATIK_SETLERI.length} pratik seti, ${TUM_SINAV_SORULARI.length} sınav sorusu, ${TUM_MULAKAT_SORULARI.length} mülakat sorusu, hata yok.`,
+    `\nTüm içerik doğrulandı: ${TUM_DERSLER.length} ders, ${TUM_PRATIK_SETLERI.length} pratik seti, ${TUM_SINAV_SORULARI.length} sınav sorusu, ${TUM_MULAKAT_SORULARI.length} mülakat sorusu, ${TUM_FONKSIYONLAR.length} fonksiyon kaydı, hata yok.`,
   );
 }
 

@@ -99,3 +99,24 @@ export interface InterviewQuestion {
 export function defineInterviewQuestion(soru: InterviewQuestion): InterviewQuestion {
   return soru;
 }
+
+export type FonksiyonKategorisi = "Metin" | "Sayısal" | "Tarih" | "NULL/Koşul" | "Toplulaştırma";
+
+export interface FunctionRef {
+  slug: string;
+  ad: string;
+  kategori: FonksiyonKategorisi;
+  sozDizimi: string;
+  aciklama: string;
+  veritabaniId: string;
+  ornekSql: string;
+  ornekAciklama?: string;
+  /** Diğer veritabanlarındaki (MySQL/SQL Server) karşılığı ya da farkı — varsa. */
+  digerVeritabanlari?: string;
+  /** Sınavda/mülakatta en çok çıkanlar için rozet. */
+  oncelikli?: boolean;
+}
+
+export function defineFunctionRef(fn: FunctionRef): FunctionRef {
+  return fn;
+}

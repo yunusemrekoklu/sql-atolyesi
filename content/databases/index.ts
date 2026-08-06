@@ -5,8 +5,9 @@ import { sehirlerDb } from "./sehirler";
 import { superligDb } from "./superlig";
 import { okulDb } from "./okul";
 import { kargoDb } from "./kargo";
+import { bosDb } from "./bos";
 
-const TUM_VERITABANLARI: SampleDatabase[] = [eticaretDb, filmlerDb, sehirlerDb, superligDb, okulDb, kargoDb];
+export const TUM_VERITABANLARI: SampleDatabase[] = [eticaretDb, filmlerDb, sehirlerDb, superligDb, okulDb, kargoDb, bosDb];
 
 export function getSampleDatabase(id: string): SampleDatabase {
   const db = TUM_VERITABANLARI.find((v) => v.id === id);

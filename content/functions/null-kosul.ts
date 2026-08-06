@@ -1,0 +1,75 @@
+import { defineFunctionRef } from "@/types/content";
+import { bosDb } from "@/content/databases/bos";
+
+export const nullKosulFonksiyonlari = [
+  defineFunctionRef({
+    slug: "coalesce",
+    ad: "COALESCE",
+    kategori: "NULL/Koşul",
+    sozDizimi: "COALESCE(deger1, deger2, ...)",
+    aciklama: "Verilen değerler arasından NULL OLMAYAN ilkini döndürür — genelde bir 'varsayılan değer' sağlamak için kullanılır.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT COALESCE(NULL, NULL, 'varsayılan');",
+    oncelikli: true,
+  }),
+  defineFunctionRef({
+    slug: "ifnull",
+    ad: "IFNULL",
+    kategori: "NULL/Koşul",
+    sozDizimi: "IFNULL(deger, yedek_deger)",
+    aciklama: "deger NULL ise yedek_deger'i, değilse deger'in kendisini döndürür — COALESCE'in iki argümanlı, SQLite'a özgü kısayolu.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT IFNULL(NULL, 'yedek');",
+    digerVeritabanlari: "MySQL'de de IFNULL() vardır; SQL Server'da karşılığı ISNULL()'dır.",
+  }),
+  defineFunctionRef({
+    slug: "nullif",
+    ad: "NULLIF",
+    kategori: "NULL/Koşul",
+    sozDizimi: "NULLIF(deger1, deger2)",
+    aciklama: "deger1 ile deger2 EŞİTSE NULL, değilse deger1'i döndürür — genelde 0'a bölme hatasından korunmak için kullanılır.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT NULLIF(5, 5), NULLIF(5, 3);",
+    oncelikli: true,
+  }),
+  defineFunctionRef({
+    slug: "case-when",
+    ad: "CASE WHEN",
+    kategori: "NULL/Koşul",
+    sozDizimi: "CASE WHEN kosul THEN deger ... ELSE deger END",
+    aciklama: "Koşullara göre farklı değerler üreten SQL'in 'if/else'i — Ünite 2.3'ten hatırlıyorsun, burada hızlı bir referans kartı olarak.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT CASE WHEN 10 > 5 THEN 'büyük' ELSE 'küçük' END;",
+  }),
+  defineFunctionRef({
+    slug: "cast",
+    ad: "CAST",
+    kategori: "NULL/Koşul",
+    sozDizimi: "CAST(deger AS tip)",
+    aciklama:
+      "Bir değeri başka bir veri tipine (INTEGER, REAL, TEXT gibi) dönüştürür — özellikle tam sayı bölmesi tuzağından kaçınmak için REAL'e çevirmede kritik.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT CAST('42' AS INTEGER) + 1;",
+    oncelikli: true,
+  }),
+  defineFunctionRef({
+    slug: "iif",
+    ad: "IIF",
+    kategori: "NULL/Koşul",
+    sozDizimi: "IIF(kosul, dogruDeger, yanlisDeger)",
+    aciklama: "CASE WHEN'in kısa, tek satırlık hali — SQLite'a özgüdür.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT IIF(10 > 5, 'büyük', 'küçük');",
+    digerVeritabanlari: "SQL Server'da da IIF() vardır; MySQL'de karşılığı IF() fonksiyonudur.",
+  }),
+  defineFunctionRef({
+    slug: "typeof",
+    ad: "TYPEOF",
+    kategori: "NULL/Koşul",
+    sozDizimi: "TYPEOF(deger)",
+    aciklama:
+      "Bir değerin SQLite'taki gerçek veri tipini ('integer', 'real', 'text', 'null', 'blob') metin olarak döndürür — hata ayıklarken çok işe yarar.",
+    veritabaniId: bosDb.id,
+    ornekSql: "SELECT TYPEOF(5), TYPEOF(5.5), TYPEOF('beş'), TYPEOF(NULL);",
+  }),
+];
