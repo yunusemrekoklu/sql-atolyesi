@@ -10,12 +10,14 @@ import {
   lineNumbers,
 } from "@codemirror/view";
 import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
-import { bracketMatching, defaultHighlightStyle, syntaxHighlighting } from "@codemirror/language";
+import { bracketMatching, syntaxHighlighting } from "@codemirror/language";
 import { sql } from "@codemirror/lang-sql";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { useTheme } from "next-themes";
+import { sqlAcikTema } from "@/lib/editor/sqlTema";
 
 const temaCompartment = new Compartment();
+const acikTemaEklentisi = syntaxHighlighting(sqlAcikTema);
 
 interface SqlEditorProps {
   value: string;
@@ -48,7 +50,6 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
           highlightActiveLineGutter(),
           history(),
           bracketMatching(),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
           sql(),
           keymap.of([
             {
@@ -62,7 +63,7 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
             ...defaultKeymap,
             ...historyKeymap,
           ]),
-          temaCompartment.of([]),
+          temaCompartment.of(resolvedTheme === "dark" ? oneDark : acikTemaEklentisi),
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               onChangeRef.current(update.state.doc.toString());
@@ -70,7 +71,7 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
           }),
           EditorView.theme({
             "&": { fontSize: "16px" },
-            ".cm-content": { fontFamily: "var(--font-geist-mono), monospace", minHeight: "5rem" },
+            ".cm-content": { fontFamily: "var(--font-geist-mono), monospace", minHeight: "10rem" },
             ".cm-scroller": { overflow: "auto" },
           }),
         ],
@@ -89,7 +90,7 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
 
   useEffect(() => {
     viewRef.current?.dispatch({
-      effects: temaCompartment.reconfigure(resolvedTheme === "dark" ? oneDark : []),
+      effects: temaCompartment.reconfigure(resolvedTheme === "dark" ? oneDark : acikTemaEklentisi),
     });
   }, [resolvedTheme]);
 
@@ -105,7 +106,7 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
   return (
     <div
       ref={hostRef}
-      className="overflow-hidden rounded-lg border border-zinc-200 text-sm dark:border-zinc-800"
+      className="overflow-hidden rounded-lg border border-stone-200 text-sm dark:border-stone-800"
     />
   );
 }

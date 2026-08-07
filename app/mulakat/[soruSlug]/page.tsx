@@ -35,11 +35,11 @@ export default async function MulakatSorusuPage({
       <div className="mb-6 space-y-1">
         <Link
           href="/mulakat/"
-          className="text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="text-sm text-stone-500 transition-colors hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
         >
           ← Tüm mülakat soruları
         </Link>
-        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
           {soru.sirket} · {soru.seviye}
         </p>
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{soru.baslik}</h1>

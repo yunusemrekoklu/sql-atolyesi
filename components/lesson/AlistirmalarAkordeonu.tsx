@@ -28,7 +28,7 @@ export function AlistirmalarAkordeonu({
         const durum = ilerleme.alistirmalar[alistirma.id];
 
         return (
-          <div key={alistirma.id} className="rounded-xl border border-zinc-200 dark:border-zinc-800">
+          <div key={alistirma.id} className="rounded-xl border border-stone-200 dark:border-stone-800">
             <button
               type="button"
               onClick={() => setAcikId(acik ? null : alistirma.id)}
@@ -48,7 +48,7 @@ export function AlistirmalarAkordeonu({
                 )}
                 {alistirma.baslik}
               </span>
-              <span className="flex shrink-0 items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="flex shrink-0 items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
                 {alistirma.seviye}
                 <span className={acik ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden="true">
                   ⌄
@@ -56,7 +56,7 @@ export function AlistirmalarAkordeonu({
               </span>
             </button>
             {acik && (
-              <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
+              <div className="border-t border-stone-200 p-4 dark:border-stone-800">
                 <ExerciseCard alistirma={alistirma} databaseId={databaseId} ddl={ddl} />
               </div>
             )}

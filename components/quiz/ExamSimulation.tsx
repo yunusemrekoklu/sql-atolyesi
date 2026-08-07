@@ -27,10 +27,10 @@ function GecmisSinavlar() {
 
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Geçmiş Sınavlarım</h3>
+      <h3 className="text-sm font-semibold text-stone-500 dark:text-stone-400">Geçmiş Sınavlarım</h3>
       <ul className="space-y-1 text-sm">
         {gecmis.slice(0, 5).map((s) => (
-          <li key={s.id} className="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-800">
+          <li key={s.id} className="flex items-center justify-between rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800">
             <span>
               {MOD_BASLIKLARI[s.mod]} · {new Date(s.tarih).toLocaleDateString("tr-TR")}
             </span>
@@ -128,7 +128,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
   }
 
   if (oturum === undefined) {
-    return <p className="text-sm text-zinc-400">Yükleniyor…</p>;
+    return <p className="text-sm text-stone-400">Yükleniyor…</p>;
   }
 
   if (sonuc) {
@@ -152,7 +152,9 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               type="button"
               onClick={() => setMod(m)}
               className={`rounded-xl border p-4 text-left transition-colors ${
-                mod === m ? "border-zinc-900 dark:border-white" : "border-zinc-200 hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+                mod === m
+                  ? "border-blue-600 bg-blue-50 dark:border-blue-500 dark:bg-blue-950/40"
+                  : "border-stone-200 hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
               }`}
             >
               <p className="font-semibold">{MOD_BASLIKLARI[m]}</p>
@@ -162,7 +164,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
 
         {mod === "ozel" && (
           <div className="space-y-2">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">Hangi üniteler dahil olsun?</p>
+            <p className="text-sm text-stone-500 dark:text-stone-400">Hangi üniteler dahil olsun?</p>
             <div className="flex flex-wrap gap-2">
               {TUM_UNITELER.map((u) => (
                 <button
@@ -171,8 +173,8 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
                   onClick={() => uniteSecimiDegistir(u)}
                   className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
                     seciliUniteler.includes(u)
-                      ? "border-zinc-900 bg-zinc-900 text-white dark:border-white dark:bg-white dark:text-zinc-900"
-                      : "border-zinc-200 dark:border-zinc-800"
+                      ? "border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500 dark:text-stone-950"
+                      : "border-stone-200 dark:border-stone-800"
                   }`}
                 >
                   Ünite {u}
@@ -191,7 +193,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               max={50}
               value={soruSayisi}
               onChange={(e) => setSoruSayisi(Math.max(1, Number(e.target.value)))}
-              className="w-24 rounded-md border border-zinc-200 px-2 py-1 dark:border-zinc-800 dark:bg-zinc-900"
+              className="w-24 rounded-md border border-stone-200 px-2 py-1 dark:border-stone-800 dark:bg-stone-900"
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
@@ -202,7 +204,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               max={120}
               value={dakika}
               onChange={(e) => setDakika(Math.max(1, Number(e.target.value)))}
-              className="w-24 rounded-md border border-zinc-200 px-2 py-1 dark:border-zinc-800 dark:bg-zinc-900"
+              className="w-24 rounded-md border border-stone-200 px-2 py-1 dark:border-stone-800 dark:bg-stone-900"
             />
           </label>
         </div>
@@ -211,7 +213,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
           type="button"
           onClick={baslat}
           disabled={!baslatilabilirMi}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
         >
           Sınavı Başlat
         </button>
@@ -226,7 +228,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-stone-500 dark:text-stone-400">
           {MOD_BASLIKLARI[oturum.mod]} · {sorular.length} soru
         </p>
         <p className={`font-mono text-lg font-semibold ${kalanSaniye < 60 ? "text-red-600 dark:text-red-400" : ""}`}>
@@ -245,10 +247,10 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               onClick={() => setAktifSoruIndex(i)}
               className={`flex h-9 w-9 items-center justify-center rounded-md border text-sm font-medium transition-colors ${
                 aktif
-                  ? "border-zinc-900 dark:border-white"
+                  ? "border-stone-900 dark:border-white"
                   : cevaplandi
                     ? "border-green-500 bg-green-50 dark:border-green-700 dark:bg-green-950"
-                    : "border-zinc-200 dark:border-zinc-800"
+                    : "border-stone-200 dark:border-stone-800"
               }`}
             >
               {i + 1}
@@ -271,7 +273,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
                   type="button"
                   onClick={() => cevaplaSecenek(aktifSoru.id, j)}
                   className={`block w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
-                    secili ? "border-zinc-900 dark:border-white" : "border-zinc-200 dark:border-zinc-800"
+                    secili ? "border-stone-900 dark:border-white" : "border-stone-200 dark:border-stone-800"
                   }`}
                 >
                   {secenek}
@@ -288,7 +290,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
             type="button"
             onClick={() => setAktifSoruIndex((i) => Math.max(0, i - 1))}
             disabled={aktifSoruIndex === 0}
-            className="rounded-md border border-zinc-200 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-zinc-800"
+            className="rounded-md border border-stone-200 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-stone-800"
           >
             ← Önceki
           </button>
@@ -296,7 +298,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
             type="button"
             onClick={() => setAktifSoruIndex((i) => Math.min(sorular.length - 1, i + 1))}
             disabled={aktifSoruIndex === sorular.length - 1}
-            className="rounded-md border border-zinc-200 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-zinc-800"
+            className="rounded-md border border-stone-200 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-stone-800"
           >
             Sonraki →
           </button>

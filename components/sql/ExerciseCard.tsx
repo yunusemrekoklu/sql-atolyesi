@@ -10,6 +10,7 @@ import { useProgress } from "@/components/progress/ProgressProvider";
 import { SqlEditor } from "./SqlEditor";
 import { ResultTable } from "./ResultTable";
 import { QueryError } from "./QueryError";
+import { SqlCodeBlock } from "./SqlCodeBlock";
 
 export function ExerciseCard({
   alistirma,
@@ -105,7 +106,7 @@ export function ExerciseCard({
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-zinc-600 dark:text-zinc-300">{alistirma.soru}</p>
+      <p className="text-sm text-stone-600 dark:text-stone-300">{alistirma.soru}</p>
 
       <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={kontrolEt} />
 
@@ -114,21 +115,21 @@ export function ExerciseCard({
           type="button"
           onClick={kontrolEt}
           disabled={calisiyor || sorgu.trim() === ""}
-          className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
         >
           {calisiyor ? "Kontrol ediliyor…" : "Kontrol Et"}
         </button>
         <button
           type="button"
           onClick={() => setIpucuGoster((v) => !v)}
-          className="text-sm text-zinc-500 underline decoration-dotted underline-offset-2 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
         >
           {ipucuGoster ? "İpucunu gizle" : "İpucu göster"}
         </button>
         <button
           type="button"
           onClick={cozumuGosterVeIsaretle}
-          className="text-sm text-zinc-500 underline decoration-dotted underline-offset-2 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
         >
           {cozumGoster ? "Çözümü gizle" : "Çözümü göster"}
         </button>
@@ -139,11 +140,7 @@ export function ExerciseCard({
           {alistirma.ipucu}
         </p>
       )}
-      {cozumGoster && (
-        <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-3 font-mono text-sm text-zinc-100">
-          <code>{alistirma.cozumSql}</code>
-        </pre>
-      )}
+      {cozumGoster && <SqlCodeBlock sql={alistirma.cozumSql} />}
 
       {hata && <QueryError mesaj={hata} />}
 

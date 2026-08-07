@@ -5,6 +5,7 @@ import type { QueryExecResult } from "sql.js";
 import { openFreshDb } from "@/lib/sql/db";
 import { ResultTable } from "./ResultTable";
 import { QueryError } from "./QueryError";
+import { SqlCodeBlock } from "./SqlCodeBlock";
 
 export function RunnableExample({
   databaseId,
@@ -43,15 +44,13 @@ export function RunnableExample({
 
   return (
     <div className="my-4 space-y-2">
-      {aciklama && <p className="text-sm text-zinc-600 dark:text-zinc-300">{aciklama}</p>}
-      <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-3 font-mono text-sm text-zinc-100">
-        <code>{sql}</code>
-      </pre>
+      {aciklama && <p className="text-sm text-stone-600 dark:text-stone-300">{aciklama}</p>}
+      <SqlCodeBlock sql={sql} />
       <button
         type="button"
         onClick={calistir}
         disabled={calisiyor}
-        className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+        className="rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50 dark:bg-green-500 dark:hover:bg-green-400"
       >
         {calisiyor ? "Çalışıyor…" : "Çalıştır"}
       </button>

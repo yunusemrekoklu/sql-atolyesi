@@ -17,7 +17,7 @@ export function DersNavigasyonu({
   const tamamlandiMi = ilerleme.tamamlananDersler.includes(dersSlug);
 
   return (
-    <div className="space-y-4 border-t border-zinc-200 pt-6 dark:border-zinc-800">
+    <div className="space-y-4 border-t border-stone-200 pt-6 dark:border-stone-800">
       <button
         type="button"
         onClick={() => dersiTamamlaninIsaretle(dersSlug)}
@@ -31,7 +31,7 @@ export function DersNavigasyonu({
         {onceki ? (
           <Link
             href={`/ogren/${onceki.slug}/`}
-            className="text-zinc-600 transition-colors hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white"
+            className="text-stone-600 transition-colors hover:text-stone-950 dark:text-stone-400 dark:hover:text-white"
           >
             ← {onceki.dersNo} {onceki.baslik}
           </Link>
@@ -41,7 +41,7 @@ export function DersNavigasyonu({
         {sonraki ? (
           <Link
             href={`/ogren/${sonraki.slug}/`}
-            className="text-right text-zinc-600 transition-colors hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white"
+            className="text-right text-stone-600 transition-colors hover:text-stone-950 dark:text-stone-400 dark:hover:text-white"
           >
             {sonraki.dersNo} {sonraki.baslik} →
           </Link>

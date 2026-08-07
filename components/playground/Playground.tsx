@@ -79,12 +79,12 @@ export function Playground() {
     <div className="grid w-full gap-8 lg:grid-cols-[minmax(0,1fr)_260px]">
       <div className="min-w-0 space-y-4">
         <div className="flex flex-wrap items-center gap-4">
-          <label className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <label className="flex items-center gap-2 text-sm text-stone-500 dark:text-stone-400">
             Veritabanı:
             <select
               value={veritabaniId}
               onChange={(e) => setVeritabaniId(e.target.value)}
-              className="rounded-md border border-zinc-200 px-2 py-1 text-sm text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+              className="rounded-md border border-stone-200 px-2 py-1 text-sm text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
             >
               {OYNANABILIR_VERITABANLARI.map((db) => (
                 <option key={db.id} value={db.id}>
@@ -96,12 +96,12 @@ export function Playground() {
           <button
             type="button"
             onClick={sifirla}
-            className="text-sm text-zinc-500 underline decoration-dotted underline-offset-2 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
           >
             Sıfırla
           </button>
         </div>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">{veritabani.aciklama}</p>
+        <p className="text-sm text-stone-500 dark:text-stone-400">{veritabani.aciklama}</p>
 
         <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={calistir} />
 
@@ -109,7 +109,7 @@ export function Playground() {
           type="button"
           onClick={calistir}
           disabled={calisiyor || sorgu.trim() === ""}
-          className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50 dark:bg-green-500 dark:hover:bg-green-400"
         >
           {calisiyor ? "Çalışıyor…" : "Çalıştır"}
         </button>
@@ -119,8 +119,8 @@ export function Playground() {
       </div>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">
-        <h2 className="mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">Veritabanı Şeması — {veritabani.ad}</h2>
-        {sema ? <SchemaList sema={sema} /> : <p className="text-sm text-zinc-400">Yükleniyor…</p>}
+        <h2 className="mb-2 text-sm font-semibold text-stone-500 dark:text-stone-400">Veritabanı Şeması — {veritabani.ad}</h2>
+        {sema ? <SchemaList sema={sema} /> : <p className="text-sm text-stone-400">Yükleniyor…</p>}
       </aside>
     </div>
   );

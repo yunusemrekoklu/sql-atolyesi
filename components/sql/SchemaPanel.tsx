@@ -14,13 +14,13 @@ export function SchemaList({ sema }: { sema: TabloSemasi[] }) {
   return (
     <div className="space-y-3">
       {sema.map((tablo) => (
-        <div key={tablo.ad} className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
+        <div key={tablo.ad} className="rounded-lg border border-stone-200 p-3 dark:border-stone-800">
           <p className="mb-1.5 font-mono text-sm font-semibold">{tablo.ad}</p>
-          <ul className="space-y-0.5 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+          <ul className="space-y-0.5 font-mono text-xs text-stone-600 dark:text-stone-400">
             {tablo.kolonlar.map((kolon) => (
               <li key={kolon.ad}>
                 {kolon.ad}{" "}
-                <span className="text-zinc-400 dark:text-zinc-500">
+                <span className="text-stone-400 dark:text-stone-500">
                   {kolon.tip}
                   {kolon.pk ? " · PK" : ""}
                   {kolon.notNull ? " · NOT NULL" : ""}
@@ -63,7 +63,7 @@ export function SchemaPanel({ databaseId, ddl }: { databaseId: string; ddl: stri
   }
 
   if (!sema) {
-    return <p className="text-sm text-zinc-400">Şema yükleniyor…</p>;
+    return <p className="text-sm text-stone-400">Şema yükleniyor…</p>;
   }
 
   return <SchemaList sema={sema} />;

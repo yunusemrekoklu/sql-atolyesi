@@ -29,7 +29,7 @@ export function MiniQuiz({ dersSlug, sorular }: { dersSlug: string; sorular: Qui
             <div className="space-y-1.5">
               {soru.secenekler.map((secenek, j) => {
                 const seciliMi = secilen === j;
-                let sinif = "border-zinc-200 dark:border-zinc-800";
+                let sinif = "border-stone-200 dark:border-stone-800";
                 if (gonderildi) {
                   if (j === soru.dogruIndex) {
                     sinif = "border-green-500 bg-green-50 dark:border-green-700 dark:bg-green-950";
@@ -37,7 +37,7 @@ export function MiniQuiz({ dersSlug, sorular }: { dersSlug: string; sorular: Qui
                     sinif = "border-red-400 bg-red-50 dark:border-red-800 dark:bg-red-950";
                   }
                 } else if (seciliMi) {
-                  sinif = "border-zinc-900 dark:border-white";
+                  sinif = "border-stone-900 dark:border-white";
                 }
                 return (
                   <button
@@ -52,7 +52,7 @@ export function MiniQuiz({ dersSlug, sorular }: { dersSlug: string; sorular: Qui
                 );
               })}
             </div>
-            {gonderildi && <p className="text-sm text-zinc-600 dark:text-zinc-300">{soru.aciklama}</p>}
+            {gonderildi && <p className="text-sm text-stone-600 dark:text-stone-300">{soru.aciklama}</p>}
           </div>
         );
       })}
@@ -62,7 +62,7 @@ export function MiniQuiz({ dersSlug, sorular }: { dersSlug: string; sorular: Qui
           type="button"
           onClick={gonder}
           disabled={!tumuCevaplandi}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
         >
           Quizi Bitir
         </button>

@@ -10,12 +10,12 @@ export default function SinavSimulasyonPage() {
       <div className="mb-8 space-y-1">
         <Link
           href="/sinav/"
-          className="text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="text-sm text-stone-500 transition-colors hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
         >
           ← Tüm sınavlar
         </Link>
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Sınav Simülasyonu</h1>
-        <p className="text-zinc-600 dark:text-zinc-300">
+        <p className="text-stone-600 dark:text-stone-300">
           Süreli, gerçek sınav deneyimi: Vize, Final veya Özel mod seç, süre dolunca sınav otomatik teslim edilir.
         </p>
       </div>

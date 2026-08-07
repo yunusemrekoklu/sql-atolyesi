@@ -22,12 +22,12 @@ export function ReportCard({
 
   return (
     <div className="space-y-8">
-      <div className="rounded-xl border border-zinc-200 p-6 text-center dark:border-zinc-800">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">{MOD_BASLIKLARI[sonuc.mod]}</p>
+      <div className="rounded-xl border border-stone-200 p-6 text-center dark:border-stone-800">
+        <p className="text-sm text-stone-500 dark:text-stone-400">{MOD_BASLIKLARI[sonuc.mod]}</p>
         <p className="mt-2 text-4xl font-bold">
           {sonuc.dogruSayisi} / {sonuc.toplamSoru}
         </p>
-        <p className="mt-1 text-zinc-500 dark:text-zinc-400">%{yuzde} doğru</p>
+        <p className="mt-1 text-stone-500 dark:text-stone-400">%{yuzde} doğru</p>
       </div>
 
       <div className="space-y-3">
@@ -38,11 +38,11 @@ export function ReportCard({
             <div key={konu} className="space-y-1">
               <div className="flex justify-between text-sm">
                 <span>{konu}</span>
-                <span className="text-zinc-500 dark:text-zinc-400">
+                <span className="text-stone-500 dark:text-stone-400">
                   {k.dogru} / {k.toplam}
                 </span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+              <div className="h-2 overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
                 <div className={`h-full rounded-full ${barRengi(oran)}`} style={{ width: `${oran}%` }} />
               </div>
             </div>
@@ -77,7 +77,7 @@ export function ReportCard({
       <button
         type="button"
         onClick={onYenidenBasla}
-        className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
       >
         Yeni Sınav Başlat
       </button>

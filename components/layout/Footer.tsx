@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="border-t border-zinc-200 py-8 text-center text-sm text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+    <footer className="border-t border-stone-200 py-8 text-center text-sm text-stone-500 dark:border-stone-800 dark:text-stone-400">
       <p>SQL Atölyesi — tarayıcında çalışan, ücretsiz Türkçe SQL öğrenme platformu.</p>
     </footer>
   );

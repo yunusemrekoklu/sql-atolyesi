@@ -13,7 +13,7 @@ export default function MulakatPage() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
       <h1 className="text-2xl font-bold tracking-tight">Mülakat</h1>
-      <p className="mt-2 text-zinc-600 dark:text-zinc-300">
+      <p className="mt-2 text-stone-600 dark:text-stone-300">
         Gerçek mülakat sorusu tarzında, kurgusal Türk şirket senaryolarıyla SQL soruları — her biri kendi mini şemasıyla gelir.
       </p>
 
@@ -22,10 +22,10 @@ export default function MulakatPage() {
           <li key={soru.slug}>
             <Link
               href={`/mulakat/${soru.slug}/`}
-              className="block rounded-xl border border-zinc-200 p-4 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+              className="block rounded-xl border border-stone-200 p-4 transition-colors hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
             >
               <div className="flex items-center justify-between gap-3">
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">{soru.sirket}</p>
+                <p className="text-sm text-stone-500 dark:text-stone-400">{soru.sirket}</p>
                 <span className={`text-xs font-medium ${SEVIYE_RENK[soru.seviye]}`}>{soru.seviye}</span>
               </div>
               <p className="font-semibold">{soru.baslik}</p>

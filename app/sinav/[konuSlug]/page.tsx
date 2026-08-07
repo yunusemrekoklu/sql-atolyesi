@@ -52,12 +52,12 @@ export default async function UniteSinaviPage({
       <div className="mb-8 space-y-1">
         <Link
           href="/sinav/"
-          className="text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+          className="text-sm text-stone-500 transition-colors hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
         >
           ← Tüm sınavlar
         </Link>
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{UNITE_BASLIKLARI[uniteId]}</h1>
-        <p className="text-zinc-600 dark:text-zinc-300">{sorular.length} çoktan seçmeli soru — süre sınırı yok.</p>
+        <p className="text-stone-600 dark:text-stone-300">{sorular.length} çoktan seçmeli soru — süre sınırı yok.</p>
       </div>
 
       <QuizRunner anahtar={`unite-${uniteId}-sinavi`} sorular={sorular} />

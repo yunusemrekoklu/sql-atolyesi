@@ -39,13 +39,13 @@ function TekTabloOnizleme({
 
   return (
     <div className="space-y-2">
-      <p className="font-mono text-sm font-semibold text-zinc-700 dark:text-zinc-300">Tablo: {tablo}</p>
+      <p className="font-mono text-sm font-semibold text-stone-700 dark:text-stone-300">Tablo: {tablo}</p>
       {hata ? (
         <p className="text-sm text-red-600 dark:text-red-400">Veri yüklenemedi: {hata}</p>
       ) : sonuc ? (
         <ResultTable sonuc={sonuc} />
       ) : (
-        <p className="text-sm text-zinc-400">Yükleniyor…</p>
+        <p className="text-sm text-stone-400">Yükleniyor…</p>
       )}
     </div>
   );

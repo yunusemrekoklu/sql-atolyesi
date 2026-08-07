@@ -13,6 +13,7 @@ import { ResultTable } from "@/components/sql/ResultTable";
 import { QueryError } from "@/components/sql/QueryError";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
+import { SqlCodeBlock } from "@/components/sql/SqlCodeBlock";
 
 /**
  * Mülakat sorusu kartı — ExerciseCard'a benzer bir autograder akışı
@@ -100,7 +101,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
   return (
     <div className="grid w-full gap-8 lg:grid-cols-[minmax(0,1fr)_260px]">
       <div className="min-w-0 space-y-6">
-        <div className="prose prose-zinc max-w-none dark:prose-invert prose-pre:bg-zinc-900 prose-code:before:content-none prose-code:after:content-none">
+        <div className="prose prose-stone max-w-none dark:prose-invert prose-pre:bg-stone-900 prose-code:before:content-none prose-code:after:content-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{soru.senaryo}</ReactMarkdown>
         </div>
 
@@ -115,7 +116,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
             type="button"
             onClick={kontrolEt}
             disabled={calisiyor || sorgu.trim() === ""}
-            className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
           >
             {calisiyor ? "Kontrol ediliyor…" : "Kontrol Et"}
           </button>
@@ -123,14 +124,14 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
             type="button"
             onClick={() => setIpucuSayisi((n) => Math.min(soru.ipuclari.length, n + 1))}
             disabled={ipucuSayisi >= soru.ipuclari.length}
-            className="text-sm text-zinc-500 underline decoration-dotted underline-offset-2 hover:text-zinc-800 disabled:opacity-40 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 disabled:opacity-40 dark:text-stone-400 dark:hover:text-stone-100"
           >
             İpucu Göster ({ipucuSayisi}/{soru.ipuclari.length})
           </button>
           <button
             type="button"
             onClick={() => setCozumGoster((v) => !v)}
-            className="text-sm text-zinc-500 underline decoration-dotted underline-offset-2 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
           >
             {cozumGoster ? "Çözümü gizle" : "Çözümü göster"}
           </button>
@@ -144,11 +145,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
           </ol>
         )}
 
-        {cozumGoster && (
-          <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-3 font-mono text-sm text-zinc-100">
-            <code>{soru.cozumSql}</code>
-          </pre>
-        )}
+        {cozumGoster && <SqlCodeBlock sql={soru.cozumSql} />}
 
         {hata && <QueryError mesaj={hata} />}
 
@@ -166,7 +163,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
 
         {!hata && soru.mod === "sonuc" && sonuc !== null && <ResultTable sonuc={sonuc} />}
 
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-800">
+        <div className="rounded-xl border border-stone-200 dark:border-stone-800">
           <button
             type="button"
             onClick={() => setTakipGoster((v) => !v)}
@@ -179,7 +176,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
             </span>
           </button>
           {takipGoster && (
-            <p className="border-t border-zinc-200 p-4 text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-300">
+            <p className="border-t border-stone-200 p-4 text-sm text-stone-600 dark:border-stone-800 dark:text-stone-300">
               {soru.takipCevabi}
             </p>
           )}
@@ -187,7 +184,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
       </div>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">
-        <h2 className="mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">Şema</h2>
+        <h2 className="mb-2 text-sm font-semibold text-stone-500 dark:text-stone-400">Şema</h2>
         <SchemaPanel databaseId={soru.slug} ddl={soru.ddl} />
       </aside>
     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { isValidElement } from "react";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { TUM_DERSLER, getDersBySlug, getOncekiSonraki } from "@/content/lessons";
 import { getSampleDatabase } from "@/content/databases";
@@ -10,6 +11,20 @@ import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
 import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
 import { DersNavigasyonu } from "@/components/lesson/DersNavigasyonu";
 import { MiniQuiz } from "@/components/quiz/MiniQuiz";
+import { SqlCodeBlock } from "@/components/sql/SqlCodeBlock";
+
+const anlatimBilesenleri: Components = {
+  pre({ children }) {
+    const kod = Array.isArray(children) ? children[0] : children;
+    if (
+      isValidElement<{ className?: string; children?: unknown }>(kod) &&
+      /language-sql/.test(kod.props.className ?? "")
+    ) {
+      return <SqlCodeBlock sql={String(kod.props.children ?? "").replace(/\n$/, "")} />;
+    }
+    return <pre>{children}</pre>;
+  },
+};
 
 export function generateStaticParams() {
   return TUM_DERSLER.map((ders) => ({ dersSlug: ders.slug }));
@@ -44,14 +59,16 @@ export default async function DersPage({
     <div className="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 lg:grid-cols-[minmax(0,1fr)_260px]">
       <article className="min-w-0 space-y-8">
         <header className="space-y-1">
-          <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm font-medium text-stone-500 dark:text-stone-400">
             Ünite {ders.uniteId} · Ders {ders.dersNo}
           </p>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{ders.baslik}</h1>
         </header>
 
-        <div className="prose prose-zinc max-w-none dark:prose-invert prose-pre:bg-zinc-900 prose-code:before:content-none prose-code:after:content-none">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{ders.anlatim}</ReactMarkdown>
+        <div className="prose prose-stone max-w-none dark:prose-invert prose-pre:bg-stone-900 prose-code:before:content-none prose-code:after:content-none">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={anlatimBilesenleri}>
+            {ders.anlatim}
+          </ReactMarkdown>
         </div>
 
         {ders.ornekler.length > 0 && (
@@ -98,7 +115,7 @@ export default async function DersPage({
       </article>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">
-        <h2 className="mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+        <h2 className="mb-2 text-sm font-semibold text-stone-500 dark:text-stone-400">
           Veritabanı Şeması — {veritabani.ad}
         </h2>
         <SchemaPanel databaseId={veritabani.id} ddl={veritabani.ddl} />

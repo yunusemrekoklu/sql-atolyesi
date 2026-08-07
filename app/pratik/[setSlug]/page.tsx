@@ -40,12 +40,12 @@ export default async function PratikSetPage({
         <header className="space-y-1">
           <Link
             href="/pratik/"
-            className="text-sm text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-sm text-stone-500 transition-colors hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
           >
             ← Tüm pratik setleri
           </Link>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{set.baslik}</h1>
-          <p className="text-zinc-600 dark:text-zinc-300">{set.aciklama}</p>
+          <p className="text-stone-600 dark:text-stone-300">{set.aciklama}</p>
         </header>
 
         <section className="space-y-4">
@@ -54,7 +54,7 @@ export default async function PratikSetPage({
       </article>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">
-        <h2 className="mb-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+        <h2 className="mb-2 text-sm font-semibold text-stone-500 dark:text-stone-400">
           Veritabanı Şeması — {veritabani.ad}
         </h2>
         <SchemaPanel databaseId={veritabani.id} ddl={veritabani.ddl} />
