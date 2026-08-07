@@ -33,7 +33,7 @@ export function FunctionExplorer({ fonksiyonlar }: { fonksiyonlar: FunctionRef[]
         value={arama}
         onChange={(e) => setArama(e.target.value)}
         placeholder="Fonksiyon ara… (ör. tarih, yuvarlama, birleştirme)"
-        className="w-full rounded-md border border-stone-200 px-3 py-2 text-sm dark:border-stone-800 dark:bg-stone-900"
+        className="w-full rounded-md border border-stone-200 bg-white px-3 py-2 text-sm dark:border-stone-800 dark:bg-stone-900"
         aria-label="Fonksiyon ara"
       />
 
@@ -46,7 +46,7 @@ export function FunctionExplorer({ fonksiyonlar }: { fonksiyonlar: FunctionRef[]
             className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
               kategori === k
                 ? "border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500 dark:text-stone-950"
-                : "border-stone-200 hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
+                : "border-stone-200 bg-stone-50 hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-600 dark:hover:bg-stone-800"
             }`}
           >
             {k}
@@ -60,7 +60,7 @@ export function FunctionExplorer({ fonksiyonlar }: { fonksiyonlar: FunctionRef[]
         {filtrelenmis.map((fn) => {
           const veritabani = getSampleDatabase(fn.veritabaniId);
           return (
-            <div key={fn.slug} id={fn.slug} className="rounded-xl border border-stone-200 p-4 dark:border-stone-800">
+            <div key={fn.slug} id={fn.slug} className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-800 dark:bg-stone-900">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <h3 className="font-mono text-lg font-semibold">{fn.ad}</h3>

@@ -33,7 +33,7 @@ export function QuizRunner({ anahtar, sorular }: { anahtar: string; sorular: Exa
       {sorular.map((soru, i) => {
         const secilen = cevaplar[soru.id];
         return (
-          <div key={soru.id} className="space-y-2 rounded-xl border border-stone-200 p-4 dark:border-stone-800">
+          <div key={soru.id} className="space-y-2 rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-800 dark:bg-stone-900">
             <p className="flex items-center justify-between gap-2 text-xs text-stone-500 dark:text-stone-400">
               <span>{soru.konu}</span>
             </p>
@@ -43,7 +43,8 @@ export function QuizRunner({ anahtar, sorular }: { anahtar: string; sorular: Exa
             <div className="space-y-1.5">
               {soru.secenekler.map((secenek, j) => {
                 const seciliMi = secilen === j;
-                let sinif = "border-stone-200 dark:border-stone-800";
+                let sinif =
+                  "border-stone-200 bg-stone-50 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800";
                 if (gonderildi) {
                   if (j === soru.dogruIndex) {
                     sinif = "border-green-500 bg-green-50 dark:border-green-700 dark:bg-green-950";

@@ -28,7 +28,7 @@ export default function SinavPage() {
           <li key={uniteId}>
             <Link
               href={`/sinav/unite-${uniteId}/`}
-              className="block rounded-xl border border-stone-200 p-4 transition-colors hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
+              className="block rounded-xl border border-stone-200 bg-stone-50 p-4 transition-colors hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-600 dark:hover:bg-stone-800"
             >
               <p className="text-sm text-stone-500 dark:text-stone-400">Ünite {uniteId}</p>
               <p className="font-semibold">{UNITE_BASLIKLARI[uniteId]}</p>

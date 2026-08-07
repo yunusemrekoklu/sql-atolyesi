@@ -8,6 +8,7 @@ import { sql } from "@codemirror/lang-sql";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { useTheme } from "next-themes";
 import { sqlAcikTema } from "@/lib/editor/sqlTema";
+import { formatSql } from "@/lib/editor/formatSql";
 
 const acikTemaEklentisi = syntaxHighlighting(sqlAcikTema);
 
@@ -16,7 +17,7 @@ const acikTemaEklentisi = syntaxHighlighting(sqlAcikTema);
  * `<pre><code>` yerine kullanılır. Aynı sql() dil desteği ve tema mantığını
  * SqlEditor ile paylaşır ama düzenlenemez (klavye haritası, imleç yok).
  */
-export function SqlCodeBlock({ sql: sqlMetni }: { sql: string }) {
+export function SqlCodeBlock({ sql: sqlMetni, cozum }: { sql: string; cozum?: boolean }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
 
@@ -25,7 +26,7 @@ export function SqlCodeBlock({ sql: sqlMetni }: { sql: string }) {
 
     const view = new EditorView({
       state: EditorState.create({
-        doc: sqlMetni,
+        doc: formatSql(sqlMetni),
         extensions: [
           EditorView.editable.of(false),
           sql(),
@@ -49,7 +50,11 @@ export function SqlCodeBlock({ sql: sqlMetni }: { sql: string }) {
   return (
     <div
       ref={hostRef}
-      className="overflow-hidden rounded-lg border border-stone-200 text-sm dark:border-stone-800 dark:bg-stone-900"
+      className={
+        cozum
+          ? "overflow-hidden rounded-lg border border-green-300 bg-green-50/40 text-sm dark:border-green-800 dark:bg-green-950/20"
+          : "overflow-hidden rounded-lg border border-stone-200 bg-white text-sm dark:border-stone-800 dark:bg-stone-900"
+      }
     />
   );
 }

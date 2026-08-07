@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Exercise } from "@/types/content";
 import { ExerciseCard } from "@/components/sql/ExerciseCard";
 import { useProgress } from "@/components/progress/ProgressProvider";
@@ -32,6 +32,17 @@ export function AlistirmalarAkordeonu({
   const efektifAcikId = acikId ?? varsayilanAcikId;
   const varsayilanIndex = alistirmalar.findIndex((a) => a.id === varsayilanAcikId);
 
+  // Bir alıştırma ziyaret edildikten sonra kapatılsa bile ExerciseCard'ı unmount
+  // etmeyip gizli tutuyoruz — böylece kullanıcının yazdığı sorgu/sonuç, başka bir
+  // alıştırmaya geçip geri döndüğünde silinmeden korunur.
+  const [ziyaretEdilenler, setZiyaretEdilenler] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    if (!efektifAcikId) return;
+    setZiyaretEdilenler((onceki) =>
+      onceki.has(efektifAcikId) ? onceki : new Set(onceki).add(efektifAcikId),
+    );
+  }, [efektifAcikId]);
+
   return (
     <div className="space-y-3">
       {alistirmalar.map((alistirma, i) => {
@@ -43,7 +54,7 @@ export function AlistirmalarAkordeonu({
         return (
           <div
             key={alistirma.id}
-            className={`rounded-xl border transition-colors ${
+            className={`overflow-hidden rounded-xl border bg-stone-50 transition-colors dark:bg-stone-900 ${
               acik
                 ? "border-blue-400 ring-1 ring-blue-400/40 dark:border-blue-500 dark:ring-blue-500/30"
                 : "border-stone-200 dark:border-stone-800"
@@ -52,7 +63,7 @@ export function AlistirmalarAkordeonu({
             <button
               type="button"
               onClick={() => setAcikId(acik ? null : alistirma.id)}
-              className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+              className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-stone-100 dark:hover:bg-stone-800"
               aria-expanded={acik}
             >
               <span
@@ -85,8 +96,8 @@ export function AlistirmalarAkordeonu({
                 </span>
               </span>
             </button>
-            {acik && (
-              <div className="border-t border-stone-200 p-4 dark:border-stone-800">
+            {(acik || ziyaretEdilenler.has(alistirma.id)) && (
+              <div className={acik ? "border-t border-stone-200 p-4 dark:border-stone-800" : "hidden"}>
                 <ExerciseCard
                   alistirma={alistirma}
                   databaseId={databaseId}

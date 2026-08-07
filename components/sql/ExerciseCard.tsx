@@ -130,25 +130,25 @@ export function ExerciseCard({
         <button
           type="button"
           onClick={() => setIpucuGoster((v) => !v)}
-          className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+          className="rounded-md border border-amber-300 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200 dark:hover:bg-amber-900"
         >
           {ipucuGoster ? "İpucunu gizle" : "İpucu göster"}
         </button>
         <button
           type="button"
           onClick={cozumuGosterVeIsaretle}
-          className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+          className="rounded-md border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-medium text-green-800 transition-colors hover:bg-green-100 dark:border-green-800 dark:bg-green-950 dark:text-green-200 dark:hover:bg-green-900"
         >
           {cozumGoster ? "Çözümü gizle" : "Çözümü göster"}
         </button>
       </div>
 
       {ipucuGoster && (
-        <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+        <p className="rounded-lg border border-orange-200 bg-orange-50 p-3 text-sm text-orange-800 dark:border-orange-800 dark:bg-orange-950 dark:text-orange-200">
           {alistirma.ipucu}
         </p>
       )}
-      {cozumGoster && <SqlCodeBlock sql={alistirma.cozumSql} />}
+      {cozumGoster && <SqlCodeBlock sql={alistirma.cozumSql} cozum />}
 
       {hata && <QueryError mesaj={hata} />}
 

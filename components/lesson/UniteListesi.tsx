@@ -27,11 +27,14 @@ export function UniteListesi({
         const tamamlanan = dersler.filter((d) => ilerleme.tamamlananDersler.includes(d.slug)).length;
 
         return (
-          <div key={uniteId} className="rounded-xl border border-stone-200 dark:border-stone-800">
+          <div
+            key={uniteId}
+            className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-900"
+          >
             <button
               type="button"
               onClick={() => setAcikUniteId(acik ? null : uniteId)}
-              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-stone-100 dark:hover:bg-stone-800"
               aria-expanded={acik}
             >
               <span>
@@ -51,7 +54,7 @@ export function UniteListesi({
                   <li key={ders.slug}>
                     <Link
                       href={`/ogren/${ders.slug}/`}
-                      className="flex items-center gap-2 rounded-lg border border-stone-200 p-3 transition-colors hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
+                      className="flex items-center gap-2 rounded-lg border border-stone-200 bg-white p-3 transition-colors hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-950 dark:hover:border-stone-600 dark:hover:bg-stone-800"
                     >
                       {ilerleme.tamamlananDersler.includes(ders.slug) && (
                         <span className="text-green-600 dark:text-green-400" aria-hidden="true">

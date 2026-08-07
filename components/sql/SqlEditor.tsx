@@ -106,7 +106,7 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
   return (
     <div
       ref={hostRef}
-      className="overflow-hidden rounded-lg border border-stone-200 text-sm dark:border-stone-800"
+      className="overflow-hidden rounded-lg border border-stone-200 bg-white text-sm dark:border-stone-800"
     />
   );
 }

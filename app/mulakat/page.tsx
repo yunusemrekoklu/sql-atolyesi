@@ -17,7 +17,7 @@ export default function MulakatPage() {
           <li key={soru.slug}>
             <Link
               href={`/mulakat/${soru.slug}/`}
-              className={`block rounded-xl border border-l-4 border-stone-200 p-4 shadow-sm transition-shadow hover:shadow-md dark:border-stone-800 ${SEVIYE_KENAR[soru.seviye]}`}
+              className={`block rounded-xl border border-l-4 border-stone-200 bg-stone-50 p-4 shadow-sm transition-all hover:bg-stone-100 hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 ${SEVIYE_KENAR[soru.seviye]}`}
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">

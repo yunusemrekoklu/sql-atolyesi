@@ -14,7 +14,7 @@ export function SchemaList({ sema }: { sema: TabloSemasi[] }) {
   return (
     <div className="space-y-3">
       {sema.map((tablo) => (
-        <div key={tablo.ad} className="rounded-lg border border-stone-200 p-3 dark:border-stone-800">
+        <div key={tablo.ad} className="rounded-lg border border-stone-200 bg-stone-50 p-3 dark:border-stone-800 dark:bg-stone-900">
           <p className="mb-1.5 font-mono text-sm font-semibold">{tablo.ad}</p>
           <ul className="space-y-0.5 font-mono text-xs text-stone-600 dark:text-stone-400">
             {tablo.kolonlar.map((kolon) => (

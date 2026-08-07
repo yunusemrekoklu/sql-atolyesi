@@ -22,7 +22,7 @@ export function ReportCard({
 
   return (
     <div className="space-y-8">
-      <div className="rounded-xl border border-stone-200 p-6 text-center dark:border-stone-800">
+      <div className="rounded-xl border border-stone-200 bg-stone-50 p-6 text-center dark:border-stone-800 dark:bg-stone-900">
         <p className="text-sm text-stone-500 dark:text-stone-400">{MOD_BASLIKLARI[sonuc.mod]}</p>
         <p className="mt-2 text-4xl font-bold">
           {sonuc.dogruSayisi} / {sonuc.toplamSoru}

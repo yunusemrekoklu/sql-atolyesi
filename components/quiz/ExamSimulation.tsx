@@ -30,7 +30,7 @@ function GecmisSinavlar() {
       <h3 className="text-sm font-semibold text-stone-500 dark:text-stone-400">Geçmiş Sınavlarım</h3>
       <ul className="space-y-1 text-sm">
         {gecmis.slice(0, 5).map((s) => (
-          <li key={s.id} className="flex items-center justify-between rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800">
+          <li key={s.id} className="flex items-center justify-between rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 dark:border-stone-800 dark:bg-stone-900">
             <span>
               {MOD_BASLIKLARI[s.mod]} · {new Date(s.tarih).toLocaleDateString("tr-TR")}
             </span>
@@ -154,7 +154,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               className={`rounded-xl border p-4 text-left transition-colors ${
                 mod === m
                   ? "border-blue-600 bg-blue-50 dark:border-blue-500 dark:bg-blue-950/40"
-                  : "border-stone-200 hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
+                  : "border-stone-200 bg-stone-50 hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-600 dark:hover:bg-stone-800"
               }`}
             >
               <p className="font-semibold">{MOD_BASLIKLARI[m]}</p>
@@ -174,7 +174,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
                   className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
                     seciliUniteler.includes(u)
                       ? "border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500 dark:text-stone-950"
-                      : "border-stone-200 dark:border-stone-800"
+                      : "border-stone-200 bg-stone-50 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800"
                   }`}
                 >
                   Ünite {u}
@@ -193,7 +193,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               max={50}
               value={soruSayisi}
               onChange={(e) => setSoruSayisi(Math.max(1, Number(e.target.value)))}
-              className="w-24 rounded-md border border-stone-200 px-2 py-1 dark:border-stone-800 dark:bg-stone-900"
+              className="w-24 rounded-md border border-stone-200 bg-white px-2 py-1 dark:border-stone-800 dark:bg-stone-900"
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
@@ -204,7 +204,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
               max={120}
               value={dakika}
               onChange={(e) => setDakika(Math.max(1, Number(e.target.value)))}
-              className="w-24 rounded-md border border-stone-200 px-2 py-1 dark:border-stone-800 dark:bg-stone-900"
+              className="w-24 rounded-md border border-stone-200 bg-white px-2 py-1 dark:border-stone-800 dark:bg-stone-900"
             />
           </label>
         </div>
@@ -250,7 +250,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
                   ? "border-stone-900 dark:border-white"
                   : cevaplandi
                     ? "border-green-500 bg-green-50 dark:border-green-700 dark:bg-green-950"
-                    : "border-stone-200 dark:border-stone-800"
+                    : "border-stone-200 bg-stone-50 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800"
               }`}
             >
               {i + 1}
@@ -275,7 +275,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
                   className={`block w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
                     secili
                       ? "border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-950/40"
-                      : "border-stone-200 dark:border-stone-800"
+                      : "border-stone-200 bg-stone-50 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800"
                   }`}
                 >
                   {secenek}
@@ -292,7 +292,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
             type="button"
             onClick={() => setAktifSoruIndex((i) => Math.max(0, i - 1))}
             disabled={aktifSoruIndex === 0}
-            className="rounded-md border border-stone-200 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-stone-800"
+            className="rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition-colors hover:bg-stone-100 disabled:opacity-40 disabled:hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 dark:disabled:hover:bg-stone-900"
           >
             ← Önceki
           </button>
@@ -300,7 +300,7 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
             type="button"
             onClick={() => setAktifSoruIndex((i) => Math.min(sorular.length - 1, i + 1))}
             disabled={aktifSoruIndex === sorular.length - 1}
-            className="rounded-md border border-stone-200 px-3 py-1.5 text-sm disabled:opacity-40 dark:border-stone-800"
+            className="rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition-colors hover:bg-stone-100 disabled:opacity-40 disabled:hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 dark:disabled:hover:bg-stone-900"
           >
             Sonraki →
           </button>

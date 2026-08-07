@@ -124,28 +124,28 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
             type="button"
             onClick={() => setIpucuSayisi((n) => Math.min(soru.ipuclari.length, n + 1))}
             disabled={ipucuSayisi >= soru.ipuclari.length}
-            className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 disabled:opacity-40 dark:text-stone-400 dark:hover:text-stone-100"
+            className="rounded-md border border-amber-300 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-100 disabled:opacity-50 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200 dark:hover:bg-amber-900"
           >
             İpucu Göster ({ipucuSayisi}/{soru.ipuclari.length})
           </button>
           <button
             type="button"
             onClick={() => setCozumGoster((v) => !v)}
-            className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+            className="rounded-md border border-green-300 bg-green-50 px-3 py-1.5 text-sm font-medium text-green-800 transition-colors hover:bg-green-100 dark:border-green-800 dark:bg-green-950 dark:text-green-200 dark:hover:bg-green-900"
           >
             {cozumGoster ? "Çözümü gizle" : "Çözümü göster"}
           </button>
         </div>
 
         {ipucuSayisi > 0 && (
-          <ol className="list-decimal space-y-1.5 rounded-lg bg-amber-50 p-4 pl-8 text-sm text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+          <ol className="list-decimal space-y-1.5 rounded-lg border border-orange-200 bg-orange-50 p-4 pl-8 text-sm text-orange-800 dark:border-orange-800 dark:bg-orange-950 dark:text-orange-200">
             {soru.ipuclari.slice(0, ipucuSayisi).map((ipucu, i) => (
               <li key={i}>{ipucu}</li>
             ))}
           </ol>
         )}
 
-        {cozumGoster && <SqlCodeBlock sql={soru.cozumSql} />}
+        {cozumGoster && <SqlCodeBlock sql={soru.cozumSql} cozum />}
 
         {hata && <QueryError mesaj={hata} />}
 
@@ -163,11 +163,11 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
 
         {!hata && soru.mod === "sonuc" && sonuc !== null && <ResultTable sonuc={sonuc} />}
 
-        <div className="rounded-xl border border-stone-200 dark:border-stone-800">
+        <div className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-900">
           <button
             type="button"
             onClick={() => setTakipGoster((v) => !v)}
-            className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left font-medium"
+            className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left font-medium transition-colors hover:bg-stone-100 dark:hover:bg-stone-800"
             aria-expanded={takipGoster}
           >
             <span>🎤 Takip Sorusu: {soru.takipSorusu}</span>

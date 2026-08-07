@@ -29,7 +29,8 @@ export function MiniQuiz({ dersSlug, sorular }: { dersSlug: string; sorular: Qui
             <div className="space-y-1.5">
               {soru.secenekler.map((secenek, j) => {
                 const seciliMi = secilen === j;
-                let sinif = "border-stone-200 dark:border-stone-800";
+                let sinif =
+                  "border-stone-200 bg-stone-50 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800";
                 if (gonderildi) {
                   if (j === soru.dogruIndex) {
                     sinif = "border-green-500 bg-green-50 dark:border-green-700 dark:bg-green-950";
