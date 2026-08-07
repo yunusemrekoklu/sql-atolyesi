@@ -84,7 +84,7 @@ export function Playground() {
             <select
               value={veritabaniId}
               onChange={(e) => setVeritabaniId(e.target.value)}
-              className="rounded-md border-2 border-stone-300 px-3 py-1.5 text-base font-medium text-stone-900 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+              className="rounded-md border-2 border-stone-300 bg-white px-3 py-1.5 text-base font-medium text-stone-900 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
             >
               {OYNANABILIR_VERITABANLARI.map((db) => (
                 <option key={db.id} value={db.id}>
@@ -96,7 +96,7 @@ export function Playground() {
           <button
             type="button"
             onClick={sifirla}
-            className="text-sm text-stone-500 underline decoration-dotted underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+            className="rounded-md border border-stone-300 bg-stone-50 px-3 py-1.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
           >
             Sıfırla
           </button>

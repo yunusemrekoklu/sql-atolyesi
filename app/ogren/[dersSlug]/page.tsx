@@ -72,8 +72,8 @@ export default async function DersPage({
         </div>
 
         {ders.ornekler.length > 0 && (
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Örnekler</h2>
+          <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+            <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Örnekler</h2>
             {ders.ornekler.map((ornek, i) => (
               <RunnableExample
                 key={i}
@@ -87,8 +87,8 @@ export default async function DersPage({
         )}
 
         {ders.onizlemeTablolari && ders.onizlemeTablolari.length > 0 && (
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Örnek Veri</h2>
+          <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+            <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Örnek Veri</h2>
             <DataPreviewTable
               databaseId={veritabani.id}
               ddl={veritabani.ddl}
@@ -97,8 +97,8 @@ export default async function DersPage({
           </section>
         )}
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">Alıştırmalar</h2>
+        <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+          <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Alıştırmalar</h2>
           <AlistirmalarAkordeonu
             alistirmalar={ders.alistirmalar}
             databaseId={veritabani.id}
@@ -106,8 +106,8 @@ export default async function DersPage({
           />
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">Mini Quiz</h2>
+        <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+          <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Mini Quiz</h2>
           <MiniQuiz dersSlug={ders.slug} sorular={ders.miniQuiz} />
         </section>
 

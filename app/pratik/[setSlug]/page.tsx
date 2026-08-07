@@ -48,7 +48,8 @@ export default async function PratikSetPage({
           <p className="text-stone-600 dark:text-stone-300">{set.aciklama}</p>
         </header>
 
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+          <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Sorular</h2>
           <AlistirmalarAkordeonu alistirmalar={set.sorular} databaseId={veritabani.id} ddl={veritabani.ddl} />
         </section>
       </article>
