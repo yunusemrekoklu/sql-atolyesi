@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { isValidElement } from "react";
 import { notFound } from "next/navigation";
-import ReactMarkdown, { type Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { TUM_DERSLER, getDersBySlug, getOncekiSonraki } from "@/content/lessons";
 import { getSampleDatabase } from "@/content/databases";
 import { RunnableExample } from "@/components/sql/RunnableExample";
@@ -11,20 +8,7 @@ import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
 import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
 import { DersNavigasyonu } from "@/components/lesson/DersNavigasyonu";
 import { MiniQuiz } from "@/components/quiz/MiniQuiz";
-import { SqlCodeBlock } from "@/components/sql/SqlCodeBlock";
-
-const anlatimBilesenleri: Components = {
-  pre({ children }) {
-    const kod = Array.isArray(children) ? children[0] : children;
-    if (
-      isValidElement<{ className?: string; children?: unknown }>(kod) &&
-      /language-sql/.test(kod.props.className ?? "")
-    ) {
-      return <SqlCodeBlock sql={String(kod.props.children ?? "").replace(/\n$/, "")} />;
-    }
-    return <pre>{children}</pre>;
-  },
-};
+import { MarkdownIcerik } from "@/components/markdown/MarkdownIcerik";
 
 export function generateStaticParams() {
   return TUM_DERSLER.map((ders) => ({ dersSlug: ders.slug }));
@@ -65,11 +49,9 @@ export default async function DersPage({
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{ders.baslik}</h1>
         </header>
 
-        <div className="prose prose-stone max-w-none dark:prose-invert prose-pre:bg-stone-900 prose-code:before:content-none prose-code:after:content-none">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={anlatimBilesenleri}>
-            {ders.anlatim}
-          </ReactMarkdown>
-        </div>
+        <section className="rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+          <MarkdownIcerik sqlBloklariVar>{ders.anlatim}</MarkdownIcerik>
+        </section>
 
         {ders.ornekler.length > 0 && (
           <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">

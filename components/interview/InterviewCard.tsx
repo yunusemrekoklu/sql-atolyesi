@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import type { QueryExecResult } from "sql.js";
 import type { InterviewQuestion } from "@/types/content";
 import { openFreshDb } from "@/lib/sql/db";
@@ -14,6 +12,7 @@ import { QueryError } from "@/components/sql/QueryError";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
 import { SqlCodeBlock } from "@/components/sql/SqlCodeBlock";
+import { MarkdownIcerik } from "@/components/markdown/MarkdownIcerik";
 
 /**
  * Mülakat sorusu kartı — ExerciseCard'a benzer bir autograder akışı
@@ -101,9 +100,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
   return (
     <div className="grid w-full gap-8 lg:grid-cols-[minmax(0,1fr)_260px]">
       <div className="min-w-0 space-y-6">
-        <div className="prose prose-stone max-w-none dark:prose-invert prose-pre:bg-stone-900 prose-code:before:content-none prose-code:after:content-none">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{soru.senaryo}</ReactMarkdown>
-        </div>
+        <MarkdownIcerik>{soru.senaryo}</MarkdownIcerik>
 
         {soru.onizlemeTablolari && soru.onizlemeTablolari.length > 0 && (
           <DataPreviewTable databaseId={soru.slug} ddl={soru.ddl} tablolar={soru.onizlemeTablolari} />

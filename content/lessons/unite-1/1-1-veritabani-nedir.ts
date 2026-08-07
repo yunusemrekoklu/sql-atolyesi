@@ -18,7 +18,7 @@ Bir veritabanı, birbiriyle ilişkili verileri düzenli bir şekilde saklayan bi
 - **Satır (kayıt)**: tek bir varlığı temsil eder — tablomuzda bir satır, tek bir filmi ifade eder
 - **Sütun (alan)**: her satırın ortak özelliklerini tanımlar — ör. \`title\`, \`director\`, \`release_year\`
 
-**Not:** Gerçek şirketlerdeki veritabanlarında tablo ve sütun adları neredeyse hep İngilizcedir — bu sitede de bu gerçeğe sadık kalıyoruz. Anlatım ve sorular Türkçe, ama SQL yazarken kullandığın tablo/sütun adları İngilizce olacak.
+> **Not:** Gerçek şirketlerdeki veritabanlarında tablo ve sütun adları neredeyse hep İngilizcedir — bu sitede de bu gerçeğe sadık kalıyoruz. Anlatım ve sorular Türkçe, ama SQL yazarken kullandığın tablo/sütun adları İngilizce olacak.
 
 ## RDBMS nedir?
 
