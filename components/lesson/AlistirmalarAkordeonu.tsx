@@ -102,7 +102,16 @@ export function AlistirmalarAkordeonu({
                   alistirma={alistirma}
                   databaseId={databaseId}
                   ddl={ddl}
-                  onDogruCozuldu={() => setAcikId(null)}
+                  onDogruCozuldu={() => {
+                    // İlerlemeyi dizi sırasına göre ilerletiyoruz — kalıcı ilerleme
+                    // kaydındaki "cozumGoruldu" durumu bilinçli olarak "cozuldu"ya
+                    // hiç yükselmeyebilir (çözüme bakan çözdü sayılmaz kuralı),
+                    // bu yüzden varsayilanAcikId'nin (persisted status'a dayalı)
+                    // aynı soruda takılı kalmasını önlemek için burada doğrudan
+                    // bir sonraki alıştırmaya geçiyoruz.
+                    const sonraki = alistirmalar[i + 1];
+                    setAcikId(sonraki ? sonraki.id : null);
+                  }}
                 />
               </div>
             )}

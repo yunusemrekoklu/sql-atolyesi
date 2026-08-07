@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { TUM_SINAV_SORULARI } from "@/content/exams";
 import { ExamSimulation } from "@/components/quiz/ExamSimulation";
+import { ChevronIcon } from "@/components/ui/ChevronIcon";
 
 export const metadata = { title: "Test Sınavı Simülasyonu" };
 
@@ -12,7 +13,7 @@ export default function SinavSimulasyonPage() {
           href="/sinav/"
           className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
         >
-          ← Tüm sınavlar
+          <ChevronIcon direction="left" /> Tüm sınavlar
         </Link>
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Test Sınavı Simülasyonu</h1>
         <p className="text-stone-600 dark:text-stone-300">

@@ -292,23 +292,23 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
             type="button"
             onClick={() => setAktifSoruIndex((i) => Math.max(0, i - 1))}
             disabled={aktifSoruIndex === 0}
-            className="rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition-colors hover:bg-stone-100 disabled:opacity-40 disabled:hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 dark:disabled:hover:bg-stone-900"
+            className="select-none rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition-colors hover:bg-stone-100 disabled:opacity-40 disabled:hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 dark:disabled:hover:bg-stone-900"
           >
-            ← Önceki
+            Önceki
           </button>
           <button
             type="button"
             onClick={() => setAktifSoruIndex((i) => Math.min(sorular.length - 1, i + 1))}
             disabled={aktifSoruIndex === sorular.length - 1}
-            className="rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition-colors hover:bg-stone-100 disabled:opacity-40 disabled:hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 dark:disabled:hover:bg-stone-900"
+            className="select-none rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition-colors hover:bg-stone-100 disabled:opacity-40 disabled:hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 dark:disabled:hover:bg-stone-900"
           >
-            Sonraki →
+            Sonraki
           </button>
         </div>
         <button
           type="button"
           onClick={() => bitir(oturum)}
-          className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+          className="select-none rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
         >
           Sınavı Bitir
         </button>

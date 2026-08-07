@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Lesson } from "@/types/content";
 import { useProgress } from "@/components/progress/ProgressProvider";
+import { ChevronIcon } from "@/components/ui/ChevronIcon";
 
 export function DersNavigasyonu({
   dersSlug,
@@ -31,9 +32,12 @@ export function DersNavigasyonu({
         {onceki ? (
           <Link
             href={`/ogren/${onceki.slug}/`}
-            className="text-stone-600 transition-colors hover:text-stone-950 dark:text-stone-400 dark:hover:text-white"
+            className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
           >
-            ← {onceki.dersNo} {onceki.baslik}
+            <ChevronIcon direction="left" className="shrink-0" />
+            <span className="truncate">
+              {onceki.dersNo} {onceki.baslik}
+            </span>
           </Link>
         ) : (
           <span />
@@ -41,9 +45,12 @@ export function DersNavigasyonu({
         {sonraki ? (
           <Link
             href={`/ogren/${sonraki.slug}/`}
-            className="text-right text-stone-600 transition-colors hover:text-stone-950 dark:text-stone-400 dark:hover:text-white"
+            className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-right text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
           >
-            {sonraki.dersNo} {sonraki.baslik} →
+            <span className="truncate">
+              {sonraki.dersNo} {sonraki.baslik}
+            </span>
+            <ChevronIcon direction="right" className="shrink-0" />
           </Link>
         ) : (
           <span />

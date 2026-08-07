@@ -5,6 +5,7 @@ import { TUM_PRATIK_SETLERI, getPratikSetBySlug } from "@/content/practice";
 import { getSampleDatabase } from "@/content/databases";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
+import { ChevronIcon } from "@/components/ui/ChevronIcon";
 
 export function generateStaticParams() {
   return TUM_PRATIK_SETLERI.map((set) => ({ setSlug: set.slug }));
@@ -42,7 +43,7 @@ export default async function PratikSetPage({
             href="/pratik/"
             className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
           >
-            ← Tüm pratik setleri
+            <ChevronIcon direction="left" /> Tüm pratik setleri
           </Link>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{set.baslik}</h1>
           <p className="text-stone-600 dark:text-stone-300">{set.aciklama}</p>

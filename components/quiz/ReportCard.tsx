@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ExamQuestion } from "@/types/content";
 import type { SinavSonucu } from "@/lib/exam/types";
 import { MOD_BASLIKLARI } from "@/lib/exam/labels";
+import { ChevronIcon } from "@/components/ui/ChevronIcon";
 
 function barRengi(oran: number): string {
   if (oran >= 70) return "bg-green-500";
@@ -65,9 +66,9 @@ export function ReportCard({
               <p className="mt-1 text-amber-800/80 dark:text-amber-200/80">{soru.aciklama}</p>
               <Link
                 href={`/ogren/${soru.dersSlug}/`}
-                className="mt-2 inline-block text-amber-700 underline decoration-dotted underline-offset-2 dark:text-amber-300"
+                className="mt-2 inline-flex items-center gap-1 text-amber-700 underline decoration-dotted underline-offset-2 dark:text-amber-300"
               >
-                Bu konuyu tekrar et →
+                Bu konuyu tekrar et <ChevronIcon direction="right" />
               </Link>
             </div>
           ))}
