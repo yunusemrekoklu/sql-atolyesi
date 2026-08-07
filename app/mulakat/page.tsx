@@ -12,26 +12,28 @@ export default function MulakatPage() {
         Gerçek mülakat sorusu tarzında, kurgusal Türk şirket senaryolarıyla SQL soruları — her biri kendi mini şemasıyla gelir.
       </p>
 
-      <ul className="mt-8 space-y-3">
-        {TUM_MULAKAT_SORULARI.map((soru) => (
-          <li key={soru.slug}>
-            <Link
-              href={`/mulakat/${soru.slug}/`}
-              className={`block rounded-xl border border-l-4 border-stone-200 bg-stone-50 p-4 shadow-sm transition-all hover:bg-stone-100 hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 ${SEVIYE_KENAR[soru.seviye]}`}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
-                  {soru.sirket}
-                </p>
-                <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${SEVIYE_ROZET[soru.seviye]}`}>
-                  {soru.seviye}
-                </span>
-              </div>
-              <p className="mt-1 text-lg font-semibold">{soru.baslik}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <section className="mt-8 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+        <ul className="space-y-3">
+          {TUM_MULAKAT_SORULARI.map((soru) => (
+            <li key={soru.slug}>
+              <Link
+                href={`/mulakat/${soru.slug}/`}
+                className={`block rounded-xl border border-l-4 border-stone-200 bg-stone-50 p-4 shadow-sm transition-all hover:bg-stone-100 hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:hover:bg-stone-800 ${SEVIYE_KENAR[soru.seviye]}`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+                    {soru.sirket}
+                  </p>
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${SEVIYE_ROZET[soru.seviye]}`}>
+                    {soru.seviye}
+                  </span>
+                </div>
+                <p className="mt-1 text-lg font-semibold">{soru.baslik}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

@@ -11,20 +11,22 @@ export default function PratikPage() {
         Konu bazlı bağımsız soru setleri — her set kendi veritabanıyla gelir, Kolay/Orta/Zor karışık.
       </p>
 
-      <ul className="mt-8 space-y-3">
-        {TUM_PRATIK_SETLERI.map((set) => (
-          <li key={set.slug}>
-            <Link
-              href={`/pratik/${set.slug}/`}
-              className="block rounded-xl border border-stone-200 bg-stone-50 p-4 transition-colors hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-600 dark:hover:bg-stone-800"
-            >
-              <p className="font-semibold">{set.baslik}</p>
-              <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{set.aciklama}</p>
-              <p className="mt-2 text-xs text-stone-400 dark:text-stone-500">{set.sorular.length} soru</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <section className="mt-8 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+        <ul className="space-y-3">
+          {TUM_PRATIK_SETLERI.map((set) => (
+            <li key={set.slug}>
+              <Link
+                href={`/pratik/${set.slug}/`}
+                className="block rounded-xl border border-stone-200 bg-stone-50 p-4 transition-colors hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-600 dark:hover:bg-stone-800"
+              >
+                <p className="font-semibold">{set.baslik}</p>
+                <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">{set.aciklama}</p>
+                <p className="mt-2 text-xs text-stone-400 dark:text-stone-500">{set.sorular.length} soru</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

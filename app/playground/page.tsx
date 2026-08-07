@@ -13,7 +13,9 @@ export default function PlaygroundPage() {
         </p>
       </div>
 
-      <Playground />
+      <section className="rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+        <Playground />
+      </section>
     </div>
   );
 }
