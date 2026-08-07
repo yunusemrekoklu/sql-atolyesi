@@ -10,7 +10,7 @@ export default function Home() {
         Kurulum yok. Tarayıcında gerçek SQL çalıştır.
       </h1>
       <p className="max-w-2xl text-lg text-stone-600 dark:text-stone-300">
-        SQL Atölyesi — Türkiye&apos;deki üniversite öğrencileri ve junior&apos;lar için
+        SQLCODEX — Türkiye&apos;deki üniversite öğrencileri ve junior&apos;lar için
         tamamen Türkçe, sunucusuz SQL öğrenme platformu. Vize/final sınavlarına
         hazırlan, gerçek mülakat sorularını çöz.
       </p>

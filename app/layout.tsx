@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "SQL Atölyesi — Tarayıcında Türkçe SQL Öğren",
-    template: "%s — SQL Atölyesi",
+    default: "SQLCODEX — Tarayıcında Türkçe SQL Öğren",
+    template: "%s — SQLCODEX",
   },
   description:
     "Kurulum yok. Tarayıcında gerçek SQL çalıştır. Üniversite sınavlarına hazırlan, mülakat sorularını çöz — tamamen Türkçe.",

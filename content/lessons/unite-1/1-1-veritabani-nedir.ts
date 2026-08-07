@@ -8,7 +8,7 @@ export const veritabaniNedir = defineLesson({
   baslik: "Veritabanı Nedir?",
   veritabaniId: filmlerDb.id,
   anlatim: `
-SQL Atölyesi'ne hoş geldin! İlk dersimizde en temel soruyla başlıyoruz: **veritabanı** nedir ve **SQL** ne işe yarar?
+SQLCODEX'e hoş geldin! İlk dersimizde en temel soruyla başlıyoruz: **veritabanı** nedir ve **SQL** ne işe yarar?
 
 ## Tablo, satır, sütun
 
