@@ -104,9 +104,14 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
   }, [value]);
 
   return (
-    <div
-      ref={hostRef}
-      className="overflow-hidden rounded-lg border border-stone-200 bg-white text-sm dark:border-stone-800"
-    />
+    <div className="overflow-hidden rounded-lg border border-stone-200 bg-white text-sm dark:border-stone-800">
+      <div className="flex items-center gap-1.5 border-b border-stone-200 bg-stone-50 px-3 py-1.5 dark:border-stone-800 dark:bg-stone-900">
+        <span className="h-2.5 w-2.5 rounded-full bg-stone-300 dark:bg-stone-700" />
+        <span className="h-2.5 w-2.5 rounded-full bg-stone-300 dark:bg-stone-700" />
+        <span className="h-2.5 w-2.5 rounded-full bg-stone-300 dark:bg-stone-700" />
+        <span className="ml-auto font-mono text-[11px] text-stone-400 dark:text-stone-500">SQL</span>
+      </div>
+      <div ref={hostRef} />
+    </div>
   );
 }

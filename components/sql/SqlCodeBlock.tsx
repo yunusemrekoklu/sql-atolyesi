@@ -49,12 +49,19 @@ export function SqlCodeBlock({ sql: sqlMetni, cozum }: { sql: string; cozum?: bo
 
   return (
     <div
-      ref={hostRef}
       className={
         cozum
           ? "overflow-hidden rounded-lg border border-green-300 bg-green-50/40 text-sm dark:border-green-800 dark:bg-green-950/20"
           : "overflow-hidden rounded-lg border border-stone-200 bg-white text-sm dark:border-stone-800 dark:bg-stone-900"
       }
-    />
+    >
+      <div className="flex items-center gap-1.5 border-b border-stone-200 bg-stone-50 px-3 py-1.5 dark:border-stone-800 dark:bg-stone-900">
+        <span className="h-2.5 w-2.5 rounded-full bg-stone-300 dark:bg-stone-700" />
+        <span className="h-2.5 w-2.5 rounded-full bg-stone-300 dark:bg-stone-700" />
+        <span className="h-2.5 w-2.5 rounded-full bg-stone-300 dark:bg-stone-700" />
+        <span className="ml-auto font-mono text-[11px] text-stone-400 dark:text-stone-500">SQL</span>
+      </div>
+      <div ref={hostRef} />
+    </div>
   );
 }
