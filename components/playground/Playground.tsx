@@ -79,12 +79,12 @@ export function Playground() {
     <div className="grid w-full gap-8 lg:grid-cols-[minmax(0,1fr)_260px]">
       <div className="min-w-0 space-y-4">
         <div className="flex flex-wrap items-center gap-4">
-          <label className="flex items-center gap-2 text-sm text-stone-500 dark:text-stone-400">
+          <label className="flex items-center gap-2 text-base font-semibold">
             Veritabanı:
             <select
               value={veritabaniId}
               onChange={(e) => setVeritabaniId(e.target.value)}
-              className="rounded-md border border-stone-200 px-2 py-1 text-sm text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100"
+              className="rounded-md border-2 border-stone-300 px-3 py-1.5 text-base font-medium text-stone-900 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
             >
               {OYNANABILIR_VERITABANLARI.map((db) => (
                 <option key={db.id} value={db.id}>

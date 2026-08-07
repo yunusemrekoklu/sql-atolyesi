@@ -51,7 +51,7 @@ export function QuizRunner({ anahtar, sorular }: { anahtar: string; sorular: Exa
                     sinif = "border-red-400 bg-red-50 dark:border-red-800 dark:bg-red-950";
                   }
                 } else if (seciliMi) {
-                  sinif = "border-stone-900 dark:border-white";
+                  sinif = "border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-950/40";
                 }
                 return (
                   <button

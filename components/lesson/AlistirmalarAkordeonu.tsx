@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Exercise } from "@/types/content";
 import { ExerciseCard } from "@/components/sql/ExerciseCard";
 import { useProgress } from "@/components/progress/ProgressProvider";
+import { SEVIYE_ROZET } from "@/lib/ui/seviye";
 
 /**
- * Alıştırmaları tek-açık akordeon içinde gösterir — sayfada aynı anda
- * yalnızca bir CodeMirror editörü canlı olur (mobil performans + odak).
+ * Alıştırmaları akordeon içinde gösterir — sıradaki (ilk çözülmemiş) soru
+ * varsayılan olarak açık gelir ve doğru cevap sonrası otomatik olarak
+ * bir sonrakine geçer (yumuşak yönlendirme). Tüm sorular her zaman
+ * tıklanabilir; kullanıcı manuel olarak istediği soruyu açabilir.
  */
 export function AlistirmalarAkordeonu({
   alistirmalar,
@@ -18,25 +21,50 @@ export function AlistirmalarAkordeonu({
   databaseId: string;
   ddl: string;
 }) {
-  const [acikId, setAcikId] = useState<string | null>(alistirmalar[0]?.id ?? null);
+  const [acikId, setAcikId] = useState<string | null>(null);
   const { ilerleme } = useProgress();
+
+  const varsayilanAcikId = useMemo(() => {
+    const ilkCozulmemis = alistirmalar.find((a) => ilerleme.alistirmalar[a.id] !== "cozuldu");
+    return ilkCozulmemis?.id ?? alistirmalar[alistirmalar.length - 1]?.id ?? null;
+  }, [alistirmalar, ilerleme.alistirmalar]);
+
+  const efektifAcikId = acikId ?? varsayilanAcikId;
+  const varsayilanIndex = alistirmalar.findIndex((a) => a.id === varsayilanAcikId);
 
   return (
     <div className="space-y-3">
-      {alistirmalar.map((alistirma) => {
-        const acik = acikId === alistirma.id;
+      {alistirmalar.map((alistirma, i) => {
+        const acik = efektifAcikId === alistirma.id;
         const durum = ilerleme.alistirmalar[alistirma.id];
+        const cozuldu = durum === "cozuldu";
+        const henuzGelinmedi = !acik && !cozuldu && i > varsayilanIndex;
 
         return (
-          <div key={alistirma.id} className="rounded-xl border border-stone-200 dark:border-stone-800">
+          <div
+            key={alistirma.id}
+            className={`rounded-xl border transition-colors ${
+              acik
+                ? "border-blue-400 ring-1 ring-blue-400/40 dark:border-blue-500 dark:ring-blue-500/30"
+                : "border-stone-200 dark:border-stone-800"
+            }`}
+          >
             <button
               type="button"
               onClick={() => setAcikId(acik ? null : alistirma.id)}
               className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
               aria-expanded={acik}
             >
-              <span className="flex items-center gap-2 font-medium">
-                {durum === "cozuldu" && (
+              <span
+                className={`flex items-center gap-2 font-medium ${
+                  cozuldu
+                    ? "text-stone-500 dark:text-stone-500"
+                    : henuzGelinmedi
+                      ? "text-stone-400 dark:text-stone-600"
+                      : ""
+                }`}
+              >
+                {cozuldu && (
                   <span className="text-green-600 dark:text-green-400" title="Çözüldü" aria-hidden="true">
                     ✓
                   </span>
@@ -48,8 +76,10 @@ export function AlistirmalarAkordeonu({
                 )}
                 {alistirma.baslik}
               </span>
-              <span className="flex shrink-0 items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-                {alistirma.seviye}
+              <span className="flex shrink-0 items-center gap-2 text-xs">
+                <span className={`rounded-full px-2 py-0.5 font-medium ${SEVIYE_ROZET[alistirma.seviye]}`}>
+                  {alistirma.seviye}
+                </span>
                 <span className={acik ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden="true">
                   ⌄
                 </span>
@@ -57,7 +87,12 @@ export function AlistirmalarAkordeonu({
             </button>
             {acik && (
               <div className="border-t border-stone-200 p-4 dark:border-stone-800">
-                <ExerciseCard alistirma={alistirma} databaseId={databaseId} ddl={ddl} />
+                <ExerciseCard
+                  alistirma={alistirma}
+                  databaseId={databaseId}
+                  ddl={ddl}
+                  onDogruCozuldu={() => setAcikId(null)}
+                />
               </div>
             )}
           </div>

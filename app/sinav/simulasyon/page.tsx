@@ -2,7 +2,7 @@ import Link from "next/link";
 import { TUM_SINAV_SORULARI } from "@/content/exams";
 import { ExamSimulation } from "@/components/quiz/ExamSimulation";
 
-export const metadata = { title: "Sınav Simülasyonu" };
+export const metadata = { title: "Test Sınavı Simülasyonu" };
 
 export default function SinavSimulasyonPage() {
   return (
@@ -14,7 +14,7 @@ export default function SinavSimulasyonPage() {
         >
           ← Tüm sınavlar
         </Link>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Sınav Simülasyonu</h1>
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Test Sınavı Simülasyonu</h1>
         <p className="text-stone-600 dark:text-stone-300">
           Süreli, gerçek sınav deneyimi: Vize, Final veya Özel mod seç, süre dolunca sınav otomatik teslim edilir.
         </p>

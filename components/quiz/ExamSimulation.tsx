@@ -273,7 +273,9 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
                   type="button"
                   onClick={() => cevaplaSecenek(aktifSoru.id, j)}
                   className={`block w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
-                    secili ? "border-stone-900 dark:border-white" : "border-stone-200 dark:border-stone-800"
+                    secili
+                      ? "border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-950/40"
+                      : "border-stone-200 dark:border-stone-800"
                   }`}
                 >
                   {secenek}

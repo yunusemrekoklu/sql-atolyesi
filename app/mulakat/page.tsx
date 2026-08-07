@@ -1,13 +1,8 @@
 import Link from "next/link";
 import { TUM_MULAKAT_SORULARI } from "@/content/interview";
+import { SEVIYE_ROZET, SEVIYE_KENAR } from "@/lib/ui/seviye";
 
 export const metadata = { title: "Mülakat" };
-
-const SEVIYE_RENK: Record<string, string> = {
-  Kolay: "text-green-700 dark:text-green-400",
-  Orta: "text-amber-700 dark:text-amber-400",
-  Zor: "text-red-700 dark:text-red-400",
-};
 
 export default function MulakatPage() {
   return (
@@ -22,13 +17,17 @@ export default function MulakatPage() {
           <li key={soru.slug}>
             <Link
               href={`/mulakat/${soru.slug}/`}
-              className="block rounded-xl border border-stone-200 p-4 transition-colors hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
+              className={`block rounded-xl border border-l-4 border-stone-200 p-4 shadow-sm transition-shadow hover:shadow-md dark:border-stone-800 ${SEVIYE_KENAR[soru.seviye]}`}
             >
               <div className="flex items-center justify-between gap-3">
-                <p className="text-sm text-stone-500 dark:text-stone-400">{soru.sirket}</p>
-                <span className={`text-xs font-medium ${SEVIYE_RENK[soru.seviye]}`}>{soru.seviye}</span>
+                <p className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+                  {soru.sirket}
+                </p>
+                <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${SEVIYE_ROZET[soru.seviye]}`}>
+                  {soru.seviye}
+                </span>
               </div>
-              <p className="font-semibold">{soru.baslik}</p>
+              <p className="mt-1 text-lg font-semibold">{soru.baslik}</p>
             </Link>
           </li>
         ))}

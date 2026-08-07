@@ -4,7 +4,7 @@ import { ThemeToggle } from "./ThemeToggle";
 const NAV_LINKS = [
   { href: "/ogren", label: "Öğren" },
   { href: "/pratik", label: "Pratik" },
-  { href: "/sinav", label: "Sınav" },
+  { href: "/sinav", label: "Test Sınavı" },
   { href: "/mulakat", label: "Mülakat" },
   { href: "/fonksiyonlar", label: "Fonksiyonlar" },
   { href: "/playground", label: "Playground" },

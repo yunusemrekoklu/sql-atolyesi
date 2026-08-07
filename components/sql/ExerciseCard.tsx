@@ -16,10 +16,12 @@ export function ExerciseCard({
   alistirma,
   databaseId,
   ddl,
+  onDogruCozuldu,
 }: {
   alistirma: Exercise;
   databaseId: string;
   ddl: string;
+  onDogruCozuldu?: () => void;
 }) {
   const [sorgu, setSorgu] = useState("");
   const [calisiyor, setCalisiyor] = useState(false);
@@ -71,7 +73,10 @@ export function ExerciseCard({
           kolonAdiOnemli: alistirma.kolonAdiOnemli,
         });
         setDegerlendirme(sonucDegerlendirme);
-        if (sonucDegerlendirme.dogru) alistirmaDurumunuAyarla(alistirma.id, "cozuldu");
+        if (sonucDegerlendirme.dogru) {
+          alistirmaDurumunuAyarla(alistirma.id, "cozuldu");
+          onDogruCozuldu?.();
+        }
       } else {
         const kullaniciDurum = await (async () => {
           const db = await openFreshDb(databaseId, ddl);
@@ -95,7 +100,10 @@ export function ExerciseCard({
 
         const tabloDegerlendirme = degerlendir({ mod: "tabloDurumu", kullanici: kullaniciDurum, cozum: cozumDurum });
         setDegerlendirme(tabloDegerlendirme);
-        if (tabloDegerlendirme.dogru) alistirmaDurumunuAyarla(alistirma.id, "cozuldu");
+        if (tabloDegerlendirme.dogru) {
+          alistirmaDurumunuAyarla(alistirma.id, "cozuldu");
+          onDogruCozuldu?.();
+        }
       }
     } catch (err) {
       setHata(err instanceof Error ? err.message : String(err));
