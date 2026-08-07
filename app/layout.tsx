@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { OkumaIlerlemeCubugu } from "@/components/layout/OkumaIlerlemeCubugu";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProgressProvider>
+            <OkumaIlerlemeCubugu />
             <Header />
             <main className="flex flex-1 flex-col">{children}</main>
             <Footer />
