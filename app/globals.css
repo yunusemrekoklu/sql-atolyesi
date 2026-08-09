@@ -31,3 +31,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* SqlEditor'ün canlı, düzenlenebilir içeriği hariç (contenteditable="true") —
+   SqlCodeBlock salt-okunur olduğu için contenteditable="false" bıraktığından
+   bu kural ona uygulanmaz. */
+.cm-content[contenteditable="true"] {
+  user-select: text;
+}
