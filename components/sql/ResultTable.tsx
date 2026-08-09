@@ -7,7 +7,7 @@ export function ResultTable({ sonuc }: { sonuc: QueryExecResult | null }) {
 
   return (
     <div className="overflow-hidden rounded-lg border border-stone-200 dark:border-stone-800">
-      <div className="max-h-96 overflow-auto">
+      <div className="max-h-96 overflow-auto print:max-h-none print:overflow-visible">
         <table className="w-full text-left text-sm">
           <thead>
             <tr>

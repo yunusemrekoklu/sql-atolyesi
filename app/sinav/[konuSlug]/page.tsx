@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { UNITE_SINAVLARI, getUniteSinavi } from "@/content/exams";
 import { QuizRunner } from "@/components/quiz/QuizRunner";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
+import { CoktanSecmeliYazdirListesi } from "@/components/print/CoktanSecmeliYazdirListesi";
 
 const UNITE_BASLIKLARI: Record<number, string> = {
   1: "Ünite 1 — SQL'e Giriş ve Temel Sorgulama",
@@ -53,7 +54,7 @@ export default async function UniteSinaviPage({
       <div className="mb-8 space-y-1">
         <Link
           href="/sinav/"
-          className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
+          className="print:hidden inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
         >
           <ChevronIcon direction="left" /> Tüm sınavlar
         </Link>
@@ -61,7 +62,12 @@ export default async function UniteSinaviPage({
         <p className="text-stone-600 dark:text-stone-300">{sorular.length} çoktan seçmeli soru — süre sınırı yok.</p>
       </div>
 
-      <QuizRunner anahtar={`unite-${uniteId}-sinavi`} sorular={sorular} />
+      <div className="print:hidden">
+        <QuizRunner anahtar={`unite-${uniteId}-sinavi`} sorular={sorular} />
+      </div>
+      <div className="hidden print:block">
+        <CoktanSecmeliYazdirListesi sorular={sorular} />
+      </div>
     </div>
   );
 }

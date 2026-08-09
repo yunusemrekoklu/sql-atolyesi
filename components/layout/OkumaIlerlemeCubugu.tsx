@@ -28,7 +28,7 @@ export function OkumaIlerlemeCubugu() {
   }, []);
 
   return (
-    <div className="fixed inset-x-0 top-0 z-50 h-[3px] bg-transparent">
+    <div className="print:hidden fixed inset-x-0 top-0 z-50 h-[3px] bg-transparent">
       <div
         className="h-full bg-accent transition-[width] duration-100"
         style={{ width: `${yuzde}%` }}

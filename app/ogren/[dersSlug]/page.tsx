@@ -10,6 +10,8 @@ import { DersNavigasyonu } from "@/components/lesson/DersNavigasyonu";
 import { MiniQuiz } from "@/components/quiz/MiniQuiz";
 import { MarkdownIcerik } from "@/components/markdown/MarkdownIcerik";
 import { KART_SINIFI } from "@/lib/ui/kart";
+import { AlistirmaYazdirListesi } from "@/components/print/AlistirmaYazdirListesi";
+import { CoktanSecmeliYazdirListesi } from "@/components/print/CoktanSecmeliYazdirListesi";
 
 export function generateStaticParams() {
   return TUM_DERSLER.map((ders) => ({ dersSlug: ders.slug }));
@@ -55,7 +57,7 @@ export default async function DersPage({
         </section>
 
         {ders.ornekler.length > 0 && (
-          <section className={`space-y-4 ${KART_SINIFI}`}>
+          <section className={`print:hidden space-y-4 ${KART_SINIFI}`}>
             <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Örnekler</h2>
             {ders.ornekler.map((ornek, i) => (
               <RunnableExample
@@ -82,19 +84,31 @@ export default async function DersPage({
 
         <section className={`space-y-4 ${KART_SINIFI}`}>
           <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Alıştırmalar</h2>
-          <AlistirmalarAkordeonu
-            alistirmalar={ders.alistirmalar}
-            databaseId={veritabani.id}
-            ddl={veritabani.ddl}
-          />
+          <div className="print:hidden">
+            <AlistirmalarAkordeonu
+              alistirmalar={ders.alistirmalar}
+              databaseId={veritabani.id}
+              ddl={veritabani.ddl}
+            />
+          </div>
+          <div className="hidden print:block">
+            <AlistirmaYazdirListesi alistirmalar={ders.alistirmalar} />
+          </div>
         </section>
 
         <section className={`space-y-4 ${KART_SINIFI}`}>
           <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Mini Quiz</h2>
-          <MiniQuiz dersSlug={ders.slug} sorular={ders.miniQuiz} />
+          <div className="print:hidden">
+            <MiniQuiz dersSlug={ders.slug} sorular={ders.miniQuiz} />
+          </div>
+          <div className="hidden print:block">
+            <CoktanSecmeliYazdirListesi sorular={ders.miniQuiz} />
+          </div>
         </section>
 
-        <DersNavigasyonu dersSlug={ders.slug} onceki={onceki} sonraki={sonraki} />
+        <div className="print:hidden">
+          <DersNavigasyonu dersSlug={ders.slug} onceki={onceki} sonraki={sonraki} />
+        </div>
       </article>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">

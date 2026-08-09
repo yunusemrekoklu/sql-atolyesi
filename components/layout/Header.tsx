@@ -50,7 +50,7 @@ export function Header() {
 
   return (
     <div
-      className={`sticky top-4 z-40 mx-auto w-full max-w-6xl px-4 transition-transform duration-300 ease-in-out ${
+      className={`print:hidden sticky top-4 z-40 mx-auto w-full max-w-6xl px-4 transition-transform duration-300 ease-in-out ${
         gizli ? "-translate-y-[calc(100%+1rem)]" : "translate-y-0"
       }`}
     >

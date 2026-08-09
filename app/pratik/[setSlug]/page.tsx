@@ -7,6 +7,7 @@ import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
 import { KART_SINIFI } from "@/lib/ui/kart";
+import { AlistirmaYazdirListesi } from "@/components/print/AlistirmaYazdirListesi";
 
 export function generateStaticParams() {
   return TUM_PRATIK_SETLERI.map((set) => ({ setSlug: set.slug }));
@@ -42,7 +43,7 @@ export default async function PratikSetPage({
         <div className="space-y-3">
           <Link
             href="/pratik/"
-            className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
+            className="print:hidden inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
           >
             <ChevronIcon direction="left" /> Tüm pratik setleri
           </Link>
@@ -54,7 +55,12 @@ export default async function PratikSetPage({
 
         <section className={`space-y-4 ${KART_SINIFI}`}>
           <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Sorular</h2>
-          <AlistirmalarAkordeonu alistirmalar={set.sorular} databaseId={veritabani.id} ddl={veritabani.ddl} />
+          <div className="print:hidden">
+            <AlistirmalarAkordeonu alistirmalar={set.sorular} databaseId={veritabani.id} ddl={veritabani.ddl} />
+          </div>
+          <div className="hidden print:block">
+            <AlistirmaYazdirListesi alistirmalar={set.sorular} />
+          </div>
         </section>
       </article>
 

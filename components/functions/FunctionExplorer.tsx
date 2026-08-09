@@ -5,6 +5,7 @@ import type { FonksiyonKategorisi, FunctionRef } from "@/types/content";
 import { getSampleDatabase } from "@/content/databases";
 import { RunnableExample } from "@/components/sql/RunnableExample";
 import { turkceIcerir } from "@/lib/search/turkce";
+import { FonksiyonYazdirListesi } from "@/components/print/FonksiyonYazdirListesi";
 
 const KATEGORILER: readonly ("Tümü" | FonksiyonKategorisi)[] = [
   "Tümü",
@@ -27,7 +28,8 @@ export function FunctionExplorer({ fonksiyonlar }: { fonksiyonlar: FunctionRef[]
   }, [fonksiyonlar, arama, kategori]);
 
   return (
-    <div className="space-y-6">
+    <>
+    <div className="print:hidden space-y-6">
       <input
         type="search"
         value={arama}
@@ -93,5 +95,9 @@ export function FunctionExplorer({ fonksiyonlar }: { fonksiyonlar: FunctionRef[]
         {filtrelenmis.length === 0 && <p className="text-sm text-stone-400">Eşleşen fonksiyon bulunamadı.</p>}
       </div>
     </div>
+    <div className="hidden print:block">
+      <FonksiyonYazdirListesi fonksiyonlar={fonksiyonlar} />
+    </div>
+    </>
   );
 }

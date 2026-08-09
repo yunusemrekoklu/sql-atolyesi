@@ -38,3 +38,16 @@ body {
 .cm-content[contenteditable="true"] {
   user-select: text;
 }
+
+/* Yazdırma soru kağıdı sıfırlaması — tema (.dark) ne olursa olsun tek
+   renkli, kağıda uygun bir çıktı garantiler; hiçbir yazdırma bileşeni
+   renkle anlam taşımadığı için (rozet/şık harfleri sadece çerçeveli)
+   güvenli bir sıfırlama. */
+@media print {
+  * {
+    background-color: transparent !important;
+    color: #1c1917 !important;
+    border-color: #a8a29e !important;
+    box-shadow: none !important;
+  }
+}

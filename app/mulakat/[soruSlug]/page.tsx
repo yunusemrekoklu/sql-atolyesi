@@ -5,6 +5,7 @@ import { TUM_MULAKAT_SORULARI, getMulakatSorusuBySlug } from "@/content/intervie
 import { InterviewCard } from "@/components/interview/InterviewCard";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
 import { KART_SINIFI } from "@/lib/ui/kart";
+import { MulakatYazdirBlogu } from "@/components/print/MulakatYazdirBlogu";
 
 export function generateStaticParams() {
   return TUM_MULAKAT_SORULARI.map((soru) => ({ soruSlug: soru.slug }));
@@ -37,7 +38,7 @@ export default async function MulakatSorusuPage({
       <div className="mb-6 space-y-3">
         <Link
           href="/mulakat/"
-          className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
+          className="print:hidden inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
         >
           <ChevronIcon direction="left" /> Tüm mülakat soruları
         </Link>
@@ -49,7 +50,12 @@ export default async function MulakatSorusuPage({
         </header>
       </div>
 
-      <InterviewCard soru={soru} />
+      <div className="print:hidden">
+        <InterviewCard soru={soru} />
+      </div>
+      <div className="hidden print:block">
+        <MulakatYazdirBlogu soru={soru} />
+      </div>
     </div>
   );
 }
