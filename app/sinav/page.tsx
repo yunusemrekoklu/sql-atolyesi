@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { UNITE_SINAVLARI } from "@/content/exams";
 import { UNITE_BASLIKLARI } from "@/lib/content/uniteler";
+import { KART_SINIFI } from "@/lib/ui/kart";
 
 export const metadata = { title: "Test Sınavı" };
 
@@ -22,7 +23,7 @@ export default function SinavPage() {
         <p className="mt-1 text-sm opacity-80">Vize, Final veya Özel mod — süreli, karneli, gerçek sınav deneyimi.</p>
       </Link>
 
-      <section className="mt-10 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+      <section className={`mt-10 ${KART_SINIFI}`}>
         <h2 className="text-sm font-semibold text-stone-500 dark:text-stone-400">Ünite Quizleri</h2>
         <ul className="mt-3 space-y-3">
           {uniteIdleri.map((uniteId) => (

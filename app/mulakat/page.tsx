@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { TUM_MULAKAT_SORULARI } from "@/content/interview";
 import { SEVIYE_ROZET, SEVIYE_KENAR } from "@/lib/ui/seviye";
+import { KART_SINIFI } from "@/lib/ui/kart";
 
 export const metadata = { title: "Mülakat" };
 
@@ -12,7 +13,7 @@ export default function MulakatPage() {
         Gerçek mülakat sorusu tarzında, kurgusal Türk şirket senaryolarıyla SQL soruları — her biri kendi mini şemasıyla gelir.
       </p>
 
-      <section className="mt-8 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+      <section className={`mt-8 ${KART_SINIFI}`}>
         <ul className="space-y-3">
           {TUM_MULAKAT_SORULARI.map((soru) => (
             <li key={soru.slug}>

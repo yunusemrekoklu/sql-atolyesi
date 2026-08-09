@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TUM_PRATIK_SETLERI } from "@/content/practice";
+import { KART_SINIFI } from "@/lib/ui/kart";
 
 export const metadata = { title: "Pratik" };
 
@@ -11,7 +12,7 @@ export default function PratikPage() {
         Konu bazlı bağımsız soru setleri — her set kendi veritabanıyla gelir, Kolay/Orta/Zor karışık.
       </p>
 
-      <section className="mt-8 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+      <section className={`mt-8 ${KART_SINIFI}`}>
         <ul className="space-y-3">
           {TUM_PRATIK_SETLERI.map((set) => (
             <li key={set.slug}>

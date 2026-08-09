@@ -6,6 +6,7 @@ import { getSampleDatabase } from "@/content/databases";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
+import { KART_SINIFI } from "@/lib/ui/kart";
 
 export function generateStaticParams() {
   return TUM_PRATIK_SETLERI.map((set) => ({ setSlug: set.slug }));
@@ -38,18 +39,20 @@ export default async function PratikSetPage({
   return (
     <div className="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 lg:grid-cols-[minmax(0,1fr)_260px]">
       <article className="min-w-0 space-y-8">
-        <header className="space-y-1">
+        <div className="space-y-3">
           <Link
             href="/pratik/"
             className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
           >
             <ChevronIcon direction="left" /> Tüm pratik setleri
           </Link>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{set.baslik}</h1>
-          <p className="text-stone-600 dark:text-stone-300">{set.aciklama}</p>
-        </header>
+          <header className={KART_SINIFI}>
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{set.baslik}</h1>
+            <p className="text-stone-600 dark:text-stone-300">{set.aciklama}</p>
+          </header>
+        </div>
 
-        <section className="space-y-4 rounded-2xl border border-stone-200 p-5 shadow-sm dark:border-stone-800 sm:p-6">
+        <section className={`space-y-4 ${KART_SINIFI}`}>
           <h2 className="border-l-2 border-blue-400 pl-3 text-lg font-semibold dark:border-blue-500">Sorular</h2>
           <AlistirmalarAkordeonu alistirmalar={set.sorular} databaseId={veritabani.id} ddl={veritabani.ddl} />
         </section>
