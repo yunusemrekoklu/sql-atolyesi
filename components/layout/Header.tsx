@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
-import { KomutPaleti } from "@/components/search/KomutPaleti";
 
 const NAV_LINKS = [
   { href: "/ogren", label: "Öğren" },
@@ -57,7 +56,7 @@ export function Header() {
     >
       <header className="flex h-14 items-center justify-between gap-4 rounded-full border-2 border-stone-800 bg-white/95 px-4 backdrop-blur dark:border-stone-200 dark:bg-stone-950/95">
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full p-1 dark:bg-stone-100">
+          <span className="flex h-11 w-11 items-center justify-center dark:rounded-full dark:bg-stone-100 dark:p-1">
             <img
               src="/sqlcodex-icon.png"
               alt=""
@@ -93,10 +92,7 @@ export function Header() {
             );
           })}
         </nav>
-        <div className="flex shrink-0 items-center gap-2">
-          <KomutPaleti />
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
       </header>
     </div>
   );
