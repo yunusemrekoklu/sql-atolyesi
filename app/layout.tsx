@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Alex_Brush, Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { Header } from "@/components/layout/Header";
@@ -17,6 +17,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "latin-ext"],
 });
 
+const scriptFont = Alex_Brush({
+  variable: "--font-script",
+  weight: "400",
+  subsets: ["latin", "latin-ext"],
+});
+
 export const metadata: Metadata = {
   title: {
     default: "SQLCODEX — Tarayıcında Türkçe SQL Öğren",
@@ -31,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="tr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${scriptFont.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col select-none">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

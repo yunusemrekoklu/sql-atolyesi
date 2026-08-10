@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TUM_MULAKAT_SORULARI } from "@/content/interview";
 import { SEVIYE_ROZET, SEVIYE_KENAR } from "@/lib/ui/seviye";
 import { HUB_BASLIK_SINIFI, KART_SINIFI } from "@/lib/ui/kart";
+import { MulakatSertifikaBanner } from "@/components/certificate/MulakatSertifikaBanner";
 
 export const metadata = { title: "Mülakat" };
 
@@ -13,6 +14,7 @@ export default function MulakatPage() {
         <p className="mt-2 text-stone-600 dark:text-stone-300">
           Gerçek mülakat sorusu tarzında, kurgusal Türk şirket senaryolarıyla SQL soruları — her biri kendi mini şemasıyla gelir.
         </p>
+        <MulakatSertifikaBanner />
       </header>
 
       <section className={`mt-8 ${KART_SINIFI}`}>

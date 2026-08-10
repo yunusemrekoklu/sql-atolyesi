@@ -1,11 +1,18 @@
 export type AlistirmaDurumu = "cozuldu" | "cozumGoruldu";
 
+export interface KazanilanSertifika {
+  id: string;
+  tarih: string; // ISO YYYY-MM-DD
+}
+
 export interface IlerlemeVerisi {
   surum: 1;
   alistirmalar: Record<string, AlistirmaDurumu>;
   tamamlananDersler: string[];
   miniQuizSonuclari: Record<string, { dogruSayisi: number; toplamSoru: number }>;
   cozulenMulakatSorulari: string[];
+  kullaniciAdi: string | null;
+  kazanilanSertifikalar: Record<string, KazanilanSertifika>;
 }
 
 export const BOS_ILERLEME: IlerlemeVerisi = {
@@ -14,6 +21,8 @@ export const BOS_ILERLEME: IlerlemeVerisi = {
   tamamlananDersler: [],
   miniQuizSonuclari: {},
   cozulenMulakatSorulari: [],
+  kullaniciAdi: null,
+  kazanilanSertifikalar: {},
 };
 
 /**

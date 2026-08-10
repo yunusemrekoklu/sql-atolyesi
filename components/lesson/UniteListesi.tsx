@@ -31,23 +31,33 @@ export function UniteListesi({
             key={uniteId}
             className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-900"
           >
-            <button
-              type="button"
-              onClick={() => setAcikUniteId(acik ? null : uniteId)}
-              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-stone-100 dark:hover:bg-stone-800"
-              aria-expanded={acik}
-            >
-              <span>
-                <p className="text-sm text-stone-500 dark:text-stone-400">Ünite {uniteId}</p>
-                <p className="text-lg font-semibold">{UNITE_BASLIKLARI[uniteId]}</p>
-              </span>
-              <span className="flex shrink-0 items-center gap-3 text-sm text-stone-500 dark:text-stone-400">
-                {tamamlanan}/{dersler.length} tamamlandı
-                <span className={acik ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden="true">
-                  ⌄
+            <div className="flex w-full items-center gap-3 px-5 py-4 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800">
+              <button
+                type="button"
+                onClick={() => setAcikUniteId(acik ? null : uniteId)}
+                className="flex flex-1 items-center justify-between gap-3 text-left"
+                aria-expanded={acik}
+              >
+                <span>
+                  <p className="text-sm text-stone-500 dark:text-stone-400">Ünite {uniteId}</p>
+                  <p className="text-lg font-semibold">{UNITE_BASLIKLARI[uniteId]}</p>
                 </span>
-              </span>
-            </button>
+                <span className="flex shrink-0 items-center gap-3 text-sm text-stone-500 dark:text-stone-400">
+                  {tamamlanan}/{dersler.length} tamamlandı
+                  <span className={acik ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden="true">
+                    ⌄
+                  </span>
+                </span>
+              </button>
+              {tamamlanan === dersler.length && (
+                <Link
+                  href={`/sertifika/unite-${uniteId}/`}
+                  className="shrink-0 rounded-md border border-accent px-2 py-1 text-xs font-medium text-accent transition-colors hover:bg-orange-50 dark:hover:bg-orange-950/30"
+                >
+                  🎓 Sertifika
+                </Link>
+              )}
+            </div>
             {acik && (
               <ul className="space-y-2 border-t border-stone-200 p-4 dark:border-stone-800">
                 {dersler.map((ders) => (

@@ -1,4 +1,10 @@
-import { alistirmaDurumunuBirlestir, BOS_ILERLEME, type AlistirmaDurumu, type IlerlemeVerisi } from "./types";
+import {
+  alistirmaDurumunuBirlestir,
+  BOS_ILERLEME,
+  type AlistirmaDurumu,
+  type IlerlemeVerisi,
+  type KazanilanSertifika,
+} from "./types";
 import { safeGetItem, safeSetItem, STORAGE_KEY } from "./storage";
 
 /**
@@ -101,4 +107,27 @@ export function mulakatSorusunuCozulduIsaretle(slug: string): void {
       ? onceki
       : { ...onceki, cozulenMulakatSorulari: [...onceki.cozulenMulakatSorulari, slug] },
   );
+}
+
+export function kullaniciAdiniKaydet(ad: string): void {
+  guncelle((onceki) => ({ ...onceki, kullaniciAdi: ad.trim() }));
+}
+
+/**
+ * "Getir ya da oluştur" deseni bilinçli: bir sertifika ilk kazanıldığı an
+ * tarih/ID sabitlenir, sonraki her görüntülemede aynı kayıt döner —
+ * tekrar tekrar yeni tarih/ID üretilmez.
+ */
+export function sertifikaGetirYaDaOlustur(anahtar: string): KazanilanSertifika {
+  const mevcut = onbellek.kazanilanSertifikalar[anahtar];
+  if (mevcut) return mevcut;
+  const yeni: KazanilanSertifika = {
+    id: `SQLCODEX-${anahtar.toUpperCase()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+    tarih: new Date().toISOString().slice(0, 10),
+  };
+  guncelle((onceki) => ({
+    ...onceki,
+    kazanilanSertifikalar: { ...onceki.kazanilanSertifikalar, [anahtar]: yeni },
+  }));
+  return yeni;
 }
