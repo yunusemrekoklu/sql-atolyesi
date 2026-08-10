@@ -42,21 +42,21 @@ export function SertifikaKarti({
       </p>
 
       <p
-        className={`font-open-sans absolute inset-x-0 text-center italic ${altinTema ? "" : "text-stone-700"}`}
+        className={`font-open-sans absolute inset-x-0 text-center italic ${altinTema ? "font-semibold" : "text-stone-700"}`}
         style={{ top: "63%", fontSize: "1.85cqw", ...(altinTema ? ALTIN_METIN_STIL : {}) }}
       >
         {kursSatiri}
       </p>
 
       <p
-        className={`font-open-sans absolute ${altinTema ? "" : "text-stone-600"}`}
+        className={`font-open-sans absolute ${altinTema ? "font-semibold" : "text-stone-600"}`}
         style={{ top: "79.4%", left: "16.6%", fontSize: "1.5cqw", ...(altinTema ? ALTIN_METIN_STIL : {}) }}
       >
         <span className="font-semibold">EARNED ON:</span> {tarih}
       </p>
 
       <p
-        className={`font-open-sans absolute ${altinTema ? "" : "text-stone-600"}`}
+        className={`font-open-sans absolute ${altinTema ? "font-semibold" : "text-stone-600"}`}
         style={{ top: "82.1%", left: "16.6%", fontSize: "1.5cqw", ...(altinTema ? ALTIN_METIN_STIL : {}) }}
       >
         <span className="font-semibold">ID:</span> {id}
