@@ -5,6 +5,7 @@ import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseHatasiniCevir } from "@/lib/supabase/hata-mesajlari";
+import { SIFRE_POLITIKASI_METNI, sifrePolitikasinaUyuyorMu } from "@/lib/supabase/sifre-politikasi";
 import { INPUT_SINIFI } from "@/lib/ui/form";
 import { OAuthDugmeleri } from "./OAuthDugmeleri";
 
@@ -21,8 +22,8 @@ export function KayitFormu() {
     e.preventDefault();
     setHata("");
 
-    if (sifre.length < 6) {
-      setHata("Şifre en az 6 karakter olmalı.");
+    if (!sifrePolitikasinaUyuyorMu(sifre)) {
+      setHata(`Şifre gereksinimleri karşılanmıyor: ${SIFRE_POLITIKASI_METNI}`);
       return;
     }
 
@@ -113,7 +114,7 @@ export function KayitFormu() {
             onChange={(e) => setSifre(e.target.value)}
             className={INPUT_SINIFI}
           />
-          <p className="mt-1 text-xs text-stone-400">En az 6 karakter.</p>
+          <p className="mt-1 text-xs text-stone-400">{SIFRE_POLITIKASI_METNI}</p>
         </div>
 
         {hata && <p className="text-sm text-red-600 dark:text-red-400">{hata}</p>}
