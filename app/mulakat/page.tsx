@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { TUM_MULAKAT_SORULARI } from "@/content/interview";
 import { SEVIYE_ROZET, SEVIYE_KENAR } from "@/lib/ui/seviye";
-import { KART_SINIFI } from "@/lib/ui/kart";
+import { HUB_BASLIK_SINIFI, KART_SINIFI } from "@/lib/ui/kart";
 
 export const metadata = { title: "Mülakat" };
 
 export default function MulakatPage() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      <h1 className="text-2xl font-bold tracking-tight">Mülakat</h1>
-      <p className="mt-2 text-stone-600 dark:text-stone-300">
-        Gerçek mülakat sorusu tarzında, kurgusal Türk şirket senaryolarıyla SQL soruları — her biri kendi mini şemasıyla gelir.
-      </p>
+      <header className={HUB_BASLIK_SINIFI}>
+        <h1 className="text-2xl font-bold tracking-tight">Mülakat</h1>
+        <p className="mt-2 text-stone-600 dark:text-stone-300">
+          Gerçek mülakat sorusu tarzında, kurgusal Türk şirket senaryolarıyla SQL soruları — her biri kendi mini şemasıyla gelir.
+        </p>
+      </header>
 
       <section className={`mt-8 ${KART_SINIFI}`}>
         <ul className="space-y-3">

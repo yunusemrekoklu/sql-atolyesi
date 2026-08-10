@@ -8,6 +8,7 @@ import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
 import { KART_SINIFI } from "@/lib/ui/kart";
 import { AlistirmaYazdirListesi } from "@/components/print/AlistirmaYazdirListesi";
+import { YazdirButonu } from "@/components/print/YazdirButonu";
 
 export function generateStaticParams() {
   return TUM_PRATIK_SETLERI.map((set) => ({ setSlug: set.slug }));
@@ -69,6 +70,9 @@ export default async function PratikSetPage({
           Veritabanı Şeması — {veritabani.ad}
         </h2>
         <SchemaPanel databaseId={veritabani.id} ddl={veritabani.ddl} />
+        <div className="mt-4">
+          <YazdirButonu />
+        </div>
       </aside>
     </div>
   );

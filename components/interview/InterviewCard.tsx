@@ -14,6 +14,7 @@ import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { DataPreviewTable } from "@/components/sql/DataPreviewTable";
 import { SqlCodeBlock } from "@/components/sql/SqlCodeBlock";
 import { MarkdownIcerik } from "@/components/markdown/MarkdownIcerik";
+import { YazdirButonu } from "@/components/print/YazdirButonu";
 
 /**
  * Mülakat sorusu kartı — ExerciseCard'a benzer bir autograder akışı
@@ -187,6 +188,9 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
       <aside className="lg:sticky lg:top-20 lg:h-fit">
         <h2 className="mb-2 text-sm font-semibold text-stone-500 dark:text-stone-400">Şema</h2>
         <SchemaPanel databaseId={soru.slug} ddl={soru.ddl} />
+        <div className="mt-4">
+          <YazdirButonu />
+        </div>
       </aside>
     </div>
   );

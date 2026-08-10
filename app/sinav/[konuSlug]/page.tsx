@@ -5,6 +5,8 @@ import { UNITE_SINAVLARI, getUniteSinavi } from "@/content/exams";
 import { QuizRunner } from "@/components/quiz/QuizRunner";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
 import { CoktanSecmeliYazdirListesi } from "@/components/print/CoktanSecmeliYazdirListesi";
+import { YazdirButonu } from "@/components/print/YazdirButonu";
+import { KART_SINIFI } from "@/lib/ui/kart";
 
 const UNITE_BASLIKLARI: Record<number, string> = {
   1: "Ünite 1 — SQL'e Giriş ve Temel Sorgulama",
@@ -51,15 +53,20 @@ export default async function UniteSinaviPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-10">
-      <div className="mb-8 space-y-1">
+      <div className="mb-8 space-y-3">
         <Link
           href="/sinav/"
           className="print:hidden inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-900 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white"
         >
           <ChevronIcon direction="left" /> Tüm sınavlar
         </Link>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{UNITE_BASLIKLARI[uniteId]}</h1>
-        <p className="text-stone-600 dark:text-stone-300">{sorular.length} çoktan seçmeli soru — süre sınırı yok.</p>
+        <header className={`flex items-start justify-between gap-4 ${KART_SINIFI}`}>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{UNITE_BASLIKLARI[uniteId]}</h1>
+            <p className="text-stone-600 dark:text-stone-300">{sorular.length} çoktan seçmeli soru — süre sınırı yok.</p>
+          </div>
+          <YazdirButonu />
+        </header>
       </div>
 
       <div className="print:hidden">

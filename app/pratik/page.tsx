@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { TUM_PRATIK_SETLERI } from "@/content/practice";
-import { KART_SINIFI } from "@/lib/ui/kart";
+import { HUB_BASLIK_SINIFI, KART_SINIFI } from "@/lib/ui/kart";
 
 export const metadata = { title: "Pratik" };
 
 export default function PratikPage() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      <h1 className="text-2xl font-bold tracking-tight">Pratik</h1>
-      <p className="mt-2 text-stone-600 dark:text-stone-300">
-        Konu bazlı bağımsız soru setleri — her set kendi veritabanıyla gelir, Kolay/Orta/Zor karışık.
-      </p>
+      <header className={HUB_BASLIK_SINIFI}>
+        <h1 className="text-2xl font-bold tracking-tight">Pratik</h1>
+        <p className="mt-2 text-stone-600 dark:text-stone-300">
+          Konu bazlı bağımsız soru setleri — her set kendi veritabanıyla gelir, Kolay/Orta/Zor karışık.
+        </p>
+      </header>
 
       <section className={`mt-8 ${KART_SINIFI}`}>
         <ul className="space-y-3">
