@@ -37,9 +37,9 @@ function baslikVeGeriLink(turu: SertifikaTuru): { baslik: string; geriLink: stri
 }
 
 function kursSatiriUret(turu: SertifikaTuru): string {
-  if (turu.tip === "unite") return `Unit ${turu.uniteId} course.`;
-  if (turu.tip === "pratik") return "Practical Section.";
-  return "Interview Section.";
+  const ek =
+    turu.tip === "unite" ? `Unit ${turu.uniteId} course.` : turu.tip === "pratik" ? "Practical Section." : "Interview Section.";
+  return `Has successfully completed the SQLCODEX ${ek}`;
 }
 
 export function SertifikaSayfasi({ tur }: { tur: string }) {

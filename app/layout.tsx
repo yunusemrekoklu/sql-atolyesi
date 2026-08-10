@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Alex_Brush, Geist, Geist_Mono } from "next/font/google";
+import { Alex_Brush, Geist, Geist_Mono, Open_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { Header } from "@/components/layout/Header";
@@ -23,6 +23,11 @@ const scriptFont = Alex_Brush({
   subsets: ["latin", "latin-ext"],
 });
 
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
+  subsets: ["latin", "latin-ext"],
+});
+
 export const metadata: Metadata = {
   title: {
     default: "SQLCODEX — Tarayıcında Türkçe SQL Öğren",
@@ -37,9 +42,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="tr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${scriptFont.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${scriptFont.variable} ${openSans.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col select-none">
+      <body className="flex min-h-full flex-col select-none" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProgressProvider>
             <OkumaIlerlemeCubugu />
