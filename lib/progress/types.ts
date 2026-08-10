@@ -1,7 +1,10 @@
 export type AlistirmaDurumu = "cozuldu" | "cozumGoruldu";
 
 export interface KazanilanSertifika {
+  /** Uzak modda Supabase certificates.id (gerçek UUID, /certificate/[id] için); yerel modda üretilen id ile aynı. */
   id: string;
+  /** Sertifika üzerinde gösterilen "SQLCODEX-..." biçimli okunabilir kod. */
+  displayCode: string;
   tarih: string; // ISO YYYY-MM-DD
 }
 

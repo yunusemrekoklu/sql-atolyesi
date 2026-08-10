@@ -22,7 +22,7 @@ interface ProgressContextValue {
   miniQuizSonucunuKaydet: (dersSlug: string, dogruSayisi: number, toplamSoru: number) => void;
   mulakatSorusunuCozulduIsaretle: (slug: string) => void;
   kullaniciAdiniKaydet: (ad: string) => void;
-  sertifikaGetirYaDaOlustur: (anahtar: string) => KazanilanSertifika;
+  sertifikaGetirYaDaOlustur: (anahtar: string) => Promise<KazanilanSertifika>;
 }
 
 const ProgressContext = createContext<ProgressContextValue>({

@@ -71,7 +71,9 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
 
   useEffect(() => {
     if (kazanildiMi && ilerleme.kullaniciAdi && !kayit) {
-      sertifikaGetirYaDaOlustur(tur);
+      sertifikaGetirYaDaOlustur(tur).catch((err) => {
+        console.error("Sertifika oluşturulamadı:", err);
+      });
     }
   }, [kazanildiMi, ilerleme.kullaniciAdi, kayit, tur, sertifikaGetirYaDaOlustur]);
 
@@ -148,7 +150,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
         ad={ilerleme.kullaniciAdi}
         kursSatiri={kursSatiriUret(turu)}
         tarih={kayit.tarih}
-        id={kayit.id}
+        id={kayit.displayCode}
         arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
         altinTema={turu.tip === "tumu"}
       />
