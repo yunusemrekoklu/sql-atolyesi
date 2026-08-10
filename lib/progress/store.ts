@@ -18,7 +18,9 @@ function diskteOku(): IlerlemeVerisi {
   try {
     const ayristirilmis = JSON.parse(ham) as IlerlemeVerisi;
     // Gelecekte surum artarsa migrasyon zinciri buraya eklenir (surum 1 -> 2 -> ...).
-    return ayristirilmis.surum === 1 ? ayristirilmis : BOS_ILERLEME;
+    // Eski kayıtlarda henüz olmayan alanlar (ör. cozulenMulakatSorulari) BOS_ILERLEME
+    // varsayılanlarıyla birleştirilir, undefined kalmaz.
+    return ayristirilmis.surum === 1 ? { ...BOS_ILERLEME, ...ayristirilmis } : BOS_ILERLEME;
   } catch {
     return BOS_ILERLEME;
   }
@@ -91,4 +93,12 @@ export function miniQuizSonucunuKaydet(dersSlug: string, dogruSayisi: number, to
     ...onceki,
     miniQuizSonuclari: { ...onceki.miniQuizSonuclari, [dersSlug]: { dogruSayisi, toplamSoru } },
   }));
+}
+
+export function mulakatSorusunuCozulduIsaretle(slug: string): void {
+  guncelle((onceki) =>
+    onceki.cozulenMulakatSorulari.includes(slug)
+      ? onceki
+      : { ...onceki, cozulenMulakatSorulari: [...onceki.cozulenMulakatSorulari, slug] },
+  );
 }

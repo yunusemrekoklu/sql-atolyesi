@@ -107,7 +107,13 @@ export default async function DersPage({
         </section>
 
         <div className="print:hidden">
-          <DersNavigasyonu dersSlug={ders.slug} onceki={onceki} sonraki={sonraki} />
+          <DersNavigasyonu
+            dersSlug={ders.slug}
+            alistirmalar={ders.alistirmalar}
+            miniQuizSoruSayisi={ders.miniQuiz.length}
+            onceki={onceki}
+            sonraki={sonraki}
+          />
         </div>
       </article>
 

@@ -6,6 +6,7 @@ import type { InterviewQuestion } from "@/types/content";
 import { openFreshDb } from "@/lib/sql/db";
 import { getFullState } from "@/lib/sql/schema";
 import { degerlendir, type GradeSonucu } from "@/lib/sql/grader";
+import { useProgress } from "@/components/progress/ProgressProvider";
 import { SqlEditor } from "@/components/sql/SqlEditor";
 import { ResultTable } from "@/components/sql/ResultTable";
 import { QueryError } from "@/components/sql/QueryError";
@@ -29,6 +30,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
   const [ipucuSayisi, setIpucuSayisi] = useState(0);
   const [cozumGoster, setCozumGoster] = useState(false);
   const [takipGoster, setTakipGoster] = useState(false);
+  const { mulakatSorusunuCozulduIsaretle } = useProgress();
 
   async function kontrolEt() {
     if (sorgu.trim() === "") return;
@@ -58,15 +60,15 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
           }
         })();
 
-        setDegerlendirme(
-          degerlendir({
-            mod: "sonuc",
-            kullanici: kullaniciSonuc,
-            cozum: cozumSonuc,
-            siralamaOnemli: soru.siralamaOnemli,
-            kolonAdiOnemli: soru.kolonAdiOnemli,
-          }),
-        );
+        const sonucDegerlendirme = degerlendir({
+          mod: "sonuc",
+          kullanici: kullaniciSonuc,
+          cozum: cozumSonuc,
+          siralamaOnemli: soru.siralamaOnemli,
+          kolonAdiOnemli: soru.kolonAdiOnemli,
+        });
+        setDegerlendirme(sonucDegerlendirme);
+        if (sonucDegerlendirme.dogru) mulakatSorusunuCozulduIsaretle(soru.slug);
       } else {
         const kullaniciDurum = await (async () => {
           const db = await openFreshDb(soru.slug, soru.ddl);
@@ -88,7 +90,9 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
           }
         })();
 
-        setDegerlendirme(degerlendir({ mod: "tabloDurumu", kullanici: kullaniciDurum, cozum: cozumDurum }));
+        const tabloDegerlendirme = degerlendir({ mod: "tabloDurumu", kullanici: kullaniciDurum, cozum: cozumDurum });
+        setDegerlendirme(tabloDegerlendirme);
+        if (tabloDegerlendirme.dogru) mulakatSorusunuCozulduIsaretle(soru.slug);
       }
     } catch (err) {
       setHata(err instanceof Error ? err.message : String(err));

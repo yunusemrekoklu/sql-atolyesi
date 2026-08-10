@@ -5,6 +5,7 @@ export interface IlerlemeVerisi {
   alistirmalar: Record<string, AlistirmaDurumu>;
   tamamlananDersler: string[];
   miniQuizSonuclari: Record<string, { dogruSayisi: number; toplamSoru: number }>;
+  cozulenMulakatSorulari: string[];
 }
 
 export const BOS_ILERLEME: IlerlemeVerisi = {
@@ -12,6 +13,7 @@ export const BOS_ILERLEME: IlerlemeVerisi = {
   alistirmalar: {},
   tamamlananDersler: [],
   miniQuizSonuclari: {},
+  cozulenMulakatSorulari: [],
 };
 
 /**

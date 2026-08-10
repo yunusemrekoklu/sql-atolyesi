@@ -9,6 +9,7 @@ import {
   getServerSnapshot,
   getSnapshot,
   miniQuizSonucunuKaydet,
+  mulakatSorusunuCozulduIsaretle,
   subscribe,
 } from "@/lib/progress/store";
 
@@ -17,6 +18,7 @@ interface ProgressContextValue {
   alistirmaDurumunuAyarla: (id: string, durum: AlistirmaDurumu) => void;
   dersiTamamlaninIsaretle: (dersSlug: string) => void;
   miniQuizSonucunuKaydet: (dersSlug: string, dogruSayisi: number, toplamSoru: number) => void;
+  mulakatSorusunuCozulduIsaretle: (slug: string) => void;
 }
 
 const ProgressContext = createContext<ProgressContextValue>({
@@ -24,6 +26,7 @@ const ProgressContext = createContext<ProgressContextValue>({
   alistirmaDurumunuAyarla,
   dersiTamamlaninIsaretle,
   miniQuizSonucunuKaydet,
+  mulakatSorusunuCozulduIsaretle,
 });
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
@@ -31,7 +34,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   return (
     <ProgressContext.Provider
-      value={{ ilerleme, alistirmaDurumunuAyarla, dersiTamamlaninIsaretle, miniQuizSonucunuKaydet }}
+      value={{
+        ilerleme,
+        alistirmaDurumunuAyarla,
+        dersiTamamlaninIsaretle,
+        miniQuizSonucunuKaydet,
+        mulakatSorusunuCozulduIsaretle,
+      }}
     >
       {children}
     </ProgressContext.Provider>
