@@ -150,6 +150,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
         tarih={kayit.tarih}
         id={kayit.id}
         arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
+        altinTema={turu.tip === "tumu"}
       />
       <div className="print:hidden mt-5 flex items-center justify-center gap-4">
         <YazdirButonu />
