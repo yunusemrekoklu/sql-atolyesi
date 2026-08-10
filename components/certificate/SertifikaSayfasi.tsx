@@ -53,7 +53,6 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
   const turu = turuAyristir(tur);
   const { ilerleme, kullaniciAdiniKaydet, sertifikaGetirYaDaOlustur } = useProgress();
   const [adTaslak, setAdTaslak] = useState("");
-  const [duzenleModu, setDuzenleModu] = useState(false);
 
   const kazanildiMi = turu
     ? turu.tip === "unite"
@@ -100,7 +99,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
     );
   }
 
-  if (!ilerleme.kullaniciAdi || duzenleModu) {
+  if (!ilerleme.kullaniciAdi) {
     return (
       <div className="mx-auto w-full max-w-2xl px-4 py-16">
         <div className={KART_SINIFI}>
@@ -116,7 +115,6 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
               const temiz = adTaslak.trim();
               if (!temiz) return;
               kullaniciAdiniKaydet(temiz);
-              setDuzenleModu(false);
               setAdTaslak("");
             }}
             className="mt-4 flex flex-col gap-3 sm:flex-row"
@@ -156,13 +154,12 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
       />
       <div className="print:hidden mt-5 flex items-center justify-center gap-4">
         <YazdirButonu />
-        <button
-          type="button"
-          onClick={() => setDuzenleModu(true)}
+        <Link
+          href="/profil"
           className="text-sm text-stone-500 underline-offset-2 hover:text-stone-900 hover:underline dark:text-stone-400 dark:hover:text-white"
         >
           adını değiştir
-        </button>
+        </Link>
       </div>
     </div>
   );

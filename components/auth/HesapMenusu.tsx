@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
+import { useProgress } from "@/components/progress/ProgressProvider";
 
 function baslangicHarfi(eposta: string | null | undefined, ad: string | null): string {
   const kaynak = ad?.trim() || eposta || "?";
@@ -12,6 +13,7 @@ function baslangicHarfi(eposta: string | null | undefined, ad: string | null): s
 
 export function HesapMenusu() {
   const { user, profile, cikisYap } = useAuth();
+  const { ilerleme } = useProgress();
   const router = useRouter();
   const [acik, setAcik] = useState(false);
   const kapsayiciRef = useRef<HTMLDivElement>(null);
@@ -38,7 +40,7 @@ export function HesapMenusu() {
     );
   }
 
-  const gorunenAd = profile?.display_name?.trim() || user.email || "Hesabım";
+  const gorunenAd = ilerleme.kullaniciAdi?.trim() || user.email || "Hesabım";
   const avatarUrl = profile?.avatar_url;
 
   async function cikisYapVeKapat() {
@@ -62,7 +64,7 @@ export function HesapMenusu() {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={avatarUrl} alt="" className="h-full w-full object-cover" />
         ) : (
-          baslangicHarfi(user.email, profile?.display_name ?? null)
+          baslangicHarfi(user.email, ilerleme.kullaniciAdi)
         )}
       </button>
 

@@ -9,18 +9,25 @@ import type { Profile } from "@/lib/supabase/types";
 interface AuthContextValue {
   user: User | null;
   profile: Profile | null;
+  /** İlk oturum kontrolü tamamlanana kadar true — auth gate'li sayfaların erken "giriş yapmalısın" göstermesini önler. */
+  yukleniyor: boolean;
   cikisYap: () => Promise<void>;
+  /** profiles satırı store dışında (ör. avatar yükleme) değiştiğinde önbelleği tazeler. */
+  profiliYenile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   profile: null,
+  yukleniyor: true,
   cikisYap: async () => {},
+  profiliYenile: async () => {},
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [yukleniyor, setYukleniyor] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
@@ -45,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (iptalEdildi) return;
       setUser(session?.user ?? null);
       if (session?.user) profiliGetir(session.user.id);
+      setYukleniyor(false);
     });
 
     const {
@@ -70,8 +78,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await createClient().auth.signOut();
   }, []);
 
+  const profiliYenile = useCallback(async () => {
+    const supabase = createClient();
+    const {
+      data: { user: guncelKullanici },
+    } = await supabase.auth.getUser();
+    if (!guncelKullanici) return;
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, display_name, avatar_url")
+      .eq("id", guncelKullanici.id)
+      .maybeSingle();
+    setProfile(data);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, profile, cikisYap }}>
+    <AuthContext.Provider value={{ user, profile, yukleniyor, cikisYap, profiliYenile }}>
       {children}
     </AuthContext.Provider>
   );
