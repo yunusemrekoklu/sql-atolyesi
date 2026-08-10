@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SertifikaSayfasi } from "@/components/certificate/SertifikaSayfasi";
 
-const TUM_TURLER = ["unite-1", "unite-2", "unite-3", "unite-4", "unite-5", "pratik", "mulakat"] as const;
+const TUM_TURLER = ["unite-1", "unite-2", "unite-3", "unite-4", "unite-5", "pratik", "mulakat", "tumu"] as const;
 
 export function generateStaticParams() {
   return TUM_TURLER.map((tur) => ({ tur }));

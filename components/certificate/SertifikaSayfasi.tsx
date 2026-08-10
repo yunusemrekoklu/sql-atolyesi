@@ -12,13 +12,14 @@ import { SertifikaKarti } from "@/components/certificate/SertifikaKarti";
 import { YazdirButonu } from "@/components/print/YazdirButonu";
 import { KART_SINIFI } from "@/lib/ui/kart";
 
-type SertifikaTuru = { tip: "unite"; uniteId: number } | { tip: "pratik" } | { tip: "mulakat" };
+type SertifikaTuru = { tip: "unite"; uniteId: number } | { tip: "pratik" } | { tip: "mulakat" } | { tip: "tumu" };
 
 function turuAyristir(tur: string): SertifikaTuru | null {
   const eslesme = /^unite-([1-5])$/.exec(tur);
   if (eslesme) return { tip: "unite", uniteId: Number(eslesme[1]) };
   if (tur === "pratik") return { tip: "pratik" };
   if (tur === "mulakat") return { tip: "mulakat" };
+  if (tur === "tumu") return { tip: "tumu" };
   return null;
 }
 
@@ -33,10 +34,16 @@ function baslikVeGeriLink(turu: SertifikaTuru): { baslik: string; geriLink: stri
   if (turu.tip === "pratik") {
     return { baslik: "Pratik", geriLink: "/pratik/", geriMetin: "Pratik sayfasına dön" };
   }
-  return { baslik: "Mülakat", geriLink: "/mulakat/", geriMetin: "Mülakat sayfasına dön" };
+  if (turu.tip === "mulakat") {
+    return { baslik: "Mülakat", geriLink: "/mulakat/", geriMetin: "Mülakat sayfasına dön" };
+  }
+  return { baslik: "Büyük Sertifika", geriLink: "/", geriMetin: "Ana sayfaya dön" };
 }
 
 function kursSatiriUret(turu: SertifikaTuru): string {
+  if (turu.tip === "tumu") {
+    return "Has successfully completed the entire SQLCODEX curriculum — Learn, Practical, and Interview.";
+  }
   const ek =
     turu.tip === "unite" ? `Unit ${turu.uniteId} course.` : turu.tip === "pratik" ? "Practical Section." : "Interview Section.";
   return `Has successfully completed the SQLCODEX ${ek}`;
@@ -53,7 +60,11 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
       ? uniteTamamlandiMi(turu.uniteId, TUM_DERSLER, ilerleme.tamamlananDersler)
       : turu.tip === "pratik"
         ? pratikTamamlandiMi(TUM_PRATIK_SETLERI, ilerleme.alistirmalar)
-        : mulakatTamamlandiMi(TUM_MULAKAT_SORULARI, ilerleme.cozulenMulakatSorulari)
+        : turu.tip === "mulakat"
+          ? mulakatTamamlandiMi(TUM_MULAKAT_SORULARI, ilerleme.cozulenMulakatSorulari)
+          : [1, 2, 3, 4, 5].every((uniteId) => uniteTamamlandiMi(uniteId, TUM_DERSLER, ilerleme.tamamlananDersler)) &&
+            pratikTamamlandiMi(TUM_PRATIK_SETLERI, ilerleme.alistirmalar) &&
+            mulakatTamamlandiMi(TUM_MULAKAT_SORULARI, ilerleme.cozulenMulakatSorulari)
     : false;
 
   const kayit = ilerleme.kazanilanSertifikalar[tur];
@@ -91,7 +102,9 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
     return (
       <div className="mx-auto w-full max-w-2xl px-4 py-16">
         <div className={KART_SINIFI}>
-          <p className="text-lg font-semibold">🎓 Tebrikler, {baslik} sertifikasını kazandın!</p>
+          <p className="text-lg font-semibold">
+            {turu.tip === "tumu" ? "🏆 Tebrikler, SQLCODEX'i baştan sona tamamladın!" : `🎓 Tebrikler, ${baslik} sertifikasını kazandın!`}
+          </p>
           <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
             Sertifikada görünecek adını yaz — bir kez girilir, sonraki tüm sertifikalarda otomatik kullanılır.
           </p>
@@ -131,7 +144,13 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      <SertifikaKarti ad={ilerleme.kullaniciAdi} kursSatiri={kursSatiriUret(turu)} tarih={kayit.tarih} id={kayit.id} />
+      <SertifikaKarti
+        ad={ilerleme.kullaniciAdi}
+        kursSatiri={kursSatiriUret(turu)}
+        tarih={kayit.tarih}
+        id={kayit.id}
+        arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
+      />
       <div className="print:hidden mt-5 flex items-center justify-center gap-4">
         <YazdirButonu />
         <button

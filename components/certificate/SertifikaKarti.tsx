@@ -3,6 +3,7 @@ interface SertifikaKartiProps {
   kursSatiri: string;
   tarih: string;
   id: string;
+  arkaPlan?: string;
 }
 
 /**
@@ -13,11 +14,11 @@ interface SertifikaKartiProps {
  * kalibre edildi; img tam genişlikte render edildiği için yüzdeler farklı
  * ekran boyutlarında da doğru hizalanır.
  */
-export function SertifikaKarti({ ad, kursSatiri, tarih, id }: SertifikaKartiProps) {
+export function SertifikaKarti({ ad, kursSatiri, tarih, id, arkaPlan = "/sertifika-arka-plan.png" }: SertifikaKartiProps) {
   return (
     <div className="relative mx-auto w-full max-w-3xl [container-type:inline-size]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/sertifika-arka-plan.png" alt="" className="h-auto w-full select-none" draggable={false} />
+      <img src={arkaPlan} alt="" className="h-auto w-full select-none" draggable={false} />
 
       <p
         className="font-script absolute inset-x-0 text-center text-stone-900"
