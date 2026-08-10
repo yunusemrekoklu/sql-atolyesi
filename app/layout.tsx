@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Alex_Brush, Geist, Geist_Mono, Open_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -46,12 +47,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col select-none" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ProgressProvider>
-            <OkumaIlerlemeCubugu />
-            <Header />
-            <main className="flex flex-1 flex-col">{children}</main>
-            <Footer />
-          </ProgressProvider>
+          <AuthProvider>
+            <ProgressProvider>
+              <OkumaIlerlemeCubugu />
+              <Header />
+              <main className="flex flex-1 flex-col">{children}</main>
+              <Footer />
+            </ProgressProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

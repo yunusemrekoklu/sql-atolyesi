@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
+import { HesapMenusu } from "@/components/auth/HesapMenusu";
 
 const NAV_LINKS = [
   { href: "/ogren", label: "Öğren" },
@@ -92,7 +93,10 @@ export function Header() {
             );
           })}
         </nav>
-        <ThemeToggle />
+        <div className="flex shrink-0 items-center gap-2">
+          <HesapMenusu />
+          <ThemeToggle />
+        </div>
       </header>
     </div>
   );
