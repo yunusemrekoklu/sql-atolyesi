@@ -55,14 +55,19 @@ body {
   }
 }
 
-/* Sertifika çıktısı: kenarlıksız A4 yatay, tek sayfa. Arka plan görseli
-   (2000x1414 ≈ 1.4144) A4'ün oranıyla (297/210 ≈ 1.4143) neredeyse
-   birebir örtüştüğü için 297mm sabit genişlik yüksekliği de (h-auto ile)
-   otomatik ~210mm'ye getirir. Genişliği "landscape"/vw yerine mm ile sabit
-   vermek, body/main'in ekran için kullandığı min-h-full/flex-1 zincirinin
-   print'te belirsiz "%100" hesaplarıyla fazladan boş bir 2. sayfaya
-   taşmasını engelliyor — :has() ile bu sıfırlama sadece sertifika içeren
-   sayfalarda uygulanıyor, sınav/quiz çok sayfalı çıktılarını etkilemiyor. */
+/* Sertifika çıktısı: kenarlıksız A4 yatay, tek sayfa.
+   İki katmanlı güvenlik:
+   1) html/body/main'in ekran için kullandığı min-h-full/flex-1 zinciri
+      print'te "%100"ün belirsiz karşılığı yüzünden fazladan boş bir alan
+      bırakıp 2. sayfaya taşabiliyor — :has() ile SADECE sertifika içeren
+      sayfalarda bu yükseklik zorlaması sıfırlanıyor (sınav/quiz'in çok
+      sayfalı çıktısı etkilenmiyor).
+   2) Sertifika alanının kendisi position:fixed ile sayfaya bağımsız
+      sabitleniyor — akıştaki (1)'i aşan beklenmedik bir taşma olsa bile
+      sertifikanın konumu/boyutu bundan etkilenmez. Boyutu (277mm x
+      195.84mm), arka plan görselinin gerçek oranını (2000/1414 ≈ 1.4144)
+      birebir koruyacak şekilde hesaplandı — object-fit bir güvenlik ağı,
+      kırpma/boşluk normalde hiç oluşmaz. */
 @page sertifika-sayfasi {
   size: 297mm 210mm;
   margin: 0;
@@ -80,8 +85,16 @@ body {
   }
   .sertifika-yazdir-alani {
     page: sertifika-sayfasi;
-    width: 297mm !important;
-    max-width: 297mm !important;
-    margin: 0 !important;
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    width: 277mm !important;
+    height: 195.84mm !important;
+    max-width: none !important;
+  }
+  .sertifika-yazdir-alani img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
   }
 }
