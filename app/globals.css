@@ -55,18 +55,33 @@ body {
   }
 }
 
-/* Sertifika çıktısı: kenarlıksız A4 yatay. Arka plan görseli
+/* Sertifika çıktısı: kenarlıksız A4 yatay, tek sayfa. Arka plan görseli
    (2000x1414 ≈ 1.4144) A4'ün oranıyla (297/210 ≈ 1.4143) neredeyse
-   birebir örtüştüğü için genişliğe göre ölçeklendirmek (bkz.
-   SertifikaKarti.tsx'teki print:max-w-none) yüksekliği de otomatik
-   doldurur, object-fit gerekmez. */
+   birebir örtüştüğü için 297mm sabit genişlik yüksekliği de (h-auto ile)
+   otomatik ~210mm'ye getirir. Genişliği "landscape"/vw yerine mm ile sabit
+   vermek, body/main'in ekran için kullandığı min-h-full/flex-1 zincirinin
+   print'te belirsiz "%100" hesaplarıyla fazladan boş bir 2. sayfaya
+   taşmasını engelliyor — :has() ile bu sıfırlama sadece sertifika içeren
+   sayfalarda uygulanıyor, sınav/quiz çok sayfalı çıktılarını etkilemiyor. */
 @page sertifika-sayfasi {
-  size: landscape;
+  size: 297mm 210mm;
   margin: 0;
 }
 
 @media print {
+  html:has(.sertifika-yazdir-alani),
+  body:has(.sertifika-yazdir-alani) {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  main:has(.sertifika-yazdir-alani) {
+    flex: none !important;
+    min-height: 0 !important;
+  }
   .sertifika-yazdir-alani {
     page: sertifika-sayfasi;
+    width: 297mm !important;
+    max-width: 297mm !important;
+    margin: 0 !important;
   }
 }

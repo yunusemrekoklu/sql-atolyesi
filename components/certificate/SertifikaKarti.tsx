@@ -30,7 +30,7 @@ export function SertifikaKarti({
   altinTema = false,
 }: SertifikaKartiProps) {
   return (
-    <div className="sertifika-yazdir-alani relative mx-auto w-full max-w-3xl [container-type:inline-size] print:max-w-none">
+    <div className="sertifika-yazdir-alani relative mx-auto w-full max-w-3xl [container-type:inline-size]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={arkaPlan} alt="" className="h-auto w-full select-none" draggable={false} />
 
