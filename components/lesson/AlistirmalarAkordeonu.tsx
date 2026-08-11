@@ -102,6 +102,7 @@ export function AlistirmalarAkordeonu({
                   alistirma={alistirma}
                   databaseId={databaseId}
                   ddl={ddl}
+                  aktif={acik}
                   onDogruCozuldu={() => {
                     // İlerlemeyi dizi sırasına göre ilerletiyoruz — kalıcı ilerleme
                     // kaydındaki "cozumGoruldu" durumu bilinçli olarak "cozuldu"ya

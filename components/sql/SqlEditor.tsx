@@ -24,9 +24,12 @@ interface SqlEditorProps {
   onChange: (value: string) => void;
   /** Ctrl/Cmd+Enter ile tetiklenir (ör. "Kontrol Et" butonunu çalıştırmak için). */
   onRunRequest?: () => void;
+  /** true olduğunda (ör. akordeonda bu alıştırma az önce açıldığında/aktif olduğunda)
+   * editöre otomatik odaklanır — kullanıcı tıklamadan yazmaya devam edebilsin diye. */
+  otomatikOdaklan?: boolean;
 }
 
-export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
+export function SqlEditor({ value, onChange, onRunRequest, otomatikOdaklan }: SqlEditorProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
@@ -102,6 +105,10 @@ export function SqlEditor({ value, onChange, onRunRequest }: SqlEditorProps) {
       view.dispatch({ changes: { from: 0, to: mevcutIcerik.length, insert: value } });
     }
   }, [value]);
+
+  useEffect(() => {
+    if (otomatikOdaklan) viewRef.current?.focus();
+  }, [otomatikOdaklan]);
 
   return (
     <div className="overflow-hidden rounded-lg border border-stone-200 bg-white text-sm dark:border-stone-800">

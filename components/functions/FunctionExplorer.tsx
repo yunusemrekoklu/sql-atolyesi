@@ -47,7 +47,7 @@ export function FunctionExplorer({ fonksiyonlar }: { fonksiyonlar: FunctionRef[]
             onClick={() => setKategori(k)}
             className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
               kategori === k
-                ? "border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500 dark:text-stone-950"
+                ? "border-brand-green bg-brand-green text-white dark:text-stone-950"
                 : "border-stone-200 bg-stone-50 hover:border-stone-400 hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-600 dark:hover:bg-stone-800"
             }`}
           >

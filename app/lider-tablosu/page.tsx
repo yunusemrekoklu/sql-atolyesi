@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { KART_SINIFI } from "@/lib/ui/kart";
+import { HUB_BASLIK_SINIFI, KART_SINIFI } from "@/lib/ui/kart";
 
 export const metadata = { title: "Lider Tablosu" };
 
@@ -22,7 +22,7 @@ export default async function LiderTablosuPage() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      <header className="mb-8">
+      <header className={`mb-8 ${HUB_BASLIK_SINIFI}`}>
         <h1 className="text-2xl font-bold tracking-tight">Lider Tablosu</h1>
         <p className="mt-2 text-stone-600 dark:text-stone-300">
           Ders, pratik, mülakat, sınav ve deneme sınavlarından kazanılan puanlara göre en yüksek 100 kullanıcı.

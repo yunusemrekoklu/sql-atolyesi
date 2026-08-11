@@ -17,11 +17,14 @@ export function ExerciseCard({
   databaseId,
   ddl,
   onDogruCozuldu,
+  aktif,
 }: {
   alistirma: Exercise;
   databaseId: string;
   ddl: string;
   onDogruCozuldu?: () => void;
+  /** Akordeonda bu alıştırma az önce açıldığında/aktif olduğunda editöre otomatik odaklanır. */
+  aktif?: boolean;
 }) {
   const [sorgu, setSorgu] = useState("");
   const [calisiyor, setCalisiyor] = useState(false);
@@ -116,7 +119,7 @@ export function ExerciseCard({
     <div className="space-y-3">
       <p className="text-sm text-stone-600 dark:text-stone-300">{alistirma.soru}</p>
 
-      <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={kontrolEt} />
+      <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={kontrolEt} otomatikOdaklan={aktif} />
 
       <div className="flex flex-wrap items-center gap-3">
         <button

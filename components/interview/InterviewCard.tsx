@@ -111,7 +111,7 @@ export function InterviewCard({ soru }: { soru: InterviewQuestion }) {
           <DataPreviewTable databaseId={soru.slug} ddl={soru.ddl} tablolar={soru.onizlemeTablolari} />
         )}
 
-        <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={kontrolEt} />
+        <SqlEditor value={sorgu} onChange={setSorgu} onRunRequest={kontrolEt} otomatikOdaklan />
 
         <div className="flex flex-wrap items-center gap-3">
           <button
