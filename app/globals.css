@@ -64,10 +64,15 @@ body {
       sayfalı çıktısı etkilenmiyor).
    2) Sertifika alanının kendisi position:fixed ile sayfaya bağımsız
       sabitleniyor — akıştaki (1)'i aşan beklenmedik bir taşma olsa bile
-      sertifikanın konumu/boyutu bundan etkilenmez. Boyutu (277mm x
-      195.84mm), arka plan görselinin gerçek oranını (2000/1414 ≈ 1.4144)
+      sertifikanın konumu/boyutu bundan etkilenmez. Boyutu (295mm x
+      208.57mm), arka plan görselinin gerçek oranını (2000/1414 ≈ 1.4144)
       birebir koruyacak şekilde hesaplandı — object-fit bir güvenlik ağı,
-      kırpma/boşluk normalde hiç oluşmaz. */
+      kırpma/boşluk normalde hiç oluşmaz. 297x210 sayfa boyutundan kasıtlı
+      olarak ~1mm küçük: tarayıcının "Üstbilgi/altbilgi" ayarı açıkken
+      Chrome margin:0'ı yok sayıp kendi payını zorluyor (2 sayfaya taşma
+      sebebi buydu) — bu küçük pay, o ayar kapalıyken görsel olarak fark
+      edilmeyecek kadar ufak, ama gerçek bir yazıcının kenar boşluğu için
+      de güvenli bir tampon. */
 @page sertifika-sayfasi {
   size: 297mm 210mm;
   margin: 0;
@@ -88,8 +93,8 @@ body {
     position: fixed !important;
     inset: 0 !important;
     margin: auto !important;
-    width: 277mm !important;
-    height: 195.84mm !important;
+    width: 295mm !important;
+    height: 208.57mm !important;
     max-width: none !important;
   }
   .sertifika-yazdir-alani img {
