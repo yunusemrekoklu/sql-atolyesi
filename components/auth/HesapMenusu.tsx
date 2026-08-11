@@ -33,7 +33,7 @@ export function HesapMenusu() {
     return (
       <Link
         href="/giris"
-        className="shrink-0 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
+        className="shrink-0 rounded-full bg-brand-green px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-green-hover dark:text-stone-950"
       >
         Giriş Yap
       </Link>
@@ -73,8 +73,9 @@ export function HesapMenusu() {
           role="menu"
           className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-stone-200 bg-white p-1.5 shadow-lg dark:border-stone-800 dark:bg-stone-900"
         >
-          <div className="truncate px-3 py-2 text-sm font-medium text-stone-500 dark:text-stone-400">
-            {gorunenAd}
+          <div className="px-3 py-2">
+            <p className="truncate text-sm font-medium text-stone-500 dark:text-stone-400">{gorunenAd}</p>
+            <p className="text-xs text-stone-400 dark:text-stone-500">Puan: {ilerleme.puan}</p>
           </div>
           <Link
             href="/sertifikalarim"

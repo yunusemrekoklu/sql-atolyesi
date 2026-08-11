@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function profiliGetir(userId: string) {
       const { data } = await supabase
         .from("profiles")
-        .select("id, display_name, avatar_url")
+        .select("id, display_name, avatar_url, university")
         .eq("id", userId)
         .maybeSingle();
       if (!iptalEdildi) setProfile(data);
@@ -86,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!guncelKullanici) return;
     const { data } = await supabase
       .from("profiles")
-      .select("id, display_name, avatar_url")
+      .select("id, display_name, avatar_url, university")
       .eq("id", guncelKullanici.id)
       .maybeSingle();
     setProfile(data);

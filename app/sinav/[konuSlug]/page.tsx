@@ -70,7 +70,7 @@ export default async function UniteSinaviPage({
       </div>
 
       <div className="print:hidden">
-        <QuizRunner anahtar={`unite-${uniteId}-sinavi`} sorular={sorular} />
+        <QuizRunner uniteId={uniteId} sorular={sorular} />
       </div>
       <div className="hidden print:block">
         <CoktanSecmeliYazdirListesi sorular={sorular} />

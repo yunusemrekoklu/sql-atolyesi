@@ -8,6 +8,9 @@ import { useProgress } from "@/components/progress/ProgressProvider";
 import { createClient } from "@/lib/supabase/client";
 import { INPUT_SINIFI } from "@/lib/ui/form";
 import { KART_SINIFI } from "@/lib/ui/kart";
+import { DIGER_SECENEGI, UNIVERSITE_GRUPLARI } from "@/lib/universities";
+
+const TUM_UNIVERSITE_ADLARI = new Set(UNIVERSITE_GRUPLARI.flatMap((grup) => grup.universiteler));
 
 // avatars storage bucket'ının Faz 0'da tanımlanan limitleriyle birebir eşleşir.
 const AVATAR_MAX_BOYUT = 2 * 1024 * 1024;
@@ -23,9 +26,29 @@ export function ProfilFormu() {
   const [avatarHata, setAvatarHata] = useState("");
   const dosyaInputRef = useRef<HTMLInputElement>(null);
 
+  const [universiteSecimi, setUniversiteSecimi] = useState("");
+  const [universiteDigerMetni, setUniversiteDigerMetni] = useState("");
+  const [universiteKaydediliyor, setUniversiteKaydediliyor] = useState(false);
+  const [universiteKaydedildi, setUniversiteKaydedildi] = useState(false);
+  const [universiteHata, setUniversiteHata] = useState("");
+
   useEffect(() => {
     setAdTaslak(ilerleme.kullaniciAdi ?? "");
   }, [ilerleme.kullaniciAdi]);
+
+  useEffect(() => {
+    const mevcut = profile?.university ?? "";
+    if (!mevcut) {
+      setUniversiteSecimi("");
+      setUniversiteDigerMetni("");
+    } else if (TUM_UNIVERSITE_ADLARI.has(mevcut)) {
+      setUniversiteSecimi(mevcut);
+      setUniversiteDigerMetni("");
+    } else {
+      setUniversiteSecimi(DIGER_SECENEGI);
+      setUniversiteDigerMetni(mevcut);
+    }
+  }, [profile?.university]);
 
   if (yukleniyor) {
     return <p className="text-sm text-stone-500 dark:text-stone-400">Yükleniyor…</p>;
@@ -39,7 +62,7 @@ export function ProfilFormu() {
         </p>
         <Link
           href="/giris"
-          className="mt-4 inline-block rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
+          className="mt-4 inline-block rounded-full bg-brand-green px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-green-hover dark:text-stone-950"
         >
           Giriş yap
         </Link>
@@ -109,6 +132,34 @@ export function ProfilFormu() {
     await profiliYenile();
   }
 
+  async function universiteyiKaydet(e: FormEvent) {
+    e.preventDefault();
+    if (!universiteSecimi || !user) return;
+
+    const deger = universiteSecimi === DIGER_SECENEGI ? universiteDigerMetni.trim() : universiteSecimi;
+    if (!deger) {
+      setUniversiteHata("Üniversite adını yaz.");
+      return;
+    }
+
+    setUniversiteKaydediliyor(true);
+    setUniversiteHata("");
+
+    const supabase = createClient();
+    const { error } = await supabase.from("profiles").update({ university: deger }).eq("id", user.id);
+
+    setUniversiteKaydediliyor(false);
+
+    if (error) {
+      setUniversiteHata("Üniversite kaydedilemedi, tekrar dene.");
+      return;
+    }
+
+    await profiliYenile();
+    setUniversiteKaydedildi(true);
+    setTimeout(() => setUniversiteKaydedildi(false), 2000);
+  }
+
   const baslangicHarfi = (ilerleme.kullaniciAdi?.trim() || user.email || "?").charAt(0).toUpperCase();
 
   return (
@@ -169,8 +220,59 @@ export function ProfilFormu() {
       </div>
 
       <div className={KART_SINIFI}>
+        <h2 className="text-lg font-semibold">Üniversite</h2>
+        <p className="mt-1 text-sm text-stone-600 dark:text-stone-300">
+          İleride üniversiteler arası karşılaştırma özellikleri için kullanılacak.
+        </p>
+        <form onSubmit={universiteyiKaydet} className="mt-4 flex flex-col gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <select
+              value={universiteSecimi}
+              onChange={(e) => setUniversiteSecimi(e.target.value)}
+              className={INPUT_SINIFI}
+              aria-label="Üniversite"
+            >
+              <option value="" disabled>
+                Üniversite seç
+              </option>
+              {UNIVERSITE_GRUPLARI.map((grup) => (
+                <optgroup key={grup.baslik} label={grup.baslik}>
+                  {grup.universiteler.map((ad) => (
+                    <option key={ad} value={ad}>
+                      {ad}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+              <option value={DIGER_SECENEGI}>{DIGER_SECENEGI}</option>
+            </select>
+            <button
+              type="submit"
+              disabled={universiteKaydediliyor}
+              className="shrink-0 rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {universiteKaydediliyor ? "Kaydediliyor…" : "Kaydet"}
+            </button>
+          </div>
+          {universiteSecimi === DIGER_SECENEGI && (
+            <input
+              type="text"
+              value={universiteDigerMetni}
+              onChange={(e) => setUniversiteDigerMetni(e.target.value)}
+              placeholder="Üniversite adını yaz"
+              className={INPUT_SINIFI}
+              aria-label="Üniversite adı (diğer)"
+            />
+          )}
+        </form>
+        {universiteKaydedildi && <p className="mt-2 text-sm text-emerald-600 dark:text-emerald-400">Kaydedildi ✓</p>}
+        {universiteHata && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{universiteHata}</p>}
+      </div>
+
+      <div className={KART_SINIFI}>
         <h2 className="text-lg font-semibold">Hesap</h2>
         <p className="mt-2 text-sm text-stone-600 dark:text-stone-300">{user.email}</p>
+        <p className="mt-1 text-sm text-stone-600 dark:text-stone-300">Puan: {ilerleme.puan}</p>
       </div>
     </div>
   );

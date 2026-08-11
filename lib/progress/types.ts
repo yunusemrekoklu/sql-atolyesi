@@ -16,6 +16,11 @@ export interface IlerlemeVerisi {
   cozulenMulakatSorulari: string[];
   kullaniciAdi: string | null;
   kazanilanSertifikalar: Record<string, KazanilanSertifika>;
+  /** Ünite testi (sınav) sonuçları — anahtar unite id'si. miniQuizSonuclari'ndan
+   * bilinçli olarak ayrı (bkz. lib/exam/remote.ts, unit_test_results tablosu). */
+  uniteSinavSonuclari: Record<number, { dogruSayisi: number; toplamSoru: number }>;
+  /** Sadece Supabase'den okunur, sunucu tarafında puan_events'ten hesaplanır — misafir modunda her zaman 0. */
+  puan: number;
 }
 
 export const BOS_ILERLEME: IlerlemeVerisi = {
@@ -26,6 +31,8 @@ export const BOS_ILERLEME: IlerlemeVerisi = {
   cozulenMulakatSorulari: [],
   kullaniciAdi: null,
   kazanilanSertifikalar: {},
+  uniteSinavSonuclari: {},
+  puan: 0,
 };
 
 /**

@@ -1,11 +1,26 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/auth/AuthProvider";
+
 export function YazdirButonu() {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  function tikla() {
+    if (!user) {
+      router.push("/giris");
+      return;
+    }
+    window.print();
+  }
+
   return (
     <button
       type="button"
-      onClick={() => window.print()}
-      className="print:hidden inline-flex shrink-0 items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-bold tracking-wide text-white shadow-md transition-colors hover:bg-accent-hover"
+      onClick={tikla}
+      title="Kısayol: Ctrl+P"
+      className="print:hidden inline-flex shrink-0 items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
     >
       <svg
         width="18"
@@ -22,7 +37,7 @@ export function YazdirButonu() {
         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
         <rect x="6" y="14" width="12" height="8" />
       </svg>
-      YAZDIR <span className="font-normal tracking-normal text-white/80">(Ctrl+P)</span>
+      Yazdır
     </button>
   );
 }

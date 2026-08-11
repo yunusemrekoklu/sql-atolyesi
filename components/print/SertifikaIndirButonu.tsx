@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import type { RefObject } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 // Yakalanan görüntünün hedef genişliği (px) — cihazdan/ekran boyutundan
 // bağımsız, tutarlı bir baskı kalitesi için (297mm'de ~240 DPI'a denk gelir).
@@ -13,18 +15,31 @@ const HEDEF_PIKSEL_GENISLIK = 2800;
  * Ctrl+P akışı, kullanıcının "Üstbilgi/altbilgi" ve "Kenar Boşlukları"
  * ayarlarına bağımlı olduğu için (bkz. YazdirButonu) herkeste otomatik
  * aynı sonucu vermiyor — bu buton o bağımlılığı tamamen ortadan kaldırır.
+ *
+ * authGerekli=false, /certificate/[id] gibi herkese açık doğrulama
+ * sayfalarında kullanılır — orada oturumsuz bir ziyaretçinin (ör. işveren)
+ * de indirebilmesi gerekiyor.
  */
 export function SertifikaIndirButonu({
   hedefRef,
   dosyaAdi,
+  authGerekli = true,
 }: {
   hedefRef: RefObject<HTMLDivElement | null>;
   dosyaAdi: string;
+  authGerekli?: boolean;
 }) {
+  const { user } = useAuth();
+  const router = useRouter();
   const [yukleniyor, setYukleniyor] = useState(false);
   const [hata, setHata] = useState("");
 
   async function indir() {
+    if (authGerekli && !user) {
+      router.push("/giris");
+      return;
+    }
+
     const hedef = hedefRef.current;
     if (!hedef) return;
 
@@ -65,7 +80,7 @@ export function SertifikaIndirButonu({
         type="button"
         onClick={indir}
         disabled={yukleniyor}
-        className="inline-flex shrink-0 items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-bold tracking-wide text-white shadow-md transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex shrink-0 items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
       >
         <svg
           width="18"

@@ -49,14 +49,6 @@ export function UniteListesi({
                   </span>
                 </span>
               </button>
-              {tamamlanan === dersler.length && (
-                <Link
-                  href={`/sertifika/unite-${uniteId}/`}
-                  className="shrink-0 rounded-md border border-accent px-2 py-1 text-xs font-medium text-accent transition-colors hover:bg-orange-50 dark:hover:bg-orange-950/30"
-                >
-                  🎓 Sertifika
-                </Link>
-              )}
             </div>
             {acik && (
               <ul className="space-y-2 border-t border-stone-200 p-4 dark:border-stone-800">

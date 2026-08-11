@@ -12,7 +12,6 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { SertifikaKarti } from "@/components/certificate/SertifikaKarti";
 import { SertifikaPaylasButonlari } from "@/components/certificate/SertifikaPaylasButonlari";
 import { SertifikaIndirButonu } from "@/components/print/SertifikaIndirButonu";
-import { YazdirButonu } from "@/components/print/YazdirButonu";
 import { KART_SINIFI } from "@/lib/ui/kart";
 import { SITE_URL } from "@/lib/site";
 
@@ -75,12 +74,12 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
   const kayit = ilerleme.kazanilanSertifikalar[tur];
 
   useEffect(() => {
-    if (kazanildiMi && ilerleme.kullaniciAdi && !kayit) {
+    if (kazanildiMi && user && ilerleme.kullaniciAdi && !kayit) {
       sertifikaGetirYaDaOlustur(tur).catch((err) => {
         console.error("Sertifika oluşturulamadı:", err);
       });
     }
-  }, [kazanildiMi, ilerleme.kullaniciAdi, kayit, tur, sertifikaGetirYaDaOlustur]);
+  }, [kazanildiMi, user, ilerleme.kullaniciAdi, kayit, tur, sertifikaGetirYaDaOlustur]);
 
   if (!turu) return null;
 
@@ -99,6 +98,27 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
             className="mt-5 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
           >
             {geriMetin}
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="mx-auto w-full max-w-2xl px-4 py-16 text-center">
+        <div className={KART_SINIFI}>
+          <p className="text-lg font-semibold">
+            {turu.tip === "tumu" ? "🏆 Tebrikler, SQLCODEX'i baştan sona tamamladın!" : `🎓 Tebrikler, ${baslik} sertifikasını kazandın!`}
+          </p>
+          <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+            Bu sertifikayı almak için giriş yapmalısın — çalışmaların kaydedilsin, sertifikan doğrulanabilir ve paylaşılabilir olsun.
+          </p>
+          <Link
+            href="/giris"
+            className="mt-5 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+          >
+            Giriş yap
           </Link>
         </div>
       </div>
@@ -163,24 +183,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
       <div className="print:hidden mt-5 flex flex-col items-center gap-4">
         <div className="flex flex-wrap items-center justify-center gap-3">
           <SertifikaIndirButonu hedefRef={sertifikaRef} dosyaAdi={`sqlcodex-sertifika-${tur}.pdf`} />
-          <YazdirButonu />
-          {user && <SertifikaPaylasButonlari url={`${SITE_URL}/certificate/${kayit.id}`} />}
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          {user && (
-            <Link
-              href={`/certificate/${kayit.id}`}
-              className="text-sm font-medium text-accent underline-offset-2 hover:underline"
-            >
-              paylaşılabilir sayfa
-            </Link>
-          )}
-          <Link
-            href="/profil"
-            className="text-sm text-stone-500 underline-offset-2 hover:text-stone-900 hover:underline dark:text-stone-400 dark:hover:text-white"
-          >
-            adını değiştir
-          </Link>
+          <SertifikaPaylasButonlari url={`${SITE_URL}/certificate/${kayit.id}`} />
         </div>
       </div>
     </div>

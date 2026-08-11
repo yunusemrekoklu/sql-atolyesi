@@ -78,7 +78,7 @@ export function GirisFormu() {
         <button
           type="submit"
           disabled={gonderiliyor}
-          className="w-full rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-blue-500 dark:text-stone-950 dark:hover:bg-blue-400"
+          className="w-full rounded-full bg-brand-green px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-hover disabled:cursor-not-allowed disabled:opacity-60 dark:text-stone-950"
         >
           {gonderiliyor ? "Giriş yapılıyor…" : "Giriş yap"}
         </button>

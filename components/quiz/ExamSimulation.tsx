@@ -4,8 +4,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { ExamQuestion } from "@/types/content";
 import type { SinavModu, SinavOturumu, SinavSonucu } from "@/lib/exam/types";
 import { gecmiseEkle, gecmisiOku, oturumuKaydet, oturumuOku, oturumuTemizle } from "@/lib/exam/store";
+import { uzakSinavDenemesiKaydet } from "@/lib/exam/remote";
 import { sinaviDegerlendir, sorulariGetir, soruHavuzuOlustur } from "@/lib/exam/pool";
 import { MOD_BASLIKLARI } from "@/lib/exam/labels";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { useProgress } from "@/components/progress/ProgressProvider";
 import { ReportCard } from "./ReportCard";
 
 const TUM_UNITELER = [1, 2, 3, 4, 5];
@@ -45,6 +48,8 @@ function GecmisSinavlar() {
 }
 
 export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
+  const { user } = useAuth();
+  const { puanTazele } = useProgress();
   const [oturum, setOturum] = useState<SinavOturumu | null | undefined>(undefined);
   const [sonuc, setSonuc] = useState<SinavSonucu | null>(null);
   const [kalanSaniye, setKalanSaniye] = useState(0);
@@ -76,6 +81,12 @@ export function ExamSimulation({ tumSorular }: { tumSorular: ExamQuestion[] }) {
     oturumuTemizle();
     setSonuc(yeniSonuc);
     setOturum(null);
+
+    if (user) {
+      uzakSinavDenemesiKaydet(user.id, bitenOturum.mod, yeniSonuc.dogruSayisi, yeniSonuc.toplamSoru)
+        .then(puanTazele)
+        .catch((err) => console.error("Sınav denemesi kaydedilemedi:", err));
+    }
   }
 
   useEffect(() => {

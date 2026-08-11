@@ -34,7 +34,10 @@ export function SertifikaKartiVeIndir({
         <SertifikaKarti ad={ad} kursSatiri={kursSatiri} tarih={tarih} id={id} arkaPlan={arkaPlan} altinTema={altinTema} />
       </div>
       <div className="print:hidden mt-5 flex justify-center">
-        <SertifikaIndirButonu hedefRef={sertifikaRef} dosyaAdi={dosyaAdi} />
+        {/* Bu, /certificate/[id] gibi herkese açık doğrulama sayfalarında
+            kullanılıyor — oturumsuz bir ziyaretçinin (ör. işveren) de
+            indirebilmesi bu sayfanın amacı, bu yüzden auth şartı kapalı. */}
+        <SertifikaIndirButonu hedefRef={sertifikaRef} dosyaAdi={dosyaAdi} authGerekli={false} />
       </div>
     </div>
   );

@@ -14,7 +14,9 @@ import {
   uzakKullaniciAdiniKaydet,
   uzakMiniQuizSonucunuKaydet,
   uzakMulakatSorusunuIsaretle,
+  uzakPuanGetir,
   uzakSertifikaGetirYaDaOlustur,
+  uzakUniteSinaviSonucunuKaydet,
   uzakYereliIceAktar,
 } from "./remote";
 
@@ -167,6 +169,22 @@ function guncelle(guncelleyici: (onceki: IlerlemeVerisi) => IlerlemeVerisi): voi
   bildir();
 }
 
+/** Puan sunucuda (point_events üzerinden) hesaplanıyor — her puan kazandıran yazımdan sonra tazelenir. */
+async function puanlariTazele(): Promise<void> {
+  if (kaynak !== "uzak" || !uzakKullaniciId) return;
+  try {
+    const puan = await uzakPuanGetir();
+    guncelle((onceki) => ({ ...onceki, puan }));
+  } catch (err) {
+    console.error("[progress] Puan tazeleme hatası:", err);
+  }
+}
+
+/** ExamSimulation.tsx gibi lib/progress dışından fire-and-forget puan tazelemesi tetiklemek için. */
+export function puanTazele(): void {
+  void puanlariTazele();
+}
+
 /** "Çözüme bakan çözdü sayılmaz" kuralı — bkz. lib/progress/types.ts. */
 export function alistirmaDurumunuAyarla(id: string, durum: AlistirmaDurumu): void {
   guncelle((onceki) => ({
@@ -176,7 +194,7 @@ export function alistirmaDurumunuAyarla(id: string, durum: AlistirmaDurumu): voi
       [id]: alistirmaDurumunuBirlestir(onceki.alistirmalar[id], durum),
     },
   }));
-  if (kaynak === "uzak") arkaPlandaCalistir(uzakAlistirmaDurumunuAyarla(id, durum));
+  if (kaynak === "uzak") arkaPlandaCalistir(uzakAlistirmaDurumunuAyarla(id, durum).then(puanlariTazele));
 }
 
 export function dersiTamamlaninIsaretle(dersSlug: string): void {
@@ -186,7 +204,7 @@ export function dersiTamamlaninIsaretle(dersSlug: string): void {
       : { ...onceki, tamamlananDersler: [...onceki.tamamlananDersler, dersSlug] },
   );
   if (kaynak === "uzak" && uzakKullaniciId) {
-    arkaPlandaCalistir(uzakDersiTamamlaniIsaretle(uzakKullaniciId, dersSlug));
+    arkaPlandaCalistir(uzakDersiTamamlaniIsaretle(uzakKullaniciId, dersSlug).then(puanlariTazele));
   }
 }
 
@@ -207,7 +225,18 @@ export function mulakatSorusunuCozulduIsaretle(slug: string): void {
       : { ...onceki, cozulenMulakatSorulari: [...onceki.cozulenMulakatSorulari, slug] },
   );
   if (kaynak === "uzak" && uzakKullaniciId) {
-    arkaPlandaCalistir(uzakMulakatSorusunuIsaretle(uzakKullaniciId, slug));
+    arkaPlandaCalistir(uzakMulakatSorusunuIsaretle(uzakKullaniciId, slug).then(puanlariTazele));
+  }
+}
+
+/** Ünite testi (sınav) sonucu — miniQuizSonucunuKaydet'ten bilinçli olarak ayrı (bkz. lib/progress/types.ts). */
+export function uniteSinaviSonucunuKaydet(uniteId: number, dogruSayisi: number, toplamSoru: number): void {
+  guncelle((onceki) => ({
+    ...onceki,
+    uniteSinavSonuclari: { ...onceki.uniteSinavSonuclari, [uniteId]: { dogruSayisi, toplamSoru } },
+  }));
+  if (kaynak === "uzak" && uzakKullaniciId) {
+    arkaPlandaCalistir(uzakUniteSinaviSonucunuKaydet(uzakKullaniciId, uniteId, dogruSayisi, toplamSoru).then(puanlariTazele));
   }
 }
 
@@ -219,32 +248,25 @@ export function kullaniciAdiniKaydet(ad: string): void {
   }
 }
 
-function yerelSertifikaUret(anahtar: string): KazanilanSertifika {
-  const kod = `SQLCODEX-${anahtar.toUpperCase()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-  return { id: kod, displayCode: kod, tarih: new Date().toISOString().slice(0, 10) };
-}
-
 /**
  * "Getir ya da oluştur" deseni bilinçli: bir sertifika ilk kazanıldığı an
  * tarih/ID sabitlenir, sonraki her görüntülemede aynı kayıt döner —
- * tekrar tekrar yeni tarih/ID üretilmez. Uzak modda sunucu round-trip'i
- * gerektiği için (gerçek UUID + display_code üretimi) fonksiyon her iki
- * modda da async'tir.
+ * tekrar tekrar yeni tarih/ID üretilmez. Sunucu round-trip'i gerektiği için
+ * (gerçek UUID + display_code üretimi) fonksiyon async'tir.
+ *
+ * Sadece giriş yapmış kullanıcılar için anlamlı — çağıran taraf
+ * (SertifikaSayfasi.tsx) `user` garantisi vermeden bu fonksiyona hiç
+ * ulaşmaz, misafir modunda sahte/yerel bir sertifika üretme yolu artık yok.
  */
 export async function sertifikaGetirYaDaOlustur(anahtar: string): Promise<KazanilanSertifika> {
   const mevcut = onbellek.kazanilanSertifikalar[anahtar];
   if (mevcut) return mevcut;
 
-  if (kaynak === "uzak") {
-    const yeni = await uzakSertifikaGetirYaDaOlustur(anahtar);
-    guncelle((onceki) => ({
-      ...onceki,
-      kazanilanSertifikalar: { ...onceki.kazanilanSertifikalar, [anahtar]: yeni },
-    }));
-    return yeni;
+  if (kaynak !== "uzak") {
+    throw new Error("Sertifika almak için giriş yapmalısın.");
   }
 
-  const yeni = yerelSertifikaUret(anahtar);
+  const yeni = await uzakSertifikaGetirYaDaOlustur(anahtar);
   guncelle((onceki) => ({
     ...onceki,
     kazanilanSertifikalar: { ...onceki.kazanilanSertifikalar, [anahtar]: yeni },

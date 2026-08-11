@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { TumSertifikalarBanner } from "@/components/certificate/TumSertifikalarBanner";
 
 export default function Home() {
   return (
@@ -29,7 +28,6 @@ export default function Home() {
           Playground&apos;u dene
         </Link>
       </div>
-      <TumSertifikalarBanner />
     </div>
   );
 }

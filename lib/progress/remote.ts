@@ -7,14 +7,17 @@ import { BOS_ILERLEME, type AlistirmaDurumu, type IlerlemeVerisi, type Kazanilan
 export async function uzakIlerlemeyiGetir(userId: string): Promise<IlerlemeVerisi> {
   const supabase = createClient();
 
-  const [profil, dersler, alistirmalar, mulakatSorulari, miniQuizler, sertifikalar] = await Promise.all([
-    supabase.from("profiles").select("display_name").eq("id", userId).maybeSingle(),
-    supabase.from("completed_lessons").select("lesson_slug").eq("user_id", userId),
-    supabase.from("exercise_progress").select("exercise_id, status").eq("user_id", userId),
-    supabase.from("completed_interview_questions").select("question_slug").eq("user_id", userId),
-    supabase.from("mini_quiz_results").select("lesson_slug, correct_count, total_count").eq("user_id", userId),
-    supabase.from("certificates").select("id, cert_type, display_code, issued_at").eq("user_id", userId),
-  ]);
+  const [profil, dersler, alistirmalar, mulakatSorulari, miniQuizler, sertifikalar, uniteSinavlari, puanSonucu] =
+    await Promise.all([
+      supabase.from("profiles").select("display_name").eq("id", userId).maybeSingle(),
+      supabase.from("completed_lessons").select("lesson_slug").eq("user_id", userId),
+      supabase.from("exercise_progress").select("exercise_id, status").eq("user_id", userId),
+      supabase.from("completed_interview_questions").select("question_slug").eq("user_id", userId),
+      supabase.from("mini_quiz_results").select("lesson_slug, correct_count, total_count").eq("user_id", userId),
+      supabase.from("certificates").select("id, cert_type, display_code, issued_at").eq("user_id", userId),
+      supabase.from("unit_test_results").select("unit_id, correct_count, total_count").eq("user_id", userId),
+      supabase.rpc("get_my_points"),
+    ]);
 
   const alistirmaKaydi: Record<string, AlistirmaDurumu> = {};
   for (const satir of alistirmalar.data ?? []) {
@@ -35,6 +38,11 @@ export async function uzakIlerlemeyiGetir(userId: string): Promise<IlerlemeVeris
     };
   }
 
+  const uniteSinavKaydi: IlerlemeVerisi["uniteSinavSonuclari"] = {};
+  for (const satir of uniteSinavlari.data ?? []) {
+    uniteSinavKaydi[satir.unit_id] = { dogruSayisi: satir.correct_count, toplamSoru: satir.total_count };
+  }
+
   return {
     ...BOS_ILERLEME,
     alistirmalar: alistirmaKaydi,
@@ -43,7 +51,33 @@ export async function uzakIlerlemeyiGetir(userId: string): Promise<IlerlemeVeris
     cozulenMulakatSorulari: (mulakatSorulari.data ?? []).map((s) => s.question_slug),
     kullaniciAdi: profil.data?.display_name ?? null,
     kazanilanSertifikalar: sertifikaKaydi,
+    uniteSinavSonuclari: uniteSinavKaydi,
+    puan: puanSonucu.data ?? 0,
   };
+}
+
+export async function uzakUniteSinaviSonucunuKaydet(
+  userId: string,
+  uniteId: number,
+  dogruSayisi: number,
+  toplamSoru: number,
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("unit_test_results")
+    .upsert(
+      { user_id: userId, unit_id: uniteId, correct_count: dogruSayisi, total_count: toplamSoru },
+      { onConflict: "user_id,unit_id" },
+    );
+  if (error) throw error;
+}
+
+/** Kullanıcının toplam puanı — point_events'ten sunucuda hesaplanır (bkz. get_my_points RPC). */
+export async function uzakPuanGetir(): Promise<number> {
+  const supabase = createClient();
+  const { data, error } = await supabase.rpc("get_my_points");
+  if (error) throw error;
+  return data ?? 0;
 }
 
 export async function uzakDersiTamamlaniIsaretle(userId: string, dersSlug: string): Promise<void> {
@@ -156,6 +190,23 @@ export async function uzakYereliIceAktar(userId: string, yerel: IlerlemeVerisi):
             total_count: sonuc.toplamSoru,
           })),
           { onConflict: "user_id,lesson_slug", ignoreDuplicates: true },
+        ),
+    );
+  }
+
+  const uniteSinaviGirdileri = Object.entries(yerel.uniteSinavSonuclari);
+  if (uniteSinaviGirdileri.length > 0) {
+    gorevler.push(
+      supabase
+        .from("unit_test_results")
+        .upsert(
+          uniteSinaviGirdileri.map(([uniteId, sonuc]) => ({
+            user_id: userId,
+            unit_id: Number(uniteId),
+            correct_count: sonuc.dogruSayisi,
+            total_count: sonuc.toplamSoru,
+          })),
+          { onConflict: "user_id,unit_id", ignoreDuplicates: true },
         ),
     );
   }

@@ -6,21 +6,20 @@ import { useProgress } from "@/components/progress/ProgressProvider";
 
 /**
  * Ünite sınav havuzunu (10-15 soru) süresiz olarak çözdüren bileşen —
- * MiniQuiz ile aynı etkileşim mantığını kullanır, ama ders içi mini quiz
- * yerine bağımsız bir "anahtar" (ör. "unite-3-sinavi") altında ilerleme
- * kaydeder (bkz. lib/progress).
+ * MiniQuiz ile aynı etkileşim mantığını kullanır, ama ders içi mini quiz'den
+ * ayrı, kendi ünite bazlı tablosuna (unit_test_results) kaydeder.
  */
-export function QuizRunner({ anahtar, sorular }: { anahtar: string; sorular: ExamQuestion[] }) {
+export function QuizRunner({ uniteId, sorular }: { uniteId: number; sorular: ExamQuestion[] }) {
   const [cevaplar, setCevaplar] = useState<Record<string, number>>({});
   const [gonderildi, setGonderildi] = useState(false);
-  const { miniQuizSonucunuKaydet } = useProgress();
+  const { uniteSinaviSonucunuKaydet } = useProgress();
 
   const dogruSayisi = sorular.filter((s) => cevaplar[s.id] === s.dogruIndex).length;
   const tumuCevaplandi = sorular.every((s) => cevaplar[s.id] !== undefined);
 
   function gonder() {
     setGonderildi(true);
-    miniQuizSonucunuKaydet(anahtar, dogruSayisi, sorular.length);
+    uniteSinaviSonucunuKaydet(uniteId, dogruSayisi, sorular.length);
   }
 
   function yenidenDene() {
