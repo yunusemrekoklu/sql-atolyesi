@@ -8,6 +8,7 @@ import { TUM_MULAKAT_SORULARI } from "@/content/interview";
 import { UNITE_BASLIKLARI } from "@/lib/content/uniteler";
 import { uniteTamamlandiMi, pratikTamamlandiMi, mulakatTamamlandiMi } from "@/lib/progress/sertifika";
 import { useProgress } from "@/components/progress/ProgressProvider";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { SertifikaKarti } from "@/components/certificate/SertifikaKarti";
 import { YazdirButonu } from "@/components/print/YazdirButonu";
 import { KART_SINIFI } from "@/lib/ui/kart";
@@ -52,6 +53,7 @@ function kursSatiriUret(turu: SertifikaTuru): string {
 export function SertifikaSayfasi({ tur }: { tur: string }) {
   const turu = turuAyristir(tur);
   const { ilerleme, kullaniciAdiniKaydet, sertifikaGetirYaDaOlustur } = useProgress();
+  const { user } = useAuth();
   const [adTaslak, setAdTaslak] = useState("");
 
   const kazanildiMi = turu
@@ -152,8 +154,16 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
         arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
         altinTema={turu.tip === "tumu"}
       />
-      <div className="print:hidden mt-5 flex items-center justify-center gap-4">
+      <div className="print:hidden mt-5 flex flex-wrap items-center justify-center gap-4">
         <YazdirButonu />
+        {user && (
+          <Link
+            href={`/certificate/${kayit.id}`}
+            className="text-sm font-medium text-accent underline-offset-2 hover:underline"
+          >
+            paylaşılabilir sayfa
+          </Link>
+        )}
         <Link
           href="/profil"
           className="text-sm text-stone-500 underline-offset-2 hover:text-stone-900 hover:underline dark:text-stone-400 dark:hover:text-white"

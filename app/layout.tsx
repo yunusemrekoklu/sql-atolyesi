@@ -6,6 +6,7 @@ import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { OkumaIlerlemeCubugu } from "@/components/layout/OkumaIlerlemeCubugu";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,6 +31,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "SQLCODEX — Tarayıcında Türkçe SQL Öğren",
     template: "%s — SQLCODEX",
