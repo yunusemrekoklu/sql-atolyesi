@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { HUB_BASLIK_SINIFI, KART_SINIFI } from "@/lib/ui/kart";
 
@@ -18,7 +19,10 @@ async function liderTablosunuGetir() {
 }
 
 export default async function LiderTablosuPage() {
-  const siralama = await liderTablosunuGetir();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
@@ -29,6 +33,30 @@ export default async function LiderTablosuPage() {
         </p>
       </header>
 
+      {!user ? (
+        <div className={KART_SINIFI}>
+          <p className="text-sm text-stone-600 dark:text-stone-300">
+            Lider tablosunu görmek için giriş yapmalısın.
+          </p>
+          <Link
+            href="/giris"
+            className="mt-4 inline-block rounded-full bg-brand-green px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-green-hover dark:text-stone-950"
+          >
+            Giriş yap
+          </Link>
+        </div>
+      ) : (
+        <LiderTablosuIcerik />
+      )}
+    </div>
+  );
+}
+
+async function LiderTablosuIcerik() {
+  const siralama = await liderTablosunuGetir();
+
+  return (
+    <>
       {siralama.length === 0 ? (
         <div className={KART_SINIFI}>
           <p className="text-sm text-stone-600 dark:text-stone-300">
@@ -59,6 +87,6 @@ export default async function LiderTablosuPage() {
           </table>
         </div>
       )}
-    </div>
+    </>
   );
 }
