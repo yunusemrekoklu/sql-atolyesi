@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TUM_DERSLER } from "@/content/lessons";
 import { TUM_PRATIK_SETLERI } from "@/content/practice";
@@ -11,6 +11,7 @@ import { useProgress } from "@/components/progress/ProgressProvider";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { SertifikaKarti } from "@/components/certificate/SertifikaKarti";
 import { SertifikaPaylasButonlari } from "@/components/certificate/SertifikaPaylasButonlari";
+import { SertifikaIndirButonu } from "@/components/print/SertifikaIndirButonu";
 import { YazdirButonu } from "@/components/print/YazdirButonu";
 import { KART_SINIFI } from "@/lib/ui/kart";
 import { SITE_URL } from "@/lib/site";
@@ -57,6 +58,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
   const { ilerleme, kullaniciAdiniKaydet, sertifikaGetirYaDaOlustur } = useProgress();
   const { user } = useAuth();
   const [adTaslak, setAdTaslak] = useState("");
+  const sertifikaRef = useRef<HTMLDivElement>(null);
 
   const kazanildiMi = turu
     ? turu.tip === "unite"
@@ -148,16 +150,19 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16 print:max-w-none print:p-0">
-      <SertifikaKarti
-        ad={ilerleme.kullaniciAdi}
-        kursSatiri={kursSatiriUret(turu)}
-        tarih={kayit.tarih}
-        id={kayit.displayCode}
-        arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
-        altinTema={turu.tip === "tumu"}
-      />
+      <div ref={sertifikaRef}>
+        <SertifikaKarti
+          ad={ilerleme.kullaniciAdi}
+          kursSatiri={kursSatiriUret(turu)}
+          tarih={kayit.tarih}
+          id={kayit.displayCode}
+          arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
+          altinTema={turu.tip === "tumu"}
+        />
+      </div>
       <div className="print:hidden mt-5 flex flex-col items-center gap-4">
         <div className="flex flex-wrap items-center justify-center gap-3">
+          <SertifikaIndirButonu hedefRef={sertifikaRef} dosyaAdi={`sqlcodex-sertifika-${tur}.pdf`} />
           <YazdirButonu />
           {user && <SertifikaPaylasButonlari url={`${SITE_URL}/certificate/${kayit.id}`} />}
         </div>

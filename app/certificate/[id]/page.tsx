@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { sertifikaBecerileriniGetir } from "@/lib/certificate/beceriler";
-import { SertifikaKarti } from "@/components/certificate/SertifikaKarti";
+import { SertifikaKartiVeIndir } from "@/components/certificate/SertifikaKartiVeIndir";
 import { SITE_URL } from "@/lib/site";
 
 // Sertifika içeriği bir kez verilince değişmiyor — build anında bilinmeyen
@@ -78,13 +78,14 @@ export default async function CertificatePage({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16 print:max-w-none print:p-0">
-      <SertifikaKarti
+      <SertifikaKartiVeIndir
         ad={sertifika.recipient_name}
         kursSatiri={beceriler.kursSatiri}
         tarih={tarih}
         id={sertifika.display_code}
         arkaPlan={sertifika.cert_type === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
         altinTema={sertifika.cert_type === "tumu"}
+        dosyaAdi={`sqlcodex-sertifika-${sertifika.cert_type}.pdf`}
       />
 
       <div className="mt-10 print:hidden">
