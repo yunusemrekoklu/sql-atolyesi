@@ -44,12 +44,29 @@ body {
 /* Yazdırma soru kağıdı sıfırlaması — tema (.dark) ne olursa olsun tek
    renkli, kağıda uygun bir çıktı garantiler; hiçbir yazdırma bileşeni
    renkle anlam taşımadığı için (rozet/şık harfleri sadece çerçeveli)
-   güvenli bir sıfırlama. */
+   güvenli bir sıfırlama. Sertifika alanı hariç (.sertifika-yazdir-alani)
+   — o, kendi tasarım renklerini (altın tema dahil) korumalı. */
 @media print {
-  * {
+  *:not(.sertifika-yazdir-alani, .sertifika-yazdir-alani *) {
     background-color: transparent !important;
     color: #1c1917 !important;
     border-color: #a8a29e !important;
     box-shadow: none !important;
+  }
+}
+
+/* Sertifika çıktısı: kenarlıksız A4 yatay. Arka plan görseli
+   (2000x1414 ≈ 1.4144) A4'ün oranıyla (297/210 ≈ 1.4143) neredeyse
+   birebir örtüştüğü için genişliğe göre ölçeklendirmek (bkz.
+   SertifikaKarti.tsx'teki print:max-w-none) yüksekliği de otomatik
+   doldurur, object-fit gerekmez. */
+@page sertifika-sayfasi {
+  size: landscape;
+  margin: 0;
+}
+
+@media print {
+  .sertifika-yazdir-alani {
+    page: sertifika-sayfasi;
   }
 }

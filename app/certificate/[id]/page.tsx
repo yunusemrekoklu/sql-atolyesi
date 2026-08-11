@@ -77,7 +77,7 @@ export default async function CertificatePage({
   const tarih = sertifika.issued_at.slice(0, 10);
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-16">
+    <div className="mx-auto w-full max-w-3xl px-4 py-16 print:max-w-none print:p-0">
       <SertifikaKarti
         ad={sertifika.recipient_name}
         kursSatiri={beceriler.kursSatiri}
@@ -87,7 +87,7 @@ export default async function CertificatePage({
         altinTema={sertifika.cert_type === "tumu"}
       />
 
-      <div className="mt-10">
+      <div className="mt-10 print:hidden">
         <h2 className="text-lg font-semibold">Kapsadığı Konular</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">
           {beceriler.beceriler.map((beceri) => (

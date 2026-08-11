@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { TUM_DERSLER } from "@/content/lessons";
 import { TUM_PRATIK_SETLERI } from "@/content/practice";
@@ -15,6 +14,7 @@ import {
 import { useProgress } from "@/components/progress/ProgressProvider";
 import { useAuth } from "@/components/auth/AuthProvider";
 import type { KazanilanSertifika } from "@/lib/progress/types";
+import { SertifikaPaylasButonlari } from "@/components/certificate/SertifikaPaylasButonlari";
 import { KART_SINIFI } from "@/lib/ui/kart";
 import { SITE_URL } from "@/lib/site";
 
@@ -81,25 +81,9 @@ function SertifikaKart({
   kayit?: KazanilanSertifika;
   girisYapilmis: boolean;
 }) {
-  const [kopyaDurumu, setKopyaDurumu] = useState<"bosta" | "kopyalandi" | "basarisiz">("bosta");
   const yuzde =
     tanim.ilerleme.toplam === 0 ? 0 : Math.round((tanim.ilerleme.tamamlanan / tanim.ilerleme.toplam) * 100);
   const genelUrl = kayit ? `${SITE_URL}/certificate/${kayit.id}` : null;
-
-  async function linkiKopyala() {
-    if (!genelUrl) return;
-    try {
-      await navigator.clipboard.writeText(genelUrl);
-      setKopyaDurumu("kopyalandi");
-      setTimeout(() => setKopyaDurumu("bosta"), 2000);
-    } catch {
-      // Clipboard API izni reddedebilir (ör. Safari, kısıtlı tarayıcı
-      // politikaları) — kullanıcıyı sessizce bırakmak yerine linki elle
-      // seçip kopyalayabileceği bir alan gösterelim (basarisiz durumu
-      // kalıcı kalır, otomatik kapanmaz).
-      setKopyaDurumu("basarisiz");
-    }
-  }
 
   return (
     <div className={KART_SINIFI}>
@@ -116,34 +100,7 @@ function SertifikaKart({
               Görüntüle / Yazdır
             </Link>
             {girisYapilmis && genelUrl ? (
-              <>
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(genelUrl)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full bg-[#0a66c2] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#004182]"
-                >
-                  LinkedIn&apos;de paylaş
-                </a>
-                <button
-                  type="button"
-                  onClick={linkiKopyala}
-                  className="rounded-full border border-stone-300 px-3 py-1.5 text-xs font-semibold text-stone-700 transition-colors hover:bg-stone-100 dark:border-stone-700 dark:text-stone-200 dark:hover:bg-stone-800"
-                >
-                  {kopyaDurumu === "kopyalandi" ? "Kopyalandı ✓" : "Genel linki kopyala"}
-                </button>
-                {kopyaDurumu === "basarisiz" && (
-                  <input
-                    type="text"
-                    readOnly
-                    value={genelUrl}
-                    onClick={(e) => e.currentTarget.select()}
-                    onFocus={(e) => e.currentTarget.select()}
-                    aria-label="Sertifika linki — kopyalamak için seç"
-                    className="w-full min-w-0 rounded-md border border-stone-300 bg-stone-50 px-2 py-1 text-xs text-stone-700 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-200"
-                  />
-                )}
-              </>
+              <SertifikaPaylasButonlari url={genelUrl} />
             ) : (
               <span className="text-xs text-stone-500 dark:text-stone-400">
                 Paylaşılabilir hale getirmek için{" "}

@@ -10,8 +10,10 @@ import { uniteTamamlandiMi, pratikTamamlandiMi, mulakatTamamlandiMi } from "@/li
 import { useProgress } from "@/components/progress/ProgressProvider";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { SertifikaKarti } from "@/components/certificate/SertifikaKarti";
+import { SertifikaPaylasButonlari } from "@/components/certificate/SertifikaPaylasButonlari";
 import { YazdirButonu } from "@/components/print/YazdirButonu";
 import { KART_SINIFI } from "@/lib/ui/kart";
+import { SITE_URL } from "@/lib/site";
 
 type SertifikaTuru = { tip: "unite"; uniteId: number } | { tip: "pratik" } | { tip: "mulakat" } | { tip: "tumu" };
 
@@ -145,7 +147,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
   if (!kayit) return null;
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-16">
+    <div className="mx-auto w-full max-w-3xl px-4 py-16 print:max-w-none print:p-0">
       <SertifikaKarti
         ad={ilerleme.kullaniciAdi}
         kursSatiri={kursSatiriUret(turu)}
@@ -154,22 +156,27 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
         arkaPlan={turu.tip === "tumu" ? "/sertifika-arka-plan-tumu.png" : "/sertifika-arka-plan.png"}
         altinTema={turu.tip === "tumu"}
       />
-      <div className="print:hidden mt-5 flex flex-wrap items-center justify-center gap-4">
-        <YazdirButonu />
-        {user && (
+      <div className="print:hidden mt-5 flex flex-col items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <YazdirButonu />
+          {user && <SertifikaPaylasButonlari url={`${SITE_URL}/certificate/${kayit.id}`} />}
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {user && (
+            <Link
+              href={`/certificate/${kayit.id}`}
+              className="text-sm font-medium text-accent underline-offset-2 hover:underline"
+            >
+              paylaşılabilir sayfa
+            </Link>
+          )}
           <Link
-            href={`/certificate/${kayit.id}`}
-            className="text-sm font-medium text-accent underline-offset-2 hover:underline"
+            href="/profil"
+            className="text-sm text-stone-500 underline-offset-2 hover:text-stone-900 hover:underline dark:text-stone-400 dark:hover:text-white"
           >
-            paylaşılabilir sayfa
+            adını değiştir
           </Link>
-        )}
-        <Link
-          href="/profil"
-          className="text-sm text-stone-500 underline-offset-2 hover:text-stone-900 hover:underline dark:text-stone-400 dark:hover:text-white"
-        >
-          adını değiştir
-        </Link>
+        </div>
       </div>
     </div>
   );
