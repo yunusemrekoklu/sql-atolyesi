@@ -22,3 +22,12 @@ export const TUM_PRATIK_SETLERI: PracticeSet[] = [
 export function getPratikSetBySlug(slug: string): PracticeSet | undefined {
   return TUM_PRATIK_SETLERI.find((set) => set.slug === slug);
 }
+
+export function getOncekiSonrakiPratik(slug: string): { onceki: PracticeSet | null; sonraki: PracticeSet | null } {
+  const index = TUM_PRATIK_SETLERI.findIndex((set) => set.slug === slug);
+  if (index === -1) return { onceki: null, sonraki: null };
+  return {
+    onceki: index > 0 ? TUM_PRATIK_SETLERI[index - 1] : null,
+    sonraki: index < TUM_PRATIK_SETLERI.length - 1 ? TUM_PRATIK_SETLERI[index + 1] : null,
+  };
+}

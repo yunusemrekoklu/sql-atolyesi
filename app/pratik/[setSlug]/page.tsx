@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TUM_PRATIK_SETLERI, getPratikSetBySlug } from "@/content/practice";
+import { TUM_PRATIK_SETLERI, getPratikSetBySlug, getOncekiSonrakiPratik } from "@/content/practice";
 import { getSampleDatabase } from "@/content/databases";
 import { SchemaPanel } from "@/components/sql/SchemaPanel";
 import { AlistirmalarAkordeonu } from "@/components/lesson/AlistirmalarAkordeonu";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
+import { OncekiSonrakiGezinme } from "@/components/ui/OncekiSonrakiGezinme";
 import { KART_SINIFI } from "@/lib/ui/kart";
 import { AlistirmaYazdirListesi } from "@/components/print/AlistirmaYazdirListesi";
 import { YazdirButonu } from "@/components/print/YazdirButonu";
@@ -37,6 +38,7 @@ export default async function PratikSetPage({
   if (!set) notFound();
 
   const veritabani = getSampleDatabase(set.veritabaniId);
+  const { onceki, sonraki } = getOncekiSonrakiPratik(set.slug);
 
   return (
     <div className="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 lg:grid-cols-[minmax(0,1fr)_260px]">
@@ -63,6 +65,11 @@ export default async function PratikSetPage({
             <AlistirmaYazdirListesi alistirmalar={set.sorular} />
           </div>
         </section>
+
+        <OncekiSonrakiGezinme
+          onceki={onceki && { href: `/pratik/${onceki.slug}/`, baslik: onceki.baslik }}
+          sonraki={sonraki && { href: `/pratik/${sonraki.slug}/`, baslik: sonraki.baslik }}
+        />
       </article>
 
       <aside className="lg:sticky lg:top-20 lg:h-fit">

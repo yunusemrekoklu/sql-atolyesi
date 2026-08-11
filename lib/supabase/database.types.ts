@@ -328,6 +328,15 @@ export type Database = {
           recipient_name: string
         }[]
       }
+      get_leaderboard: {
+        Args: never
+        Returns: {
+          display_name: string
+          points: number
+          rank: number
+          university: string
+        }[]
+      }
       get_my_points: { Args: never; Returns: number }
       issue_certificate: {
         Args: { p_cert_type: string }

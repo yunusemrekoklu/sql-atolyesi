@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { TUM_PRATIK_SETLERI } from "@/content/practice";
 import { HUB_BASLIK_SINIFI, KART_SINIFI } from "@/lib/ui/kart";
-import { PratikSertifikaBanner } from "@/components/certificate/PratikSertifikaBanner";
 
 export const metadata = { title: "Pratik" };
 
@@ -13,7 +12,6 @@ export default function PratikPage() {
         <p className="mt-2 text-stone-600 dark:text-stone-300">
           Konu bazlı bağımsız soru setleri — her set kendi veritabanıyla gelir, Kolay/Orta/Zor karışık.
         </p>
-        <PratikSertifikaBanner />
       </header>
 
       <section className={`mt-8 ${KART_SINIFI}`}>

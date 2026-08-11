@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { UNITE_SINAVLARI, getUniteSinavi } from "@/content/exams";
 import { QuizRunner } from "@/components/quiz/QuizRunner";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
+import { OncekiSonrakiGezinme } from "@/components/ui/OncekiSonrakiGezinme";
 import { CoktanSecmeliYazdirListesi } from "@/components/print/CoktanSecmeliYazdirListesi";
 import { YazdirButonu } from "@/components/print/YazdirButonu";
 import { KART_SINIFI } from "@/lib/ui/kart";
@@ -74,6 +75,13 @@ export default async function UniteSinaviPage({
       </div>
       <div className="hidden print:block">
         <CoktanSecmeliYazdirListesi sorular={sorular} />
+      </div>
+
+      <div className="mt-8">
+        <OncekiSonrakiGezinme
+          onceki={uniteId > 1 ? { href: `/sinav/unite-${uniteId - 1}/`, baslik: UNITE_BASLIKLARI[uniteId - 1] } : null}
+          sonraki={uniteId < 5 ? { href: `/sinav/unite-${uniteId + 1}/`, baslik: UNITE_BASLIKLARI[uniteId + 1] } : null}
+        />
       </div>
     </div>
   );

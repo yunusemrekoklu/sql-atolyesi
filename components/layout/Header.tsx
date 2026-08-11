@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/mulakat", label: "Mülakat" },
   { href: "/fonksiyonlar", label: "Fonksiyonlar" },
   { href: "/playground", label: "Playground" },
+  { href: "/lider-tablosu", label: "Lider Tablosu" },
   { href: "/hakkinda", label: "Hakkında" },
 ];
 
