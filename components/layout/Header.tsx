@@ -3,28 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { MobilMenu } from "./MobilMenu";
 import { HesapMenusu } from "@/components/auth/HesapMenusu";
-
-const NAV_LINKS = [
-  { href: "/ogren", label: "Öğren" },
-  { href: "/pratik", label: "Pratik" },
-  { href: "/sinav", label: "Test Sınavı" },
-  { href: "/mulakat", label: "Mülakat" },
-  { href: "/fonksiyonlar", label: "Fonksiyonlar" },
-  { href: "/playground", label: "Playground" },
-  { href: "/lider-tablosu", label: "Lider Tablosu" },
-  { href: "/hakkinda", label: "Hakkında" },
-];
+import { NAV_LINKS, navLinkAktifMi } from "@/lib/nav-links";
 
 export function Header() {
   const pathname = usePathname();
   const [gizli, setGizli] = useState(false);
+  const [menuAcik, setMenuAcik] = useState(false);
   const sonY = useRef(0);
   const beklemede = useRef(false);
 
   useEffect(() => {
     setGizli(false);
+    setMenuAcik(false);
     sonY.current = window.scrollY;
   }, [pathname]);
 
@@ -72,8 +66,7 @@ export function Header() {
         </Link>
         <nav className="hidden items-center gap-5 text-sm md:flex">
           {NAV_LINKS.map((link) => {
-            const active =
-              pathname === link.href || pathname.startsWith(`${link.href}/`);
+            const active = navLinkAktifMi(pathname, link.href);
             return (
               <Link
                 key={link.href}
@@ -95,10 +88,19 @@ export function Header() {
           })}
         </nav>
         <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setMenuAcik(true)}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-stone-700 transition-colors md:hidden dark:text-stone-200"
+            aria-label="Menüyü aç"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
           <HesapMenusu />
           <ThemeToggle />
         </div>
       </header>
+      <MobilMenu open={menuAcik} onOpenChange={setMenuAcik} />
     </div>
   );
 }
