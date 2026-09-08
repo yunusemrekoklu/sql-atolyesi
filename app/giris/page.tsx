@@ -26,7 +26,7 @@ export default async function GirisPage(props: PageProps<"/giris">) {
 
         <p className="mt-6 text-center text-sm text-stone-600 dark:text-stone-300">
           Hesabın yok mu?{" "}
-          <Link href="/kayit" className="font-semibold text-accent hover:underline">
+          <Link href="/kayit" className="font-semibold text-brand-orange hover:underline">
             Kayıt ol
           </Link>
         </p>

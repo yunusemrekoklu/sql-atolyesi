@@ -249,7 +249,7 @@ export function ProfilFormu() {
             <button
               type="submit"
               disabled={universiteKaydediliyor}
-              className="shrink-0 rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+              className="shrink-0 rounded-full bg-brand-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-hover disabled:cursor-not-allowed disabled:opacity-60"
             >
               {universiteKaydediliyor ? "Kaydediliyor…" : "Kaydet"}
             </button>

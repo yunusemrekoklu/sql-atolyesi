@@ -80,7 +80,7 @@ async function LiderTablosuIcerik() {
                   <td className="py-2.5 pr-3 text-stone-500 dark:text-stone-400">{satir.rank}</td>
                   <td className="py-2.5 pr-3 font-medium">{satir.display_name}</td>
                   <td className="py-2.5 pr-3 text-stone-600 dark:text-stone-300">{satir.university ?? "—"}</td>
-                  <td className="py-2.5 pl-3 text-right font-semibold text-accent">{satir.points}</td>
+                  <td className="py-2.5 pl-3 text-right font-semibold text-brand-orange">{satir.points}</td>
                 </tr>
               ))}
             </tbody>

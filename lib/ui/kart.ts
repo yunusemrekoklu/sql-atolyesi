@@ -4,4 +4,4 @@ export const KART_SINIFI =
 
 /** Hub sayfası ("ana başlık") kutuları için — logo turuncusuyla vurgulu. */
 export const HUB_BASLIK_SINIFI =
-  "rounded-2xl border-2 border-accent bg-orange-50 p-5 shadow-sm dark:bg-orange-950/30 sm:p-6";
+  "rounded-2xl border-2 border-brand-orange bg-orange-50 p-5 shadow-sm dark:bg-orange-950/30 sm:p-6";

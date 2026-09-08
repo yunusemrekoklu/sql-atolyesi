@@ -104,7 +104,7 @@ function SertifikaKart({
             ) : (
               <span className="text-xs text-stone-500 dark:text-stone-400">
                 Paylaşılabilir hale getirmek için{" "}
-                <Link href="/kayit" className="font-medium text-accent hover:underline">
+                <Link href="/kayit" className="font-medium text-brand-orange hover:underline">
                   kayıt ol
                 </Link>
               </span>
@@ -114,7 +114,7 @@ function SertifikaKart({
       ) : (
         <div className="mt-3">
           <div className="h-2 w-full overflow-hidden rounded-full bg-stone-200 dark:bg-stone-800">
-            <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${yuzde}%` }} />
+            <div className="h-full rounded-full bg-brand-orange transition-all" style={{ width: `${yuzde}%` }} />
           </div>
           <p className="mt-1.5 text-xs text-stone-500 dark:text-stone-400">
             {tanim.ilerleme.tamamlanan}/{tanim.ilerleme.toplam} tamamlandı — %{yuzde}

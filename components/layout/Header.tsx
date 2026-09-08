@@ -67,7 +67,7 @@ export function Header() {
           </span>
           <span className="font-mono text-lg font-bold tracking-tight">
             <span className="text-stone-950 dark:text-white">SQL</span>
-            <span className="text-accent">CODEX</span>
+            <span className="text-brand-orange">CODEX</span>
           </span>
         </Link>
         <nav className="hidden items-center gap-5 text-sm md:flex">
@@ -86,7 +86,7 @@ export function Header() {
               >
                 {link.label}
                 <span
-                  className={`absolute inset-x-0 -bottom-1 h-0.5 origin-left rounded-full bg-accent transition-transform duration-150 ease-out ${
+                  className={`absolute inset-x-0 -bottom-1 h-0.5 origin-left rounded-full bg-brand-orange transition-transform duration-150 ease-out ${
                     active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                   }`}
                 />

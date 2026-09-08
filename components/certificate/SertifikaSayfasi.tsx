@@ -95,7 +95,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
           </p>
           <Link
             href={geriLink}
-            className="mt-5 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+            className="mt-5 inline-block rounded-md bg-brand-orange px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-orange-hover"
           >
             {geriMetin}
           </Link>
@@ -116,7 +116,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
           </p>
           <Link
             href="/giris"
-            className="mt-5 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+            className="mt-5 inline-block rounded-md bg-brand-orange px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-orange-hover"
           >
             Giriş yap
           </Link>
@@ -156,7 +156,7 @@ export function SertifikaSayfasi({ tur }: { tur: string }) {
             />
             <button
               type="submit"
-              className="shrink-0 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+              className="shrink-0 rounded-md bg-brand-orange px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-orange-hover"
             >
               Oluştur
             </button>

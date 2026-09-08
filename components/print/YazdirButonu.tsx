@@ -20,7 +20,7 @@ export function YazdirButonu() {
       type="button"
       onClick={tikla}
       title="Kısayol: Ctrl+P"
-      className="print:hidden inline-flex shrink-0 items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+      className="print:hidden inline-flex shrink-0 items-center gap-2 rounded-md bg-brand-orange px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-orange-hover"
     >
       <svg
         width="18"

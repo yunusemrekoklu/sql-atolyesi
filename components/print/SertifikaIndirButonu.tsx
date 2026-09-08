@@ -80,7 +80,7 @@ export function SertifikaIndirButonu({
         type="button"
         onClick={indir}
         disabled={yukleniyor}
-        className="inline-flex shrink-0 items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex shrink-0 items-center gap-2 rounded-md bg-brand-orange px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-orange-hover disabled:cursor-not-allowed disabled:opacity-60"
       >
         <svg
           width="18"
