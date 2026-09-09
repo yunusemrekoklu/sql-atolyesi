@@ -17,6 +17,7 @@ import {
   uzakPuanGetir,
   uzakSertifikaGetirYaDaOlustur,
   uzakUniteSinaviSonucunuKaydet,
+  uzakVakaTamamlandiIsaretle,
   uzakYereliIceAktar,
 } from "./remote";
 
@@ -226,6 +227,17 @@ export function mulakatSorusunuCozulduIsaretle(slug: string): void {
   );
   if (kaynak === "uzak" && uzakKullaniciId) {
     arkaPlandaCalistir(uzakMulakatSorusunuIsaretle(uzakKullaniciId, slug).then(puanlariTazele));
+  }
+}
+
+export function vakayiCozulduIsaretle(slug: string, tier: string): void {
+  guncelle((onceki) =>
+    onceki.cozulenVakalar.includes(slug)
+      ? onceki
+      : { ...onceki, cozulenVakalar: [...onceki.cozulenVakalar, slug] },
+  );
+  if (kaynak === "uzak" && uzakKullaniciId) {
+    arkaPlandaCalistir(uzakVakaTamamlandiIsaretle(uzakKullaniciId, slug, tier).then(puanlariTazele));
   }
 }
 

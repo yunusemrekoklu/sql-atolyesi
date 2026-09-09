@@ -7,6 +7,7 @@ import { TUM_DERSLER, getDersBySlug } from "../content/lessons";
 import { TUM_PRATIK_SETLERI } from "../content/practice";
 import { TUM_SINAV_SORULARI } from "../content/exams";
 import { TUM_MULAKAT_SORULARI } from "../content/interview";
+import { TUM_VAKALAR } from "../content/cases";
 import { TUM_FONKSIYONLAR } from "../content/functions";
 import { getSampleDatabase } from "../content/databases";
 
@@ -223,6 +224,44 @@ async function main(): Promise<void> {
     }
   }
 
+  const gorulenVakaSluglari = new Set<string>();
+
+  console.log(`Kontrol ediliyor (dedektif vakası): ${TUM_VAKALAR.length} vaka`);
+  for (const vaka of TUM_VAKALAR) {
+    if (gorulenVakaSluglari.has(vaka.slug)) {
+      hata(`Tekrarlanan vaka slug'ı: "${vaka.slug}"`);
+    }
+    gorulenVakaSluglari.add(vaka.slug);
+
+    if (vaka.ipuclari.length === 0) {
+      hata(`vaka / ${vaka.slug}: ipuclari boş olamaz.`);
+    }
+    if (vaka.hedefler.length === 0) {
+      hata(`vaka / ${vaka.slug}: hedefler boş olamaz.`);
+    }
+
+    let db: Database;
+    try {
+      db = tazeDb(vaka.ddl);
+    } catch (err) {
+      hata(`vaka / ${vaka.slug}: DDL kurulamadı — ${(err as Error).message}`);
+      continue;
+    }
+    db.close();
+
+    const cozumDb = tazeDb(vaka.ddl);
+    try {
+      const sonuc = cozumDb.exec(vaka.cozumSql);
+      if (sonuc.length === 0 || sonuc[0].values.length === 0) {
+        hata(`vaka / ${vaka.slug}: çözüm sorgusu hiç satır döndürmüyor.`);
+      }
+    } catch (err) {
+      hata(`vaka / ${vaka.slug}: çözüm SQL hatası — ${(err as Error).message}\n   SQL: ${vaka.cozumSql}`);
+    } finally {
+      cozumDb.close();
+    }
+  }
+
   const gorulenFonksiyonSluglari = new Set<string>();
 
   console.log(`Kontrol ediliyor (fonksiyonlar): ${TUM_FONKSIYONLAR.length} kayıt`);
@@ -258,7 +297,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
   console.log(
-    `\nTüm içerik doğrulandı: ${TUM_DERSLER.length} ders, ${TUM_PRATIK_SETLERI.length} pratik seti, ${TUM_SINAV_SORULARI.length} sınav sorusu, ${TUM_MULAKAT_SORULARI.length} mülakat sorusu, ${TUM_FONKSIYONLAR.length} fonksiyon kaydı, hata yok.`,
+    `\nTüm içerik doğrulandı: ${TUM_DERSLER.length} ders, ${TUM_PRATIK_SETLERI.length} pratik seti, ${TUM_SINAV_SORULARI.length} sınav sorusu, ${TUM_MULAKAT_SORULARI.length} mülakat sorusu, ${TUM_VAKALAR.length} dedektif vakası, ${TUM_FONKSIYONLAR.length} fonksiyon kaydı, hata yok.`,
   );
 }
 

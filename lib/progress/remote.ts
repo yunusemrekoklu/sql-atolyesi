@@ -2,12 +2,14 @@
 // tarafından "uzak" modda çağrılır. Hiçbiri store'un iç durumuna bağımlı
 // değil; her çağrı kendi Supabase istemcisini oluşturur.
 import { createClient } from "@/lib/supabase/client";
+import { getVakaBySlug } from "@/content/cases";
+import { VAKA_TIER_KODU } from "@/lib/ui/vaka-seviye";
 import { BOS_ILERLEME, type AlistirmaDurumu, type IlerlemeVerisi, type KazanilanSertifika } from "./types";
 
 export async function uzakIlerlemeyiGetir(userId: string): Promise<IlerlemeVerisi> {
   const supabase = createClient();
 
-  const [profil, dersler, alistirmalar, mulakatSorulari, miniQuizler, sertifikalar, uniteSinavlari, puanSonucu] =
+  const [profil, dersler, alistirmalar, mulakatSorulari, miniQuizler, sertifikalar, uniteSinavlari, vakalar, puanSonucu] =
     await Promise.all([
       supabase.from("profiles").select("display_name").eq("id", userId).maybeSingle(),
       supabase.from("completed_lessons").select("lesson_slug").eq("user_id", userId),
@@ -16,6 +18,7 @@ export async function uzakIlerlemeyiGetir(userId: string): Promise<IlerlemeVeris
       supabase.from("mini_quiz_results").select("lesson_slug, correct_count, total_count").eq("user_id", userId),
       supabase.from("certificates").select("id, cert_type, display_code, issued_at").eq("user_id", userId),
       supabase.from("unit_test_results").select("unit_id, correct_count, total_count").eq("user_id", userId),
+      supabase.from("completed_cases").select("case_slug").eq("user_id", userId),
       supabase.rpc("get_my_points"),
     ]);
 
@@ -49,6 +52,7 @@ export async function uzakIlerlemeyiGetir(userId: string): Promise<IlerlemeVeris
     tamamlananDersler: (dersler.data ?? []).map((s) => s.lesson_slug),
     miniQuizSonuclari: miniQuizKaydi,
     cozulenMulakatSorulari: (mulakatSorulari.data ?? []).map((s) => s.question_slug),
+    cozulenVakalar: (vakalar.data ?? []).map((s) => s.case_slug),
     kullaniciAdi: profil.data?.display_name ?? null,
     kazanilanSertifikalar: sertifikaKaydi,
     uniteSinavSonuclari: uniteSinavKaydi,
@@ -95,6 +99,17 @@ export async function uzakMulakatSorusunuIsaretle(userId: string, slug: string):
     .upsert(
       { user_id: userId, question_slug: slug },
       { onConflict: "user_id,question_slug", ignoreDuplicates: true },
+    );
+  if (error) throw error;
+}
+
+export async function uzakVakaTamamlandiIsaretle(userId: string, slug: string, tier: string): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("completed_cases")
+    .upsert(
+      { user_id: userId, case_slug: slug, tier },
+      { onConflict: "user_id,case_slug", ignoreDuplicates: true },
     );
   if (error) throw error;
 }
@@ -171,6 +186,22 @@ export async function uzakYereliIceAktar(userId: string, yerel: IlerlemeVerisi):
           { onConflict: "user_id,question_slug", ignoreDuplicates: true },
         ),
     );
+  }
+
+  if (yerel.cozulenVakalar.length > 0) {
+    const vakaSatirlari = yerel.cozulenVakalar
+      .map((slug) => {
+        const vaka = getVakaBySlug(slug);
+        return vaka ? { user_id: userId, case_slug: slug, tier: VAKA_TIER_KODU[vaka.seviye] } : null;
+      })
+      .filter((satir) => satir !== null);
+    if (vakaSatirlari.length > 0) {
+      gorevler.push(
+        supabase
+          .from("completed_cases")
+          .upsert(vakaSatirlari, { onConflict: "user_id,case_slug", ignoreDuplicates: true }),
+      );
+    }
   }
 
   for (const [exerciseId, durum] of Object.entries(yerel.alistirmalar)) {

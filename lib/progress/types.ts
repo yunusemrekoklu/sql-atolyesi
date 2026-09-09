@@ -14,6 +14,8 @@ export interface IlerlemeVerisi {
   tamamlananDersler: string[];
   miniQuizSonuclari: Record<string, { dogruSayisi: number; toplamSoru: number }>;
   cozulenMulakatSorulari: string[];
+  /** Çözülen Dedektif Vakası slug'ları — bkz. lib/progress/vaka.ts (seviyeAcikMi). */
+  cozulenVakalar: string[];
   kullaniciAdi: string | null;
   kazanilanSertifikalar: Record<string, KazanilanSertifika>;
   /** Ünite testi (sınav) sonuçları — anahtar unite id'si. miniQuizSonuclari'ndan
@@ -29,6 +31,7 @@ export const BOS_ILERLEME: IlerlemeVerisi = {
   tamamlananDersler: [],
   miniQuizSonuclari: {},
   cozulenMulakatSorulari: [],
+  cozulenVakalar: [],
   kullaniciAdi: null,
   kazanilanSertifikalar: {},
   uniteSinavSonuclari: {},

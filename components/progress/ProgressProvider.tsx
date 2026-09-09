@@ -15,6 +15,7 @@ import {
   sertifikaGetirYaDaOlustur,
   subscribe,
   uniteSinaviSonucunuKaydet,
+  vakayiCozulduIsaretle,
 } from "@/lib/progress/store";
 
 interface ProgressContextValue {
@@ -26,6 +27,7 @@ interface ProgressContextValue {
   kullaniciAdiniKaydet: (ad: string) => void;
   sertifikaGetirYaDaOlustur: (anahtar: string) => Promise<KazanilanSertifika>;
   uniteSinaviSonucunuKaydet: (uniteId: number, dogruSayisi: number, toplamSoru: number) => void;
+  vakayiCozulduIsaretle: (slug: string, tier: string) => void;
   puanTazele: () => void;
 }
 
@@ -38,6 +40,7 @@ const ProgressContext = createContext<ProgressContextValue>({
   kullaniciAdiniKaydet,
   sertifikaGetirYaDaOlustur,
   uniteSinaviSonucunuKaydet,
+  vakayiCozulduIsaretle,
   puanTazele,
 });
 
@@ -55,6 +58,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         kullaniciAdiniKaydet,
         sertifikaGetirYaDaOlustur,
         uniteSinaviSonucunuKaydet,
+        vakayiCozulduIsaretle,
         puanTazele,
       }}
     >

@@ -7,6 +7,7 @@ export const NAV_LINKS: NavLink[] = [
   { href: "/pratik", label: "Pratik" },
   { href: "/sinav", label: "Test Sınavı" },
   { href: "/mulakat", label: "Mülakat" },
+  { href: "/dedektif", label: "Dedektif" },
   { href: "/fonksiyonlar", label: "Fonksiyonlar" },
   { href: "/playground", label: "Playground" },
   { href: "/lider-tablosu", label: "Lider Tablosu" },

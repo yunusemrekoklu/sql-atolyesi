@@ -100,6 +100,41 @@ export function defineInterviewQuestion(soru: InterviewQuestion): InterviewQuest
   return soru;
 }
 
+/**
+ * Vaka (Dedektif Vakası) zorluk seviyesi — bilinçli olarak Exercise/InterviewQuestion'ın
+ * "Kolay"|"Orta"|"Zor" Seviye tipinden AYRI bir tip: o tek tek soru/alıştırma etiketi ve
+ * erişimi kısıtlamıyor, bu ise bütün bir vakanın seviyesi ve bir üst seviyeyi kilitliyor
+ * (bkz. lib/progress/vaka.ts seviyeAcikMi). "Orta" değeri iki tipte de var ama tip
+ * düzeyinde birbirine karışmıyorlar.
+ */
+export type VakaSeviyesi = "Başlangıç" | "Orta" | "İleri";
+
+export interface Vaka {
+  slug: string;
+  seviye: VakaSeviyesi;
+  xp: number;
+  baslik: string;
+  /** Hub kartındaki kısa özet. */
+  ozet: string;
+  /** "Vaka Dosyası" sekmesindeki tam hikaye metni (markdown). */
+  hikaye: string;
+  /** Numaralı, bilgilendirici hedef listesi — ayrı ayrı derecelendirilmez, sadece rehberlik eder. */
+  hedefler: string[];
+  ddl: string;
+  /** Kademeli ipuçları — sırayla açılır. */
+  ipuclari: string[];
+  cozumSql: string;
+  /** Vaka çözülünce açığa çıkan "vaka kapandı" açıklaması. */
+  aciklama: string;
+  mod: "sonuc";
+  siralamaOnemli?: boolean;
+  kolonAdiOnemli?: boolean;
+}
+
+export function defineVaka(vaka: Vaka): Vaka {
+  return vaka;
+}
+
 export type FonksiyonKategorisi = "Metin" | "Sayısal" | "Tarih" | "NULL/Koşul" | "Toplulaştırma";
 
 export interface FunctionRef {
