@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GirisAnimasyonu } from "@/components/intro/GirisAnimasyonu";
+import { HeroWordmark } from "@/components/hero/HeroWordmark";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <span className="rounded-full border border-stone-200 px-3 py-1 text-xs font-medium text-stone-500 dark:border-stone-800 dark:text-stone-400">
           Ücretsiz · Kayıt gerektirmez
         </span>
+        <HeroWordmark />
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           Kurulum yok. Tarayıcında gerçek SQL çalıştır.
         </h1>

@@ -210,3 +210,45 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 }
+
+/* Ana sayfa hero'sundaki SQLCODEX wordmark'ının etrafında sürekli dönen
+   ikonlar (HeroWordmark.tsx) — her ikon kendi --rx/--ry yarıçapıyla gevşek
+   bir elips çiziyor, sadece transform (compositor'da ucuz), sayfa açık
+   olduğu sürece infinite. */
+@keyframes hero-yorunge {
+  0%,
+  100% {
+    transform: translate(var(--rx), 0);
+  }
+  12.5% {
+    transform: translate(calc(var(--rx) * 0.7071), calc(var(--ry) * -0.7071));
+  }
+  25% {
+    transform: translate(0, calc(var(--ry) * -1));
+  }
+  37.5% {
+    transform: translate(calc(var(--rx) * -0.7071), calc(var(--ry) * -0.7071));
+  }
+  50% {
+    transform: translate(calc(var(--rx) * -1), 0);
+  }
+  62.5% {
+    transform: translate(calc(var(--rx) * -0.7071), calc(var(--ry) * 0.7071));
+  }
+  75% {
+    transform: translate(0, var(--ry));
+  }
+  87.5% {
+    transform: translate(calc(var(--rx) * 0.7071), calc(var(--ry) * 0.7071));
+  }
+}
+
+.hero-yorunge-ikon {
+  animation: hero-yorunge 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-yorunge-ikon {
+    animation: none;
+  }
+}
