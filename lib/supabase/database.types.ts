@@ -224,6 +224,30 @@ export type Database = {
         }
         Relationships: []
       }
+      login_ip_log: {
+        Row: {
+          created_at: string
+          id: string
+          ip_address: unknown
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       mini_quiz_results: {
         Row: {
           correct_count: number
