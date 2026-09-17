@@ -35,10 +35,18 @@ async function girisIpsiniKaydet(
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip");
   const userAgent = request.headers.get("user-agent");
+  // Vercel her isteğe bu header'ları otomatik ekliyor (sadece Vercel'de
+  // deploy edilince — yerel `next dev`/`next start`'ta boş gelir), üçüncü
+  // parti bir geolocation servisine gerek yok. Şehir adı URI-encoded geliyor.
+  const country = request.headers.get("x-vercel-ip-country");
+  const cityHeader = request.headers.get("x-vercel-ip-city");
+  const city = cityHeader ? decodeURIComponent(cityHeader) : null;
 
   await supabase.from("login_ip_log").insert({
     user_id: userId,
     ip_address: ip,
     user_agent: userAgent,
+    country,
+    city,
   });
 }

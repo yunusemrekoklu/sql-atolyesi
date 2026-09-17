@@ -226,6 +226,8 @@ export type Database = {
       }
       login_ip_log: {
         Row: {
+          city: string | null
+          country: string | null
           created_at: string
           id: string
           ip_address: unknown
@@ -233,6 +235,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          city?: string | null
+          country?: string | null
           created_at?: string
           id?: string
           ip_address?: unknown
@@ -240,6 +244,8 @@ export type Database = {
           user_id: string
         }
         Update: {
+          city?: string | null
+          country?: string | null
           created_at?: string
           id?: string
           ip_address?: unknown
